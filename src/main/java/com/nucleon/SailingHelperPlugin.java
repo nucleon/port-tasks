@@ -2,15 +2,23 @@ package com.nucleon;
 
 import com.google.inject.Provides;
 import javax.inject.Inject;
+import java.util.ArrayList;
+
+import com.nucleon.enums.PortTaskData;
+import com.nucleon.enums.PortTaskTrigger;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.GameTick;
+import net.runelite.api.events.VarbitChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+
+import java.util.List;
 
 @Slf4j
 @PluginDescriptor(
@@ -19,10 +27,17 @@ import net.runelite.client.plugins.PluginDescriptor;
 public class SailingHelperPlugin extends Plugin
 {
 	@Inject
+	private SailingHelperDelegate delegate;
+
+	@Inject
 	private Client client;
 
 	@Inject
 	private SailingHelperConfig config;
+
+	List<PortTask> currentTasks = new ArrayList<>();
+	private int[] varPlayers;
+	private int varPlayerReadDelay = 5;
 
 	@Override
 	protected void startUp() throws Exception
@@ -41,7 +56,37 @@ public class SailingHelperPlugin extends Plugin
 	{
 		if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
 		{
-			client.addChatMessage(ChatMessageType.GAMEMESSAGE, "", "Example says " + config.greeting(), null);
+			delegate.isLoggedIn = true;
+		}
+	}
+
+	@Subscribe
+	public void onVarbitChanged(VarbitChanged event)
+	{
+		// Check if the varbit changed is in our triggers
+		if (PortTaskTrigger.contains(event.getVarbitId()))
+		{
+			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
+			int value = client.getVarbitValue(varbit.getId());
+			// log.debug("Changed: {} (value {})", varbit.getName(), value);
+
+
+			// we accepted a new task, took cargo, delivered cargo or canceled a task
+			handlePortTaskTrigger(varbit, value);
+		}
+	}
+
+	@Subscribe
+	public void onGameTick(GameTick event)
+	{
+		if (varPlayerReadDelay > 0)
+		{
+			varPlayerReadDelay--;
+		}
+		else if (varPlayerReadDelay == 0)
+		{
+			readPortDataFromClientVarps();
+			varPlayerReadDelay = -1;
 		}
 	}
 
@@ -49,5 +94,43 @@ public class SailingHelperPlugin extends Plugin
 	SailingHelperConfig provideConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(SailingHelperConfig.class);
+	}
+
+	private void handlePortTaskTrigger(PortTaskTrigger trigger, int value)
+	{
+		// we need to handle the other trigger types, like taken, delivered, and id = 0 is canceled
+		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
+		{
+			PortTaskData data = PortTaskData.fromId(value);
+			if (data != null)
+			{
+				currentTasks.add(new PortTask(data, trigger.getSlot(), false, false, true, true));
+			}
+		}
+	}
+
+	private void readPortDataFromClientVarps()
+	{
+		assert client.getVarps() != null : "client.getVarps() is null";
+		varPlayers = client.getVarps().clone();
+
+		for (PortTaskTrigger varbit : PortTaskTrigger.values())
+		{
+			if (varbit.getType() == PortTaskTrigger.TaskType.ID)
+			{
+				int value = client.getVarbitValue(varPlayers, varbit.getId());
+				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
+				{
+					PortTaskData data = PortTaskData.fromId(value);
+					currentTasks.add(new PortTask(data, varbit.getSlot(), false, false, true, true));
+					//System.out.println(currentTasks.size());
+				}
+				else
+				{
+					currentTasks.removeIf(task -> task.getSlot() == varbit.getSlot());
+					//System.out.println(currentTasks.size());
+				}
+			}
+		}
 	}
 }

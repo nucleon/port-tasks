@@ -60,13 +60,11 @@ public enum PortLocation
 	private final WorldPoint cargoLocation;
 	private final WorldPoint navigationLocation;
 
-
 	// temp constructor until navigation location is added for all ports
 	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation)
 	{
 		this(name, worldPoint, cargoLocation, null);
 	}
-
 	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation, WorldPoint navigationLocation)
 	{
 		this.name = name;
@@ -74,7 +72,6 @@ public enum PortLocation
 		this.cargoLocation = cargoLocation;
 		this.navigationLocation = navigationLocation;
 	}
-
 	public String getName()
 	{
 		return name;
@@ -89,8 +86,10 @@ public enum PortLocation
 	{
 		return cargoLocation;
 	}
+
 	public WorldPoint getNavigationLocation()
 	{
 		return navigationLocation;
 	}
+
 }

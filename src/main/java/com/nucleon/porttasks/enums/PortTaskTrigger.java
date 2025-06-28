@@ -105,4 +105,5 @@ public enum PortTaskTrigger
 	{
 		return String.format("%s (Type: %s, Slot: %d)", name(), type, slot);
 	}
+
 }

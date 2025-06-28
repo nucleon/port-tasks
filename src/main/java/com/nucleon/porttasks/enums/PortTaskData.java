@@ -143,11 +143,6 @@ public enum PortTaskData
 		this.cargoAmount = cargoAmount;
 	}
 
-	public int getId()
-	{
-		return id;
-	}
-
 	public PortLocation getCargoLocation()
 	{
 		return cargoLocation;
@@ -165,19 +160,18 @@ public enum PortTaskData
 
 	public static PortTaskData fromId(int id)
 	{
-	for (PortTaskData task : values())
-	{
-		if (task.id == id)
-			return task;
-	}
-	return null;
+		for (PortTaskData task : values())
+		{
+			if (task.id == id)
+				return task;
+		}
+		return null;
 	}
 
 	public int getCargoAmount()
 	{
 		return this.cargoAmount;
 	}
-
 
 }
 

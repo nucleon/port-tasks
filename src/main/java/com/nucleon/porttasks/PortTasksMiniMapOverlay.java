@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- package com.nucleon.porttasks;
+package com.nucleon.porttasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -33,7 +33,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-//import com.nucleon.overlay.WorldLines;
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;

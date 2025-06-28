@@ -27,6 +27,7 @@
 package com.nucleon.porttasks;
 
 import com.nucleon.porttasks.enums.PortTaskData;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;

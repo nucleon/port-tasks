@@ -98,7 +98,7 @@ public enum PortTaskData
 	private final PortLocation noticeBoard;
 	private final PortLocation cargoLocation;
 	private final PortLocation deliveryLocation;
-	private final String taskName;
+	public final String taskName;
 	private final int cargo;
 	private final int cargoAmount;
 

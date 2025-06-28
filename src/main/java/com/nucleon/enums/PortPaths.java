@@ -49,12 +49,12 @@ public enum PortPaths
 	),
 
 	BRIMHAVEN_PORT_KHAZARD(
-			PortLocation.BRIMHAVEN,
-			PortLocation.PORT_KHAZARD,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.BRIMHAVEN,
+		PortLocation.PORT_KHAZARD,
+		new RelativeMove(0, 15),
+		new RelativeMove(-7, 7),
+		new RelativeMove(-26, 0),
+		new RelativeMove(-33, -33)
 	),
 
 	CATHERBY_EAST_ARDOUGNE(

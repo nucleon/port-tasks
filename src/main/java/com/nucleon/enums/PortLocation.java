@@ -39,7 +39,7 @@ public enum PortLocation
 	EAST_ARDOUGNE("Ardougne", new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0)),
 	BRIMHAVEN("Brimhaven", new WorldPoint(2758, 3230, 0), new WorldPoint(2768, 3225, 0), new WorldPoint(2754, 3231, 0)),
 	CATHERBY("Catherby", new WorldPoint(2796, 3412, 0), new WorldPoint(2799, 3413, 0), new WorldPoint(2796, 3408, 0)),
-	PORT_KHAZARD("Port Khazard", new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0)),
+	PORT_KHAZARD("Port Khazard", new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0), new WorldPoint(2688, 3162, 0)),
 	SHILO_VILLAGE("Shilo Village", new WorldPoint(2750, 2952, 0), new WorldPoint(2756, 2949, 0)),
 	CORSAIR_COVE("Corsair Cove", new WorldPoint(2580, 2844, 0), new WorldPoint(2580, 2848, 0)),
 	BARRACUDA_HQ("Barracuda HQ", new WorldPoint(2294, 2520, 0), new WorldPoint(2289, 2530, 0)),

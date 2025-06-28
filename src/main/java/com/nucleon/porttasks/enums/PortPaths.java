@@ -281,7 +281,10 @@ public enum PortPaths
 	PORT_KHAZARD_CORSAIR_COVE(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.CORSAIR_COVE,
-		new RelativeMove(0, 0)
+		new RelativeMove(0, -20),
+		new RelativeMove(24, -24),
+		new RelativeMove(0, -175),
+		new RelativeMove(-99, -99)
 	),
 	RUINS_OF_UNKAH_BRIMHAVEN(
 		PortLocation.RUINS_OF_UNKAH,

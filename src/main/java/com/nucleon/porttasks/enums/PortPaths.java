@@ -348,7 +348,12 @@ public enum PortPaths
 	MUSA_POINT_ARDOUGNE(
 		PortLocation.MUSA_POINT,
 		PortLocation.ARDOUGNE,
-		new RelativeMove(0, 0)
+			new RelativeMove(0, 16),
+			new RelativeMove(-28, 28),
+			new RelativeMove(-23, 0),
+			new RelativeMove(-27, 27),
+			new RelativeMove(-76, 0),
+			new RelativeMove(-48, 48)
 	);
 
 	private final PortLocation start;

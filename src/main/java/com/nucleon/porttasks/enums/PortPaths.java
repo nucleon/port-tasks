@@ -301,7 +301,14 @@ public enum PortPaths
 	PANDEMONIUM_ARDOUGNE(
 		PortLocation.PANDEMONIUM,
 		PortLocation.ARDOUGNE,
-		new RelativeMove(0, 0)
+		new RelativeMove(0, 22),
+		new RelativeMove(-105, 105),
+		new RelativeMove(0, 42),
+		new RelativeMove(-28, 28),
+		new RelativeMove(-23, 0),
+		new RelativeMove(-27, 27),
+		new RelativeMove(-76, 0),
+		new RelativeMove(-48, 48)
 	),
 	MUSA_POINT_ARDOUGNE(
 		PortLocation.MUSA_POINT,

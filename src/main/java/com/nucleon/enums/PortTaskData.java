@@ -100,28 +100,28 @@ public enum PortTaskData
 
 	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, String taskName, int cargo, int cargoAmount)
 	{
-	this.id = id;
-	this.noticeBoard = noticeBoard;
-	this.cargoLocation = cargoLocation;
-	this.deliveryLocation = deliveryLocation;
-	this.taskName = taskName;
-	this.cargo = cargo;
-	this.cargoAmount = cargoAmount;
+		this.id = id;
+		this.noticeBoard = noticeBoard;
+		this.cargoLocation = cargoLocation;
+		this.deliveryLocation = deliveryLocation;
+		this.taskName = taskName;
+		this.cargo = cargo;
+		this.cargoAmount = cargoAmount;
 	}
 
 	public int getId()
 	{
-	return id;
+		return id;
 	}
 
 	public PortLocation getCargoLocation()
 	{
-	return cargoLocation;
+		return cargoLocation;
 	}
 
 	public PortLocation getDeliveryLocation()
 	{
-	return deliveryLocation;
+		return deliveryLocation;
 	}
 
 	public static PortTaskData fromId(int id)

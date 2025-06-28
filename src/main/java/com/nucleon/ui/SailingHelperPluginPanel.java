@@ -40,11 +40,13 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.ImageUtil;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.image.BufferedImage;
@@ -81,11 +83,13 @@ public class SailingHelperPluginPanel extends PluginPanel
 			JPanel titlePanel = new JPanel(new BorderLayout());
 			titlePanel.setBorder(new EmptyBorder(1, 3, 10, 7));
 
-			JLabel title = new JLabel("Port Tasks");
+			JLabel title = new JLabel("Port Tasks", SwingConstants.CENTER);
+			title.setFont(title.getFont().deriveFont(22f));
+			title.setHorizontalAlignment(SwingConstants.CENTER);
 			title.setForeground(Color.WHITE);
 
 			JLabel markerAdd = new JLabel(RELOAD_ICON);
-			markerAdd.setToolTipText("reload ");
+			markerAdd.setToolTipText("reload");
 			markerAdd.addMouseListener(new ReloadPortTasksAdapter(markerAdd, plugin, this::addMarker));
 
 			JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));

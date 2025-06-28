@@ -156,6 +156,11 @@ public enum PortTaskData
 		return deliveryLocation;
 	}
 
+	public PortLocation getNoticeBoard()
+	{
+		return noticeBoard;
+	}
+
 	public static PortTaskData fromId(int id)
 	{
 	for (PortTaskData task : values())

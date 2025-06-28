@@ -33,7 +33,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.nucleon.overlay.WorldLines;
+//import com.nucleon.overlay.WorldLines;
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
@@ -74,7 +74,8 @@ class SailingHelperMiniMapOverlay extends Overlay
 			List<WorldPoint> navigationPoints = tasks.getData().dockMarkers.getFullPath();
 			if (tasks.isTracking())
 			{
-				WorldLines.createMinimapLines(g, client, navigationPoints, overlayColor);
+				//Getting inside a boat, seems to load a different minimap (?) - nucleon
+				//WorldLines.createMinimapLines(g, client, navigationPoints, overlayColor);
 			}
 		}
 	}

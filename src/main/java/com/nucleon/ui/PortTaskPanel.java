@@ -31,7 +31,6 @@ import com.nucleon.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
 import com.nucleon.PortTask;
 import com.nucleon.SailingHelperPlugin;
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.components.FlatTextField;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
 
@@ -40,6 +39,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -62,12 +62,23 @@ public class PortTaskPanel extends JPanel
 	private static final ImageIcon
 			BORDER_COLOR_ICON,
 			VISIBLE_ICON,
-			INVISIBLE_ICON;
+			INVISIBLE_ICON,
+			ANCHOR,
+			BOAT,
+			DESTINATION,
+			NOTICE,
+			PACKAGE;
 
 	public final JLabel
 			PortTaskOverlayColor = new JLabel(),
 			hidePortTaskSlotOverlay = new JLabel(),
-			cargoRemainingText = new JLabel();
+			cargoRemainingText = new JLabel(),
+			cargoLabel = new JLabel(),
+			destinationLabel = new JLabel(),
+			noticeLabel = new JLabel(),
+			anchorLabel = new JLabel(),
+			boatLabel = new JLabel(),
+			taskName = new JLabel();
 
 	private final JLabel
 			save   = new JLabel("Save"),
@@ -75,19 +86,33 @@ public class PortTaskPanel extends JPanel
 			rename = new JLabel("Rename");
 
 	public final JPanel PortTaskSlotContainer = new JPanel(new BorderLayout());
-	private final FlatTextField nameInput = new FlatTextField();
 	private final PortTask portTask;
 
 	static
 	{
 		final BufferedImage borderImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "border_color_icon.png");
-		BORDER_COLOR_ICON = new ImageIcon(borderImg);
+		BORDER_COLOR_ICON = new ImageIcon(ImageUtil.alphaOffset(borderImg, -100));
 
 		final BufferedImage visibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "visible_icon.png");
 		VISIBLE_ICON = new ImageIcon(visibleImg);
 
 		final BufferedImage invisibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "invisible_icon.png");
 		INVISIBLE_ICON = new ImageIcon(invisibleImg);
+
+		final BufferedImage boatImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "boat.png");
+		BOAT = new ImageIcon(boatImg);
+
+		final BufferedImage anchorImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "anchor.png");
+		ANCHOR = new ImageIcon(anchorImg);
+
+		final BufferedImage destImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "destination.png");
+		DESTINATION = new ImageIcon(ImageUtil.alphaOffset(destImg, -100));
+
+		final BufferedImage noticeImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "notice.png");
+		NOTICE = new ImageIcon(ImageUtil.alphaOffset(noticeImg, -100));
+
+		final BufferedImage cargoImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "package.png");
+		PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
 	}
 
 	public PortTaskPanel(SailingHelperPlugin plugin, PortTask portTask, int slot)
@@ -103,23 +128,32 @@ public class PortTaskPanel extends JPanel
 		nameWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		nameWrapper.setBorder(NAME_BOTTOM_BORDER);
 
+		JPanel noticeWrapper = new JPanel(new BorderLayout());
+		noticeWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+		JPanel cargoWrapper = new JPanel(new BorderLayout());
+		cargoWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+		JPanel destinationWrapper = new JPanel(new BorderLayout());
+		destinationWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		JPanel hideOverlay = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 3));
 		hideOverlay.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		PortTaskSlotContainer.setBorder(new EmptyBorder(5, 0, 5, 0));
+		PortTaskSlotContainer.setBorder(new EmptyBorder(0, 0, 0, 0));
 		PortTaskSlotContainer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel leftActionsPrayer = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
-		leftActionsPrayer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		JPanel PortTaskActionsLeftSide = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		PortTaskActionsLeftSide.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
-		JPanel rightActionsPrayer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
-		rightActionsPrayer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		JPanel PortTaskInformationCenter = new JPanel();
+		PortTaskInformationCenter.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 
 		PortTaskOverlayColor.setToolTipText("edit portTask color");
 		PortTaskOverlayColor.setForeground(portTask.getOverlayColor() == null ? Color.red : portTask.getOverlayColor());
 		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColorMouseAdapter(PortTaskOverlayColor, this));
-		leftActionsPrayer.add(PortTaskOverlayColor);
+		PortTaskActionsLeftSide.add(PortTaskOverlayColor);
 
 		int taken = portTask.getCargoTaken();
 		int required = portTask.getData().getCargoAmount();
@@ -135,16 +169,19 @@ public class PortTaskPanel extends JPanel
 		{
 			cargoRemainingText.setForeground(UIManager.getColor("Label.foreground"));
 		}
-		rightActionsPrayer.add(cargoRemainingText);
+		PortTaskInformationCenter.add(cargoRemainingText);
 
 		hidePortTaskSlotOverlay.setToolTipText((portTask.isTracking() ? "Hide" : "Show") + " portTask");
 		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, portTask, this, plugin));
 
 		hideOverlay.add(hidePortTaskSlotOverlay);
-		nameInput.setText(portTask.getData().taskName);
-		nameInput.setEditable(false);
-		nameWrapper.add(nameInput, BorderLayout.CENTER);
+		taskName.setText(portTask.getData().taskName);
+		taskName.setHorizontalAlignment(SwingConstants.CENTER);
+		taskName.setFont(taskName.getFont().deriveFont(18f)); // 18f = new font size
+
+		nameWrapper.add(taskName, BorderLayout.CENTER);
 		nameWrapper.add(hideOverlay, BorderLayout.EAST);
+		nameWrapper.add(anchorLabel, BorderLayout.WEST);
 
 		JPanel portSlotWrapper = new JPanel();
 		portSlotWrapper.setLayout(new BoxLayout(portSlotWrapper, BoxLayout.Y_AXIS));
@@ -152,14 +189,28 @@ public class PortTaskPanel extends JPanel
 		portSlotWrapper.add(nameWrapper);
 		portSlotWrapper.add(PortTaskSlotContainer);
 
+		noticeWrapper.add(noticeLabel, BorderLayout.WEST);
+		noticeWrapper.setBorder(NAME_BOTTOM_BORDER);
+		cargoWrapper.add(cargoLabel, BorderLayout.WEST);
+		cargoWrapper.setBorder(NAME_BOTTOM_BORDER);
+		destinationWrapper.add(destinationLabel, BorderLayout.WEST);
+		destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
+
+		portSlotWrapper.add(noticeWrapper);
+		portSlotWrapper.add(cargoWrapper);
+		portSlotWrapper.add(destinationWrapper);
+
 		PortTaskSlotContainer.setLayout(new BorderLayout());
-		PortTaskSlotContainer.add(leftActionsPrayer, BorderLayout.WEST);
-		PortTaskSlotContainer.add(rightActionsPrayer, BorderLayout.EAST);
+		PortTaskSlotContainer.add(PortTaskActionsLeftSide, BorderLayout.WEST);
+		PortTaskSlotContainer.add(PortTaskInformationCenter, BorderLayout.CENTER);
+		PortTaskSlotContainer.setBorder(NAME_BOTTOM_BORDER);
 
 		add(portSlotWrapper);
 
 		updateVisibility();
 		updateColorIndicators();
+		updateImages(portTask);
+
 	}
 
 	public void openPortTaskColorPicker()
@@ -199,6 +250,20 @@ public class PortTaskPanel extends JPanel
 	{
 		hidePortTaskSlotOverlay.setIcon(portTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
 	}
+
+	private void updateImages(PortTask portTask)
+	{
+		cargoLabel.setIcon(PACKAGE);
+		destinationLabel.setIcon(DESTINATION);
+		noticeLabel.setIcon(NOTICE);
+		anchorLabel.setIcon(ANCHOR);
+		boatLabel.setIcon(BOAT);
+
+		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
+		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
+		noticeLabel.setText(portTask.getData().getNoticeBoard().getName());
+	}
+
 
 
 }

@@ -21,7 +21,12 @@
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ * nucleon <https://github.com/nucleon>
+ * Modification: drawLinesOnWorld()
+ * Interpolates long lines into shorter segments to bypass RuneLite’s overlay draw distance limit.
  */
+
 package com.nucleon.overlay;
 
 import java.util.ArrayList;

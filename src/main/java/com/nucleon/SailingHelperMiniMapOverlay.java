@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon;
+ package com.nucleon;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,14 +41,14 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
-class SailingHelperWorldOverlay extends Overlay
+class SailingHelperMiniMapOverlay extends Overlay
 {
 	private final Client client;
 	private final SailingHelperPlugin plugin;
 	private final SailingHelperConfig config;
 
 	@Inject
-	private SailingHelperWorldOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	private SailingHelperMiniMapOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
 	{
 		this.client = client;
 		this.plugin = plugin;
@@ -56,7 +56,7 @@ class SailingHelperWorldOverlay extends Overlay
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.UNDER_WIDGETS);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
 	}
 
 	@Override
@@ -71,10 +71,10 @@ class SailingHelperWorldOverlay extends Overlay
 		for (PortTask tasks : plugin.currentTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			List<WorldPoint> navigationPoints = tasks.getData().dockMarkers.getFullPath();
 			if (tasks.isTracking())
 			{
-				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
+				WorldLines.createMinimapLines(g, client, navigationPoints, overlayColor);
 			}
 		}
 	}

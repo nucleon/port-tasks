@@ -33,7 +33,7 @@ public enum PortLocation
 	MUSA_POINT("Musa Point", new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0), new WorldPoint(2965, 3146, 0)),
 	PORT_SARIM("Port Sarim", new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0), new WorldPoint(3056, 3194, 0)),
 	PANDEMONIUM("The Pandemonium", new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0), new WorldPoint(3078, 2987, 0)),
-	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0)),
+	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0), new WorldPoint(2883, 3336, 0)),
 	RUINS_OF_UNKAH("Ruins of Unkah", new WorldPoint(3144, 2825, 0), new WorldPoint(3145, 2828, 0)),
 	RED_ROCK("Red Rock", new WorldPoint(2809, 2509, 0), new WorldPoint(2805, 2512, 0)),
 	ARDOUGNE("Ardougne", new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0), new WorldPoint(2670, 3259, 0)),

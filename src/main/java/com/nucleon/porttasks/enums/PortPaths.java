@@ -276,7 +276,14 @@ public enum PortPaths
 	PORT_KHAZARD_ENTRANA(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.ENTRANA,
-		new RelativeMove(0, 0)
+		new RelativeMove(0, 59),
+		new RelativeMove(38, 38),
+		new RelativeMove(66, 0),
+		new RelativeMove(9, 9),
+		new RelativeMove(0, 41),
+		new RelativeMove(14, 14),
+		new RelativeMove(63, 0),
+		new RelativeMove(5, 5)
 	),
 	PORT_KHAZARD_CORSAIR_COVE(
 		PortLocation.PORT_KHAZARD,

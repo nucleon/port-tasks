@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.nucleon.enums.PortTaskData;
 import com.nucleon.enums.PortTaskTrigger;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.GameStateChanged;
@@ -40,7 +39,9 @@ public class SailingHelperPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private SailingHelperOverlay sailingHelperOverlay;
+	private SailingHelperMapOverlay sailingHelperMapOverlay;
+	@Inject
+	private SailingHelperWorldOverlay sailingHelperWorldOverlay;
 
 	List<PortTask> currentTasks = new ArrayList<>();
 	private int[] varPlayers;
@@ -50,14 +51,18 @@ public class SailingHelperPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		log.info("Example started!");
-		overlayManager.add(sailingHelperOverlay);
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
+			overlayManager.add(sailingHelperMapOverlay);
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
+			overlayManager.add(sailingHelperWorldOverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		log.info("Example stopped!");
-		overlayManager.remove(sailingHelperOverlay);
+		overlayManager.remove(sailingHelperWorldOverlay);
+		overlayManager.remove(sailingHelperMapOverlay);
 	}
 
 	@Subscribe
@@ -110,6 +115,7 @@ public class SailingHelperPlugin extends Plugin
 		// we need to handle the other trigger types, like taken, delivered, and id = 0 is canceled
 		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 		{
+			log.debug("Changed: {} (value {})", trigger, value);
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null)
 			{

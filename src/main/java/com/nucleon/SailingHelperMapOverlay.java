@@ -1,6 +1,6 @@
 package com.nucleon;
 
-import java.awt.Color;
+import com.nucleon.enums.PortPaths;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.List;
@@ -15,14 +15,14 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
-class SailingHelperOverlay extends Overlay
+class SailingHelperMapOverlay extends Overlay
 {
 	private final Client client;
 	private final SailingHelperPlugin plugin;
 	private final SailingHelperConfig config;
 
 	@Inject
-	private SailingHelperOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	private SailingHelperMapOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
 	{
 		this.client = client;
 		this.plugin = plugin;
@@ -30,17 +30,20 @@ class SailingHelperOverlay extends Overlay
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.UNDER_WIDGETS);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
 	}
 
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		List<WorldPoint> linePoints = List.of(
-				new WorldPoint(2961, 3146, 0),
-				new WorldPoint(2977, 3146, 0)
-		);
-		WorldLines.drawLinesOnWorld(graphics, client, linePoints, Color.green);
+		List<WorldPoint> linePoints = PortPaths.BRIMHAVEN_MUSA_POINT.getFullPath();
+		renderOverlayLines(graphics, true, linePoints);
+
 		return null;
+	}
+
+	private void renderOverlayLines(Graphics2D g, boolean map, List<WorldPoint> lp)
+	{
+		WorldLines.createWorldMapLines(g, client, lp, config.getNavColor());
 	}
 }

@@ -38,8 +38,16 @@ class SailingHelperOverlay extends Overlay
 	public Dimension render(Graphics2D graphics)
 	{
 		List<WorldPoint> linePoints = PortPaths.PORT_SARIM_PANDEMONIUM.getFullPath();
-		WorldLines.drawLinesOnWorld(graphics, client, linePoints, config.getNavColor());
+		renderOverlayLines(graphics, true, linePoints);
 
 		return null;
+	}
+
+	private void renderOverlayLines(Graphics2D g, boolean map, List<WorldPoint> lp)
+	{
+		setLayer(OverlayLayer.UNDER_WIDGETS);
+		WorldLines.drawLinesOnWorld(g, client, lp, config.getNavColor());
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		WorldLines.createWorldMapLines(g, client, lp, config.getNavColor());
 	}
 }

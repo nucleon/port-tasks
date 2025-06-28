@@ -96,12 +96,13 @@ public enum PortPaths
 	),
 
 	CATHERBY_PORT_KHAZARD(
-			PortLocation.CATHERBY,
-			PortLocation.PORT_KHAZARD,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.CATHERBY,
+		PortLocation.PORT_KHAZARD,
+		new RelativeMove(-42, -42),
+		new RelativeMove(0, -91),
+		new RelativeMove(-50, -50),
+		new RelativeMove(-13, 0),
+		new RelativeMove(-3, -3)
 	),
 
 	CATHERBY_PORT_SARIM(

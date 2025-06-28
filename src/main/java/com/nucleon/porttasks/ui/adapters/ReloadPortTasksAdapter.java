@@ -1,7 +1,7 @@
-package com.nucleon.ui.adapters;
+package com.nucleon.porttasks.ui.adapters;
 
 
-import com.nucleon.SailingHelperPlugin;
+import com.nucleon.porttasks.SailingHelperPlugin;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.util.ImageUtil;
 

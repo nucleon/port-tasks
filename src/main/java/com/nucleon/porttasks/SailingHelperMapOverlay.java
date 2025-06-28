@@ -24,26 +24,63 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon;
-
-import com.nucleon.enums.PortTaskData;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
+package com.nucleon.porttasks;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.util.Collections;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-public class PortTask
+import javax.inject.Inject;
+
+import com.nucleon.porttasks.overlay.WorldLines;
+import net.runelite.api.Client;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.ui.overlay.Overlay;
+
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
+
+class SailingHelperMapOverlay extends Overlay
 {
-	private PortTaskData data;
-	private int slot;
-	private boolean taken;
-	private int delivered;
-	private boolean tracking;
-	private boolean active;
-	private Color overlayColor;
-	private int cargoTaken;
+	private final Client client;
+	private final SailingHelperPlugin plugin;
+	private final SailingHelperConfig config;
+
+	@Inject
+	private SailingHelperMapOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	{
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
+
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(Overlay.PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
+	}
+
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		renderOverlayLines(graphics);
+		return null;
+	}
+
+private void renderOverlayLines(Graphics2D g)
+{
+	for (PortTask tasks : plugin.currentTasks)
+	{
+		Color overlayColor = tasks.getOverlayColor();
+		List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+		if (tasks.getData().reversePath)
+		{
+			Collections.reverse(journey);
+		}
+		if (tasks.isTracking())
+		{
+			WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+		}
+	}
+}
 }

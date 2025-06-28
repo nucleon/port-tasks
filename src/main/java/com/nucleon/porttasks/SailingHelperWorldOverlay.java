@@ -24,16 +24,17 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- package com.nucleon;
+package com.nucleon.porttasks;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
 
-//import com.nucleon.overlay.WorldLines;
+import com.nucleon.porttasks.overlay.WorldLines;
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
@@ -41,14 +42,14 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
-class SailingHelperMiniMapOverlay extends Overlay
+class SailingHelperWorldOverlay extends Overlay
 {
 	private final Client client;
 	private final SailingHelperPlugin plugin;
 	private final SailingHelperConfig config;
 
 	@Inject
-	private SailingHelperMiniMapOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	private SailingHelperWorldOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
 	{
 		this.client = client;
 		this.plugin = plugin;
@@ -56,7 +57,7 @@ class SailingHelperMiniMapOverlay extends Overlay
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		setLayer(OverlayLayer.UNDER_WIDGETS);
 	}
 
 	@Override
@@ -71,11 +72,14 @@ class SailingHelperMiniMapOverlay extends Overlay
 		for (PortTask tasks : plugin.currentTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> navigationPoints = tasks.getData().dockMarkers.getFullPath();
+			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			if (tasks.getData().reversePath)
+			{
+				Collections.reverse(journey);
+			}
 			if (tasks.isTracking())
 			{
-				//Getting inside a boat, seems to load a different minimap (?) - nucleon
-				//WorldLines.createMinimapLines(g, client, navigationPoints, overlayColor);
+				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
 			}
 		}
 	}

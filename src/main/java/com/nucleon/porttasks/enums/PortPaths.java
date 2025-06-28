@@ -1,6 +1,6 @@
-package com.nucleon.enums;
+package com.nucleon.porttasks.enums;
 
-import com.nucleon.RelativeMove;
+import com.nucleon.porttasks.RelativeMove;
 import java.util.ArrayList;
 import java.util.List;
 import net.runelite.api.coords.WorldPoint;

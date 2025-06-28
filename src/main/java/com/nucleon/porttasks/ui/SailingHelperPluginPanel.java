@@ -24,23 +24,22 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.ui;
+package com.nucleon.porttasks.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import com.nucleon.PortTask;
-import com.nucleon.SailingHelperConfig;
-import com.nucleon.SailingHelperPlugin;
-import com.nucleon.ui.adapters.ReloadPortTasksAdapter;
+import com.nucleon.porttasks.PortTask;
+import com.nucleon.porttasks.SailingHelperConfig;
+import com.nucleon.porttasks.SailingHelperPlugin;
+import com.nucleon.porttasks.ui.adapters.ReloadPortTasksAdapter;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.ImageUtil;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;

@@ -24,12 +24,12 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.ui;
+package com.nucleon.porttasks.ui;
 
-import com.nucleon.ui.adapters.HidePortTaskSlotOverlay;
-import com.nucleon.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
-import com.nucleon.PortTask;
-import com.nucleon.SailingHelperPlugin;
+import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
+import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
+import com.nucleon.porttasks.PortTask;
+import com.nucleon.porttasks.SailingHelperPlugin;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;

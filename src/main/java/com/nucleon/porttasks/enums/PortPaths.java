@@ -213,10 +213,10 @@ public enum PortPaths
 	PANDEMONIUM_RUINS_OF_UNKAH(
 			PortLocation.PANDEMONIUM,
 			PortLocation.RUINS_OF_UNKAH,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(0, -20),
+			new RelativeMove(45, -45),
+			new RelativeMove(0, -98),
+			new RelativeMove(20, 0)
 	),
 
 	PORT_KHAZARD_PORT_SARIM(

@@ -41,7 +41,7 @@ public enum PortLocation
 	CATHERBY("Catherby", new WorldPoint(2796, 3412, 0), new WorldPoint(2799, 3413, 0), new WorldPoint(2796, 3408, 0)),
 	PORT_KHAZARD("Port Khazard", new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0), new WorldPoint(2688, 3162, 0)),
 	SHILO_VILLAGE("Shilo Village", new WorldPoint(2750, 2952, 0), new WorldPoint(2756, 2949, 0)),
-	CORSAIR_COVE("Corsair Cove", new WorldPoint(2580, 2844, 0), new WorldPoint(2580, 2848, 0)),
+	CORSAIR_COVE("Corsair Cove", new WorldPoint(2580, 2844, 0), new WorldPoint(2580, 2848, 0), new WorldPoint(2586, 2844, 0)),
 	BARRACUDA_HQ("Barracuda HQ", new WorldPoint(2294, 2520, 0), new WorldPoint(2289, 2530, 0)),
 	DEEPFIN_POINT("Deepfin Point", new WorldPoint(1932, 2791, 0), new WorldPoint(1926, 2791, 0)),
 	SUNSET_COAST("Sunset Coast", new WorldPoint(1511, 2975, 0), new WorldPoint(1514, 2977, 0)),

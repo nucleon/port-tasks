@@ -13,6 +13,13 @@ public enum PortPaths
     new WorldPoint(3034, 3123, 0),
     new WorldPoint(3034, 3040, 0),
     new WorldPoint(3078, 3015, 0)
+  ),
+  CATHERBY_BRIMHAVEN(
+    PortLocation.CATHERBY,
+    PortLocation.BRIMHAVEN,
+    new WorldPoint(2781, 3393, 0),
+    new WorldPoint(2781, 3315, 0),
+    new WorldPoint(2754, 3330, 0)
   );
 
   private final PortLocation start;

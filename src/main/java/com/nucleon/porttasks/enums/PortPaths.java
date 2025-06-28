@@ -276,7 +276,10 @@ public enum PortPaths
 	CATHERBY_ENTRANA(
 		PortLocation.CATHERBY,
 		PortLocation.ENTRANA,
-		new RelativeMove(0, 0)
+		new RelativeMove(60, 0),
+		new RelativeMove(16, -16),
+		new RelativeMove(0, -40),
+		new RelativeMove(11, -11)
 	),
 	CATHERBY_RUINS_OF_UNKAH(
 		PortLocation.CATHERBY,

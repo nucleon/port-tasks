@@ -135,10 +135,15 @@ public enum PortPaths
 	MUSA_POINT_PANDEMONIUM(
 			PortLocation.MUSA_POINT,
 			PortLocation.PANDEMONIUM,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(14, -14),
+			new RelativeMove(21, -21),
+			new RelativeMove(21, -21),
+			new RelativeMove(21, -21),
+			new RelativeMove(26, -26),
+			new RelativeMove(0, -20)
 	),
 
 	MUSA_POINT_PORT_KHAZARD(

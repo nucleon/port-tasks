@@ -321,7 +321,13 @@ public enum PortPaths
 	RUINS_OF_UNKAH_PORT_SARIM(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.PORT_SARIM,
-		new RelativeMove(0, 0)
+			new RelativeMove(-20, 0),
+			new RelativeMove(0, 98),
+			new RelativeMove(-45, 45),
+			new RelativeMove(0, 25),
+			new RelativeMove(-44, 44),
+			new RelativeMove(0, 80),
+			new RelativeMove(22, 22)
 	),
 	RUINS_OF_UNKAH_CORSAIR_COVE(
 		PortLocation.RUINS_OF_UNKAH,
@@ -343,7 +349,12 @@ public enum PortPaths
 	MUSA_POINT_ARDOUGNE(
 		PortLocation.MUSA_POINT,
 		PortLocation.ARDOUGNE,
-		new RelativeMove(0, 0)
+			new RelativeMove(0, 16),
+			new RelativeMove(-28, 28),
+			new RelativeMove(-23, 0),
+			new RelativeMove(-27, 27),
+			new RelativeMove(-76, 0),
+			new RelativeMove(-48, 48)
 	);
 
 	private final PortLocation start;

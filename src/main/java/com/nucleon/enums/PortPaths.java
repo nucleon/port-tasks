@@ -12,6 +12,203 @@ public enum PortPaths
 		PortLocation.EMPTY,
 		PortLocation.EMPTY
 	),
+	BRIMHAVEN_CATHERBY(
+			PortLocation.BRIMHAVEN,
+			PortLocation.CATHERBY,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	BRIMHAVEN_MUSA_POINT(
+			PortLocation.BRIMHAVEN,
+			PortLocation.MUSA_POINT,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	BRIMHAVEN_PANDEMONIUM(
+			PortLocation.BRIMHAVEN,
+			PortLocation.PANDEMONIUM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	BRIMHAVEN_PORT_KHAZARD(
+			PortLocation.BRIMHAVEN,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_EAST_ARDOUGNE(
+			PortLocation.CATHERBY,
+			PortLocation.EAST_ARDOUGNE,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_MUSA_POINT(
+			PortLocation.CATHERBY,
+			PortLocation.MUSA_POINT,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_PANDEMONIUM(
+			PortLocation.CATHERBY,
+			PortLocation.PANDEMONIUM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_PORT_KHAZARD(
+			PortLocation.CATHERBY,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_PORT_SARIM(
+			PortLocation.CATHERBY,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	EAST_ARDOUGNE_PORT_KHAZARD(
+			PortLocation.EAST_ARDOUGNE,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	EAST_ARDOUGNE_RUINS_OF_UNKAH(
+			PortLocation.EAST_ARDOUGNE,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	ENTRANA_MUSA_POINT(
+			PortLocation.ENTRANA,
+			PortLocation.MUSA_POINT,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	MUSA_POINT_PANDEMONIUM(
+			PortLocation.MUSA_POINT,
+			PortLocation.PANDEMONIUM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	MUSA_POINT_PORT_KHAZARD(
+			PortLocation.MUSA_POINT,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	MUSA_POINT_PORT_SARIM(
+			PortLocation.MUSA_POINT,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	MUSA_POINT_RUINS_OF_UNKAH(
+			PortLocation.MUSA_POINT,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PANDEMONIUM_PORT_KHAZARD(
+			PortLocation.PANDEMONIUM,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PANDEMONIUM_PORT_SARIM(
+			PortLocation.PANDEMONIUM,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PANDEMONIUM_RUINS_OF_UNKAH(
+			PortLocation.PANDEMONIUM,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PORT_KHAZARD_PORT_SARIM(
+			PortLocation.PORT_KHAZARD,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PORT_KHAZARD_RUINS_OF_UNKAH(
+			PortLocation.PORT_KHAZARD,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	RUINS_OF_UNKAH_SUMMER_SHORE(
+			PortLocation.RUINS_OF_UNKAH,
+			PortLocation.SUMMER_SHORE,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
 	PORT_SARIM_PANDEMONIUM(
 		PortLocation.PORT_SARIM,
 		PortLocation.PANDEMONIUM,

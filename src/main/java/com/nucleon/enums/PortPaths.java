@@ -246,6 +246,61 @@ public enum PortPaths
 		new RelativeMove(-22, -22),
 		new RelativeMove(0, -91),
 		new RelativeMove(44, -44)
+	),
+	PORT_SARIM_ARDOUGNE(
+		PortLocation.PORT_SARIM,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	CATHERBY_ENTRANA(
+		PortLocation.CATHERBY,
+		PortLocation.ENTRANA,
+		new RelativeMove(0, 0)
+	),
+	CATHERBY_RUINS_OF_UNKAH(
+		PortLocation.CATHERBY,
+		PortLocation.RUINS_OF_UNKAH,
+		new RelativeMove(0, 0)
+	),
+	BRIMHAVEN_ARDOUGNE(
+		PortLocation.BRIMHAVEN,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	PORT_KHAZARD_ENTRANA(
+		PortLocation.PORT_KHAZARD,
+		PortLocation.ENTRANA,
+		new RelativeMove(0, 0)
+	),
+	PORT_KHAZARD_CORSAIR_COVE(
+		PortLocation.PORT_KHAZARD,
+		PortLocation.CORSAIR_COVE,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_BRIMHAVEN(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.BRIMHAVEN,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_PORT_SARIM(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.PORT_SARIM,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_CORSAIR_COVE(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.CORSAIR_COVE,
+		new RelativeMove(0, 0)
+	),
+	PANDEMONIUM_ARDOUGNE(
+		PortLocation.PANDEMONIUM,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	MUSA_POINT_ARDOUGNE(
+		PortLocation.MUSA_POINT,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
 	);
 
 	private final PortLocation start;

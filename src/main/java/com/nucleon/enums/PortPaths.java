@@ -66,12 +66,16 @@ public enum PortPaths
 	),
 
 	CATHERBY_MUSA_POINT(
-			PortLocation.CATHERBY,
-			PortLocation.MUSA_POINT,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.CATHERBY,
+		PortLocation.MUSA_POINT,
+		new RelativeMove(62, 0),
+		new RelativeMove(20, -20),
+		new RelativeMove(0, -42),
+		new RelativeMove(4, -4),
+		new RelativeMove(0, -105),
+		new RelativeMove(60, -60),
+		new RelativeMove(18, 0),
+		new RelativeMove(5, -5)
 	),
 
 	CATHERBY_PANDEMONIUM(

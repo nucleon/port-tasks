@@ -73,4 +73,10 @@ public enum PortTaskTrigger
 	{
 		return lookup.containsKey(id);
 	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("%s (Type: %s, Slot: %d)", name(), type, slot);
+	}
 }

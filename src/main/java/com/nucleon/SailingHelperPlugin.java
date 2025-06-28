@@ -110,6 +110,7 @@ public class SailingHelperPlugin extends Plugin
 		// we need to handle the other trigger types, like taken, delivered, and id = 0 is canceled
 		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 		{
+			log.debug("Changed: {} (value {})", trigger, value);
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null)
 			{

@@ -143,19 +143,31 @@ public enum PortPaths
 	MUSA_POINT_PANDEMONIUM(
 			PortLocation.MUSA_POINT,
 			PortLocation.PANDEMONIUM,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(14, -14),
+			new RelativeMove(21, -21),
+			new RelativeMove(21, -21),
+			new RelativeMove(21, -21),
+			new RelativeMove(26, -26),
+			new RelativeMove(0, -20)
 	),
 
 	MUSA_POINT_PORT_KHAZARD(
 			PortLocation.MUSA_POINT,
 			PortLocation.PORT_KHAZARD,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(5, 0),
+			new RelativeMove(0, 10),
+			new RelativeMove(-35, 35),
+			new RelativeMove(-20, 0),
+			new RelativeMove(-25, 25),
+			new RelativeMove(-85, 0),
+			new RelativeMove(-41, 41),
+			new RelativeMove(-40, 0),
+			new RelativeMove(-40, -40),
+			new RelativeMove(0, -15),
+			new RelativeMove(5, -5)
 	),
 
 	MUSA_POINT_PORT_SARIM(
@@ -179,10 +191,25 @@ public enum PortPaths
 	PANDEMONIUM_PORT_KHAZARD(
 			PortLocation.PANDEMONIUM,
 			PortLocation.PORT_KHAZARD,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(0, 20),
+			new RelativeMove(-26, 26),
+			new RelativeMove(-21, 21),
+			new RelativeMove(-21, 21),
+			new RelativeMove(-21, 21),
+			new RelativeMove(-14, 14),
+			new RelativeMove(0, 35),
+			new RelativeMove(-5, 5),
+			new RelativeMove(0, 10),
+			new RelativeMove(-35, 35),
+			new RelativeMove(-20, 0),
+			new RelativeMove(-25, 25),
+			new RelativeMove(-85, 0),
+			new RelativeMove(-41, 41),
+			new RelativeMove(-40, 0),
+			new RelativeMove(-40, -40),
+			new RelativeMove(0, -15),
+			new RelativeMove(5, -5)
+
 	),
 
 	PANDEMONIUM_PORT_SARIM(

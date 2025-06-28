@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
 
+import java.awt.Color;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,4 +18,5 @@ public class PortTask
 	private boolean delivered;
 	private boolean tracking;
 	private boolean active;
+	private Color overlayColor;
 }

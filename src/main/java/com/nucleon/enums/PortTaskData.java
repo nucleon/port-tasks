@@ -127,7 +127,7 @@ public enum PortTaskData
 	public final PortPaths dockMarkers;
 	public final boolean reversePath;
 	public final String taskName;
-	private final int cargo;
+	public final int cargo;
 	public final int cargoAmount;
 
 	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)

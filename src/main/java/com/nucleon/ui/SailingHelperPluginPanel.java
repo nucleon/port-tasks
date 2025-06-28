@@ -84,7 +84,6 @@ public class SailingHelperPluginPanel extends PluginPanel
 			titlePanel.setBorder(new EmptyBorder(1, 3, 10, 7));
 
 			JLabel title = new JLabel("Port Tasks", SwingConstants.CENTER);
-			title.setFont(title.getFont().deriveFont(22f));
 			title.setHorizontalAlignment(SwingConstants.CENTER);
 			title.setForeground(Color.WHITE);
 

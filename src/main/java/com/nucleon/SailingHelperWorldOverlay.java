@@ -29,6 +29,7 @@ package com.nucleon;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -72,6 +73,10 @@ class SailingHelperWorldOverlay extends Overlay
 		{
 			Color overlayColor = tasks.getOverlayColor();
 			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			if (tasks.getData().reversePath)
+			{
+				Collections.reverse(journey);
+			}
 			if (tasks.isTracking())
 			{
 				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);

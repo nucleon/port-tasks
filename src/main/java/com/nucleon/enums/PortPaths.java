@@ -79,12 +79,20 @@ public enum PortPaths
 	),
 
 	CATHERBY_PANDEMONIUM(
-			PortLocation.CATHERBY,
-			PortLocation.PANDEMONIUM,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.CATHERBY,
+		PortLocation.PANDEMONIUM,
+		new RelativeMove(62, 0),
+		new RelativeMove(20, -20),
+		new RelativeMove(0, -42),
+		new RelativeMove(4, -4),
+		new RelativeMove(0, -105),
+		new RelativeMove(60, -60),
+		new RelativeMove(18, 0),
+		new RelativeMove(13, -13),
+		new RelativeMove(0, -67),
+		new RelativeMove(75, -75),
+		new RelativeMove(25, 0),
+		new RelativeMove(5, -5)
 	),
 
 	CATHERBY_PORT_KHAZARD(

@@ -192,7 +192,7 @@ public class SailingHelperPlugin extends Plugin
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null && value != 0)
 			{
-				currentTasks.add(new PortTask(data, trigger.getSlot(), false, false, true, true, Color.green, 0));
+				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, Color.green, 0));
 				pluginPanel.rebuild();
 			}
 			if (value == 0)
@@ -215,6 +215,20 @@ public class SailingHelperPlugin extends Plugin
 			}
 			pluginPanel.rebuild(); // Refresh UI if necessary
 		}
+		if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
+		{
+			int slot = trigger.getSlot();
+
+			for (PortTask task : currentTasks)
+			{
+				if (task.getSlot() == slot)
+				{
+					task.setDelivered(value); // Update the cargoTaken value
+					break;
+				}
+			}
+			pluginPanel.rebuild(); // Refresh UI if necessary
+		}
 	}
 
 	public void readPortDataFromClientVarps()
@@ -230,7 +244,7 @@ public class SailingHelperPlugin extends Plugin
 				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
 					PortTaskData data = PortTaskData.fromId(value);
-					currentTasks.add(new PortTask(data, varbit.getSlot(), false, false, true, true, Color.green, 0));
+					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, Color.green, 0));
 					pluginPanel.rebuild();
 					//System.out.println(currentTasks.size());
 				}

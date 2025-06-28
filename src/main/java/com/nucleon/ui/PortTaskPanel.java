@@ -41,7 +41,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -155,20 +154,23 @@ public class PortTaskPanel extends JPanel
 		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColorMouseAdapter(PortTaskOverlayColor, this));
 		PortTaskActionsLeftSide.add(PortTaskOverlayColor);
 
-		int taken = portTask.getCargoTaken();
+		int cargoTaken = portTask.getCargoTaken();
+		int delivered = portTask.getDelivered();
 		int required = portTask.getData().getCargoAmount();
 
-		cargoRemainingText.setText("Cargo: " + taken + "/" + required);
+		cargoRemainingText.setText("Cargo: " + cargoTaken + "/" + required);
 		cargoRemainingText.setToolTipText("Remaining cargo");
 
-		if (taken < required)
+		if (cargoTaken < required)
 		{
 			cargoRemainingText.setForeground(Color.RED);
 		}
-		else
+
+		if (cargoTaken == required)
 		{
-			cargoRemainingText.setForeground(UIManager.getColor("Label.foreground"));
+			cargoRemainingText.setText("Delivered: " + delivered + "/" + required);
 		}
+
 		PortTaskInformationCenter.add(cargoRemainingText);
 
 		hidePortTaskSlotOverlay.setToolTipText((portTask.isTracking() ? "Hide" : "Show") + " portTask");
@@ -196,7 +198,7 @@ public class PortTaskPanel extends JPanel
 		destinationWrapper.add(destinationLabel, BorderLayout.WEST);
 		destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
 
-		portSlotWrapper.add(noticeWrapper);
+		// portSlotWrapper.add(noticeWrapper); we don't want this right now
 		portSlotWrapper.add(cargoWrapper);
 		portSlotWrapper.add(destinationWrapper);
 

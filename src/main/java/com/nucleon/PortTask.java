@@ -41,7 +41,7 @@ public class PortTask
 	private PortTaskData data;
 	private int slot;
 	private boolean taken;
-	private boolean delivered;
+	private int delivered;
 	private boolean tracking;
 	private boolean active;
 	private Color overlayColor;

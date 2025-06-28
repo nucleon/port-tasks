@@ -36,7 +36,7 @@ public enum PortLocation
 	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0)),
 	RUINS_OF_UNKAH("Ruins of Unkah", new WorldPoint(3144, 2825, 0), new WorldPoint(3145, 2828, 0)),
 	RED_ROCK("Red Rock", new WorldPoint(2809, 2509, 0), new WorldPoint(2805, 2512, 0)),
-	ARDOUGNE("Ardougne", new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0)),
+	ARDOUGNE("Ardougne", new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0), new WorldPoint(2670, 3259, 0)),
 	BRIMHAVEN("Brimhaven", new WorldPoint(2758, 3230, 0), new WorldPoint(2768, 3225, 0), new WorldPoint(2754, 3231, 0)),
 	CATHERBY("Catherby", new WorldPoint(2796, 3412, 0), new WorldPoint(2799, 3413, 0), new WorldPoint(2796, 3408, 0)),
 	PORT_KHAZARD("Port Khazard", new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0), new WorldPoint(2688, 3162, 0)),

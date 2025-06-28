@@ -58,12 +58,11 @@ public enum PortPaths
 	),
 
 	CATHERBY_ARDOUGNE(
-			PortLocation.CATHERBY,
-			PortLocation.ARDOUGNE,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.CATHERBY,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(-42, -42),
+		new RelativeMove(0, -91),
+		new RelativeMove(-16, -16)
 	),
 
 	CATHERBY_MUSA_POINT(

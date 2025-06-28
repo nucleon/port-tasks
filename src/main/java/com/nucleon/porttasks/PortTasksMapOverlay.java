@@ -27,36 +27,60 @@
 package com.nucleon.porttasks;
 
 import java.awt.Color;
-import net.runelite.client.config.Config;
-import net.runelite.client.config.ConfigGroup;
-import net.runelite.client.config.ConfigItem;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.util.Collections;
+import java.util.List;
 
-@ConfigGroup("example")
-public interface SailingHelperConfig extends Config
+import javax.inject.Inject;
+
+import com.nucleon.porttasks.overlay.WorldLines;
+import net.runelite.api.Client;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.ui.overlay.Overlay;
+
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
+
+class PortTasksMapOverlay extends Overlay
 {
-	@ConfigItem(
-		keyName = "navColor",
-		name = "Navigation Line Color",
-		description = "The color of the navigation line"
-	)
-	default Color getNavColor()
+	private final Client client;
+	private final PortTasksPlugin plugin;
+	private final PortTasksConfig config;
+
+	@Inject
+	private PortTasksMapOverlay(Client client, PortTasksPlugin plugin, PortTasksConfig config)
 	{
-		return Color.GREEN;
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
+
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(Overlay.PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
 	}
-	enum Overlay
+
+	@Override
+	public Dimension render(Graphics2D graphics)
 	{
-		NONE,
-		MAP,
-		WORLD,
-		BOTH
+		renderOverlayLines(graphics);
+		return null;
 	}
-	@ConfigItem(
-		keyName = "drawOverlay",
-		name = "Draw path",
-		description = "Draw path for port task"
-	)
-	default Overlay getDrawOverlay()
+
+private void renderOverlayLines(Graphics2D g)
+{
+	for (PortTask tasks : plugin.currentTasks)
 	{
-		return Overlay.BOTH;
+		Color overlayColor = tasks.getOverlayColor();
+		List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+		if (tasks.getData().reversePath)
+		{
+			Collections.reverse(journey);
+		}
+		if (tasks.isTracking())
+		{
+			WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+		}
 	}
+}
 }

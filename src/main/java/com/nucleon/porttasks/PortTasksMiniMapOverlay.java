@@ -24,16 +24,59 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.porttasks;
+ package com.nucleon.porttasks;
 
-import net.runelite.client.RuneLite;
-import net.runelite.client.externalplugins.ExternalPluginManager;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.util.List;
 
-public class SailingHelperPluginTest
+import javax.inject.Inject;
+
+//import com.nucleon.overlay.WorldLines;
+import net.runelite.api.Client;
+import net.runelite.api.coords.WorldPoint;
+import net.runelite.client.ui.overlay.Overlay;
+
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
+
+class PortTasksMiniMapOverlay extends Overlay
 {
-	public static void main(String[] args) throws Exception
+	private final Client client;
+	private final PortTasksPlugin plugin;
+	private final PortTasksConfig config;
+
+	@Inject
+	private PortTasksMiniMapOverlay(Client client, PortTasksPlugin plugin, PortTasksConfig config)
 	{
-		ExternalPluginManager.loadBuiltin(SailingHelperPlugin.class);
-		RuneLite.main(args);
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
+
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(Overlay.PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
+	}
+
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		renderOverlayLines(graphics);
+		return null;
+	}
+
+	private void renderOverlayLines(Graphics2D g)
+	{
+		for (PortTask tasks : plugin.currentTasks)
+		{
+			Color overlayColor = tasks.getOverlayColor();
+			List<WorldPoint> navigationPoints = tasks.getData().dockMarkers.getFullPath();
+			if (tasks.isTracking())
+			{
+				//Getting inside a boat, seems to load a different minimap (?) - nucleon
+				//WorldLines.createMinimapLines(g, client, navigationPoints, overlayColor);
+			}
+		}
 	}
 }

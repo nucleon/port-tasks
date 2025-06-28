@@ -26,7 +26,14 @@
  */
 package com.nucleon.porttasks;
 
-public class SailingHelperDelegate
+import net.runelite.client.RuneLite;
+import net.runelite.client.externalplugins.ExternalPluginManager;
+
+public class PortTasksPluginTest
 {
-	public boolean isLoggedIn;
+	public static void main(String[] args) throws Exception
+	{
+		ExternalPluginManager.loadBuiltin(PortTasksPlugin.class);
+		RuneLite.main(args);
+	}
 }

@@ -7,11 +7,11 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
-import com.nucleon.porttasks.SailingHelperPlugin;
+import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.ui.PortTaskPanel;
 import net.runelite.client.util.ImageUtil;
 
-public class PortTaskSlotOverlayColorMouseAdapter extends MouseAdapter
+public class PortTaskSlotOverlayColor extends MouseAdapter
 {
 private final JLabel portSlotOverlay;
 private final PortTaskPanel panel;
@@ -20,13 +20,13 @@ private static final ImageIcon BORDER_COLOR_HOVER_ICON;
 
 static
 {
-	BufferedImage borderImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "border_color_icon.png");
+	BufferedImage borderImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "border_color_icon.png");
 	BufferedImage borderImgHover = ImageUtil.luminanceOffset(borderImg, -150);
 
 	BORDER_COLOR_ICON = new ImageIcon(borderImg);
 	BORDER_COLOR_HOVER_ICON = new ImageIcon(borderImgHover);
 }
-public PortTaskSlotOverlayColorMouseAdapter(JLabel prayerMarkerColorLabel, PortTaskPanel panel)
+public PortTaskSlotOverlayColor(JLabel prayerMarkerColorLabel, PortTaskPanel panel)
 {
 	this.portSlotOverlay = prayerMarkerColorLabel;
 	this.panel = panel;

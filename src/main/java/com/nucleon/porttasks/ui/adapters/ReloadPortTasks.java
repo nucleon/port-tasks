@@ -1,28 +1,24 @@
 package com.nucleon.porttasks.ui.adapters;
 
 
-import com.nucleon.porttasks.SailingHelperPlugin;
-import net.runelite.client.callback.ClientThread;
+import com.nucleon.porttasks.PortTasksPlugin;
 import net.runelite.client.util.ImageUtil;
 
-import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class ReloadPortTasksAdapter extends MouseAdapter
+public class ReloadPortTasks extends MouseAdapter
 {
-	@Inject
-	private ClientThread clientThread;
-	private static final BufferedImage RELOAD_ICON = ImageUtil.loadImageResource(SailingHelperPlugin.class, "reload.png");
+	private static final BufferedImage RELOAD_ICON = ImageUtil.loadImageResource(PortTasksPlugin.class, "reload.png");
 	private static final ImageIcon RELOAD = new ImageIcon(RELOAD_ICON);
 	private static final ImageIcon ADD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(RELOAD_ICON, 0.53f));
-	private final SailingHelperPlugin plugin;
+	private final PortTasksPlugin plugin;
 	private final JLabel markerAdd;
 	private final Runnable onClick;
 
-	public ReloadPortTasksAdapter(JLabel markerAdd, SailingHelperPlugin plugin, Runnable onClick)
+	public ReloadPortTasks(JLabel markerAdd, PortTasksPlugin plugin, Runnable onClick)
 	{
 		this.markerAdd = markerAdd;
 		this.plugin = plugin;
@@ -32,7 +28,7 @@ public class ReloadPortTasksAdapter extends MouseAdapter
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		clientThread.invoke(plugin::readPortDataFromClientVarps);
+		//clientThread.invoke(plugin::readPortDataFromClientVarps); //todo:actually call from ct thats passed in
 		onClick.run();
 	}
 

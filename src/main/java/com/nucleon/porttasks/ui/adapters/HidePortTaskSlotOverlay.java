@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import com.nucleon.porttasks.PortTask;
-import com.nucleon.porttasks.SailingHelperPlugin;
+import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.ui.PortTaskPanel;
 import net.runelite.client.util.ImageUtil;
 
@@ -16,20 +16,20 @@ public class HidePortTaskSlotOverlay extends MouseAdapter
 private final JLabel hideMarker;
 private final PortTask portTask;
 private final PortTaskPanel panel;
-private final SailingHelperPlugin plugin;
+private final PortTasksPlugin plugin;
 private static final ImageIcon VISIBLE_HOVER_ICON;
 private static final ImageIcon INVISIBLE_HOVER_ICON;
 
 static
 {
-	final BufferedImage visibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "visible_icon.png");
+	final BufferedImage visibleImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "visible_icon.png");
 	VISIBLE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(visibleImg, -100));
 
-	final BufferedImage invisibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "invisible_icon.png");
+	final BufferedImage invisibleImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "invisible_icon.png");
 	INVISIBLE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(invisibleImg, -100));
 }
 
-public HidePortTaskSlotOverlay(JLabel hideMarker, PortTask portTask, PortTaskPanel panel, SailingHelperPlugin plugin)
+public HidePortTaskSlotOverlay(JLabel hideMarker, PortTask portTask, PortTaskPanel panel, PortTasksPlugin plugin)
 {
 	this.hideMarker = hideMarker;
 	this.portTask = portTask;

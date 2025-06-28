@@ -27,60 +27,36 @@
 package com.nucleon.porttasks;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.util.Collections;
-import java.util.List;
+import net.runelite.client.config.Config;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
 
-import javax.inject.Inject;
-
-import com.nucleon.porttasks.overlay.WorldLines;
-import net.runelite.api.Client;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.ui.overlay.Overlay;
-
-import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayPosition;
-
-class SailingHelperWorldOverlay extends Overlay
+@ConfigGroup("example")
+public interface PortTasksConfig extends Config
 {
-	private final Client client;
-	private final SailingHelperPlugin plugin;
-	private final SailingHelperConfig config;
-
-	@Inject
-	private SailingHelperWorldOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	@ConfigItem(
+		keyName = "navColor",
+		name = "Navigation Line Color",
+		description = "The color of the navigation line"
+	)
+	default Color getNavColor()
 	{
-		this.client = client;
-		this.plugin = plugin;
-		this.config = config;
-
-		setPosition(OverlayPosition.DYNAMIC);
-		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.UNDER_WIDGETS);
+		return Color.GREEN;
 	}
-
-	@Override
-	public Dimension render(Graphics2D graphics)
+	enum Overlay
 	{
-		renderOverlayLines(graphics);
-		return null;
+		NONE,
+		MAP,
+		WORLD,
+		BOTH
 	}
-
-	private void renderOverlayLines(Graphics2D g)
+	@ConfigItem(
+		keyName = "drawOverlay",
+		name = "Draw path",
+		description = "Draw path for port task"
+	)
+	default Overlay getDrawOverlay()
 	{
-		for (PortTask tasks : plugin.currentTasks)
-		{
-			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-			if (tasks.getData().reversePath)
-			{
-				Collections.reverse(journey);
-			}
-			if (tasks.isTracking())
-			{
-				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
-			}
-		}
+		return Overlay.BOTH;
 	}
 }

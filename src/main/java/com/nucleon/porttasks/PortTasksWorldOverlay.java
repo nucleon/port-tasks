@@ -42,14 +42,14 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
-class SailingHelperMapOverlay extends Overlay
+class PortTasksWorldOverlay extends Overlay
 {
 	private final Client client;
-	private final SailingHelperPlugin plugin;
-	private final SailingHelperConfig config;
+	private final PortTasksPlugin plugin;
+	private final PortTasksConfig config;
 
 	@Inject
-	private SailingHelperMapOverlay(Client client, SailingHelperPlugin plugin, SailingHelperConfig config)
+	private PortTasksWorldOverlay(Client client, PortTasksPlugin plugin, PortTasksConfig config)
 	{
 		this.client = client;
 		this.plugin = plugin;
@@ -57,7 +57,7 @@ class SailingHelperMapOverlay extends Overlay
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		setLayer(OverlayLayer.UNDER_WIDGETS);
 	}
 
 	@Override
@@ -67,20 +67,20 @@ class SailingHelperMapOverlay extends Overlay
 		return null;
 	}
 
-private void renderOverlayLines(Graphics2D g)
-{
-	for (PortTask tasks : plugin.currentTasks)
+	private void renderOverlayLines(Graphics2D g)
 	{
-		Color overlayColor = tasks.getOverlayColor();
-		List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-		if (tasks.getData().reversePath)
+		for (PortTask tasks : plugin.currentTasks)
 		{
-			Collections.reverse(journey);
-		}
-		if (tasks.isTracking())
-		{
-			WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+			Color overlayColor = tasks.getOverlayColor();
+			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			if (tasks.getData().reversePath)
+			{
+				Collections.reverse(journey);
+			}
+			if (tasks.isTracking())
+			{
+				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
+			}
 		}
 	}
-}
 }

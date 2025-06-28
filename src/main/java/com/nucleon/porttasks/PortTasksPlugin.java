@@ -35,7 +35,7 @@ import java.util.ArrayList;
 
 import com.nucleon.porttasks.enums.PortTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
-import com.nucleon.porttasks.ui.SailingHelperPluginPanel;
+import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
@@ -57,16 +57,16 @@ import java.util.List;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Sailing Helper"
+	name = "Port Tasks"
 )
-public class SailingHelperPlugin extends Plugin
+public class PortTasksPlugin extends Plugin
 {
 	@Inject
-	private SailingHelperDelegate delegate;
+	private PortTasksDelegate delegate;
 	@Inject
 	private Client client;
 	@Inject
-	private SailingHelperConfig config;
+	private PortTasksConfig config;
 	@Inject
 	private OverlayManager overlayManager;
 	@Inject
@@ -79,16 +79,16 @@ public class SailingHelperPlugin extends Plugin
 	@Inject
 	private ColorPickerManager colorPickerManager;
 	@Inject
-	private SailingHelperMapOverlay sailingHelperMapOverlay;
+	private PortTasksMapOverlay sailingHelperMapOverlay;
 	@Inject
-	private SailingHelperWorldOverlay sailingHelperWorldOverlay;
+	private PortTasksWorldOverlay sailingHelperWorldOverlay;
 	@Inject
-	private SailingHelperMiniMapOverlay sailingHelperMiniMapOverlay;
+	private PortTasksMiniMapOverlay sailingHelperMiniMapOverlay;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
 	private int[] varPlayers;
 	private int varPlayerReadDelay = 5;
-	private SailingHelperPluginPanel pluginPanel;
+	private PortTasksPluginPanel pluginPanel;
 	private NavigationButton navigationButton;
 	private static final String PLUGIN_NAME = "Port Tasks";
 	private static final String ICON_FILE = "icon.png";
@@ -99,7 +99,7 @@ public class SailingHelperPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 
-		pluginPanel = new SailingHelperPluginPanel(this, config);
+		pluginPanel = new PortTasksPluginPanel(this, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 
@@ -113,12 +113,12 @@ public class SailingHelperPlugin extends Plugin
 		clientToolbar.addNavigation(navigationButton);
 
 		log.info("Example started!");
-		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
+		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
 		{
 			overlayManager.add(sailingHelperMapOverlay);
 			overlayManager.add(sailingHelperMiniMapOverlay);
 		}
-		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
+		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
 		{
 			overlayManager.add(sailingHelperWorldOverlay);
 		}
@@ -128,7 +128,6 @@ public class SailingHelperPlugin extends Plugin
 	@Override
 	protected void shutDown() throws Exception
 	{
-		log.info("Example stopped!");
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
@@ -178,9 +177,9 @@ public class SailingHelperPlugin extends Plugin
 	}
 
 	@Provides
-	SailingHelperConfig provideConfig(ConfigManager configManager)
+	PortTasksConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(SailingHelperConfig.class);
+		return configManager.getConfig(PortTasksConfig.class);
 	}
 
 	private void handlePortTaskTrigger(PortTaskTrigger trigger, int value)
@@ -246,13 +245,11 @@ public class SailingHelperPlugin extends Plugin
 					PortTaskData data = PortTaskData.fromId(value);
 					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, Color.green, 0));
 					pluginPanel.rebuild();
-					//System.out.println(currentTasks.size());
 				}
 				else
 				{
 					currentTasks.removeIf(task -> task.getSlot() == varbit.getSlot());
 					pluginPanel.rebuild();
-					//System.out.println(currentTasks.size());
 				}
 			}
 		}

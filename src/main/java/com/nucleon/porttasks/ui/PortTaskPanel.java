@@ -27,9 +27,9 @@
 package com.nucleon.porttasks.ui;
 
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
-import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
+import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTask;
-import com.nucleon.porttasks.SailingHelperPlugin;
+import com.nucleon.porttasks.PortTasksPlugin;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
@@ -52,7 +52,7 @@ import java.awt.image.BufferedImage;
 
 public class PortTaskPanel extends JPanel
 {
-	public final SailingHelperPlugin plugin;
+	public final PortTasksPlugin plugin;
 
 	private static final Border NAME_BOTTOM_BORDER = new CompoundBorder(
 			BorderFactory.createMatteBorder(0, 0, 1, 0, ColorScheme.DARK_GRAY_COLOR),
@@ -89,32 +89,32 @@ public class PortTaskPanel extends JPanel
 
 	static
 	{
-		final BufferedImage borderImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "border_color_icon.png");
+		final BufferedImage borderImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "border_color_icon.png");
 		BORDER_COLOR_ICON = new ImageIcon(ImageUtil.alphaOffset(borderImg, -100));
 
-		final BufferedImage visibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "visible_icon.png");
+		final BufferedImage visibleImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "visible_icon.png");
 		VISIBLE_ICON = new ImageIcon(visibleImg);
 
-		final BufferedImage invisibleImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "invisible_icon.png");
+		final BufferedImage invisibleImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "invisible_icon.png");
 		INVISIBLE_ICON = new ImageIcon(invisibleImg);
 
-		final BufferedImage boatImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "boat.png");
+		final BufferedImage boatImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "boat.png");
 		BOAT = new ImageIcon(boatImg);
 
-		final BufferedImage anchorImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "anchor.png");
+		final BufferedImage anchorImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "anchor.png");
 		ANCHOR = new ImageIcon(anchorImg);
 
-		final BufferedImage destImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "destination.png");
+		final BufferedImage destImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "destination.png");
 		DESTINATION = new ImageIcon(ImageUtil.alphaOffset(destImg, -100));
 
-		final BufferedImage noticeImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "notice.png");
+		final BufferedImage noticeImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "notice.png");
 		NOTICE = new ImageIcon(ImageUtil.alphaOffset(noticeImg, -100));
 
-		final BufferedImage cargoImg = ImageUtil.loadImageResource(SailingHelperPlugin.class, "package.png");
+		final BufferedImage cargoImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "package.png");
 		PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
 	}
 
-	public PortTaskPanel(SailingHelperPlugin plugin, PortTask portTask, int slot)
+	public PortTaskPanel(PortTasksPlugin plugin, PortTask portTask, int slot)
 	{
 		this.plugin = plugin;
 		this.portTask = portTask;
@@ -151,7 +151,7 @@ public class PortTaskPanel extends JPanel
 
 		PortTaskOverlayColor.setToolTipText("edit portTask color");
 		PortTaskOverlayColor.setForeground(portTask.getOverlayColor() == null ? Color.red : portTask.getOverlayColor());
-		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColorMouseAdapter(PortTaskOverlayColor, this));
+		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColor(PortTaskOverlayColor, this));
 		PortTaskActionsLeftSide.add(PortTaskOverlayColor);
 
 		int cargoTaken = portTask.getCargoTaken();

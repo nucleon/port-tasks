@@ -32,9 +32,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import com.nucleon.porttasks.PortTask;
-import com.nucleon.porttasks.SailingHelperConfig;
-import com.nucleon.porttasks.SailingHelperPlugin;
-import com.nucleon.porttasks.ui.adapters.ReloadPortTasksAdapter;
+import com.nucleon.porttasks.PortTasksConfig;
+import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.ui.adapters.ReloadPortTasks;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
@@ -52,21 +52,21 @@ import java.awt.image.BufferedImage;
 import java.util.List;
 
 
-public class SailingHelperPluginPanel extends PluginPanel
+public class PortTasksPluginPanel extends PluginPanel
 {
 		private static final ImageIcon RELOAD_ICON;
 		private final PluginErrorPanel errorPanel = new PluginErrorPanel();
-		public final SailingHelperPlugin plugin;
-		private final SailingHelperConfig config;
+		public final PortTasksPlugin plugin;
+		private final PortTasksConfig config;
 		private final JPanel markerView = new JPanel();
 
 		static
 		{
-			final BufferedImage addIcon = ImageUtil.loadImageResource(SailingHelperPlugin.class, "reload.png");
+			final BufferedImage addIcon = ImageUtil.loadImageResource(PortTasksPlugin.class, "reload.png");
 			RELOAD_ICON = new ImageIcon(addIcon);
 		}
 
-		public SailingHelperPluginPanel(SailingHelperPlugin plugin, SailingHelperConfig config)
+		public PortTasksPluginPanel(PortTasksPlugin plugin, PortTasksConfig config)
 		{
 			this.plugin = plugin;
 			this.config = config;
@@ -88,7 +88,7 @@ public class SailingHelperPluginPanel extends PluginPanel
 
 			JLabel markerAdd = new JLabel(RELOAD_ICON);
 			markerAdd.setToolTipText("reload");
-			markerAdd.addMouseListener(new ReloadPortTasksAdapter(markerAdd, plugin, this::addMarker));
+			markerAdd.addMouseListener(new ReloadPortTasks(markerAdd, plugin, this::addMarker));
 
 			JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));
 			markerButtons.add(markerAdd);

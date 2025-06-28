@@ -44,8 +44,6 @@ public class SailingHelperPlugin extends Plugin
 	@Inject
 	private OverlayManager overlayManager;
 	@Inject
-	private SailingHelperOverlay sailingHelperOverlay;
-	@Inject
 	private ClientToolbar clientToolbar;
 	@Inject
 	private ConfigManager configManager;
@@ -84,22 +82,20 @@ public class SailingHelperPlugin extends Plugin
 				.build();
 
 		clientToolbar.addNavigation(navigationButton);
-		overlayManager.add(sailingHelperOverlay);
-		pluginPanel.rebuild();
 
 		log.info("Example started!");
 		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
 			overlayManager.add(sailingHelperMapOverlay);
 		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
 			overlayManager.add(sailingHelperWorldOverlay);
+
+		pluginPanel.rebuild();
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		log.info("Example stopped!");
-
-		overlayManager.remove(sailingHelperOverlay);
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;

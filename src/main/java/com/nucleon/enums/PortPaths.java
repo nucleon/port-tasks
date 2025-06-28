@@ -12,31 +12,40 @@ public enum PortPaths
 		PortLocation.EMPTY,
 		PortLocation.EMPTY
 	),
-	BRIMHAVEN_CATHERBY(
-			PortLocation.BRIMHAVEN,
-			PortLocation.CATHERBY,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+	CATHERBY_BRIMHAVEN(
+		PortLocation.CATHERBY,
+		PortLocation.BRIMHAVEN,
+		new RelativeMove(-42, -42)
 	),
-
 	BRIMHAVEN_MUSA_POINT(
-			PortLocation.BRIMHAVEN,
-			PortLocation.MUSA_POINT,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.BRIMHAVEN,
+		PortLocation.MUSA_POINT,
+		new RelativeMove(0, 8),
+		new RelativeMove(7, 7),
+		new RelativeMove(33, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(76, 0),
+		new RelativeMove(47, -47),
+		new RelativeMove(13, 0),
+		new RelativeMove(5, -5)
 	),
 
 	BRIMHAVEN_PANDEMONIUM(
-			PortLocation.BRIMHAVEN,
-			PortLocation.PANDEMONIUM,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+		PortLocation.BRIMHAVEN,
+		PortLocation.PANDEMONIUM,
+		new RelativeMove(0, 8),
+		new RelativeMove(7, 7),
+		new RelativeMove(33, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(76, 0),
+		new RelativeMove(47, -47),
+		new RelativeMove(13, 0),
+		new RelativeMove(10, -10),
+		new RelativeMove(0, -63),
+		new RelativeMove(63, -63),
+		new RelativeMove(37, 0),
+		new RelativeMove(8, -8)
+
 	),
 
 	BRIMHAVEN_PORT_KHAZARD(
@@ -217,24 +226,6 @@ public enum PortPaths
 		new RelativeMove(0, -91),
 		new RelativeMove(44, -44)
 	);
-	/*
-	CATHERBY_BRIMHAVEN(
-		PortLocation.CATHERBY,
-		PortLocation.BRIMHAVEN,
-		new WorldPoint(2781, 3393, 0),
-		new WorldPoint(2781, 3315, 0),
-		new WorldPoint(2754, 3300, 0)
-	),
-	BRIMHAVEN_MUSA_POINT(
-		PortLocation.BRIMHAVEN,
-		PortLocation.MUSA_POINT,
-		new WorldPoint(2754, 3244, 0),
-		new WorldPoint(2759, 3248, 0),
-		new WorldPoint(2787, 3248, 0),
-		new WorldPoint(2819, 3212, 0),
-		new WorldPoint(2900, 3212, 0),
-		new WorldPoint(2965, 3165, 0)
-	);*/
 
 	private final PortLocation start;
 	private final PortLocation end;

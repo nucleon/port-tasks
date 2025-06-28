@@ -57,9 +57,9 @@ public enum PortPaths
 		new RelativeMove(-33, -33)
 	),
 
-	CATHERBY_EAST_ARDOUGNE(
+	CATHERBY_ARDOUGNE(
 			PortLocation.CATHERBY,
-			PortLocation.EAST_ARDOUGNE,
+			PortLocation.ARDOUGNE,
 			new RelativeMove(0, 0),
 			new RelativeMove(0, 0),
 			new RelativeMove(0, 0),
@@ -102,8 +102,8 @@ public enum PortPaths
 			new RelativeMove(0, 0)
 	),
 
-	EAST_ARDOUGNE_PORT_KHAZARD(
-			PortLocation.EAST_ARDOUGNE,
+	ARDOUGNE_PORT_KHAZARD(
+			PortLocation.ARDOUGNE,
 			PortLocation.PORT_KHAZARD,
 			new RelativeMove(0, 0),
 			new RelativeMove(0, 0),
@@ -111,8 +111,8 @@ public enum PortPaths
 			new RelativeMove(0, 0)
 	),
 
-	EAST_ARDOUGNE_RUINS_OF_UNKAH(
-			PortLocation.EAST_ARDOUGNE,
+	ARDOUGNE_RUINS_OF_UNKAH(
+			PortLocation.ARDOUGNE,
 			PortLocation.RUINS_OF_UNKAH,
 			new RelativeMove(0, 0),
 			new RelativeMove(0, 0),

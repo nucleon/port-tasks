@@ -19,7 +19,7 @@ public enum PortPaths
     PortLocation.BRIMHAVEN,
     new WorldPoint(2781, 3393, 0),
     new WorldPoint(2781, 3315, 0),
-    new WorldPoint(2754, 3330, 0)
+    new WorldPoint(2754, 3300, 0)
   );
 
   private final PortLocation start;

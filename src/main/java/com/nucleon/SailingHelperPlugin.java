@@ -40,7 +40,9 @@ public class SailingHelperPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private SailingHelperOverlay sailingHelperOverlay;
+	private SailingHelperMapOverlay sailingHelperMapOverlay;
+	@Inject
+	private SailingHelperWorldOverlay sailingHelperWorldOverlay;
 
 	List<PortTask> currentTasks = new ArrayList<>();
 	private int[] varPlayers;
@@ -50,14 +52,18 @@ public class SailingHelperPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		log.info("Example started!");
-		overlayManager.add(sailingHelperOverlay);
+		if(config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
+			overlayManager.add(sailingHelperMapOverlay);
+		if(config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
+			overlayManager.add(sailingHelperWorldOverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		log.info("Example stopped!");
-		overlayManager.remove(sailingHelperOverlay);
+		overlayManager.remove(sailingHelperWorldOverlay);
+		overlayManager.remove(sailingHelperMapOverlay);
 	}
 
 	@Subscribe

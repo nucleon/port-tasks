@@ -17,4 +17,20 @@ public interface SailingHelperConfig extends Config
 	{
 		return Color.GREEN;
 	}
+	enum Overlay
+	{
+		NONE,
+		MAP,
+		WORLD,
+		BOTH
+	}
+  	@ConfigItem(
+		keyName = "drawOverlay",
+		name = "Draw path",
+		description = "Draw path for port task"
+	)
+	default Overlay getDrawOverlay()
+	{
+		return Overlay.BOTH;
+	}
 }

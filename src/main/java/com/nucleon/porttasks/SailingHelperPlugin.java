@@ -24,7 +24,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon;
+package com.nucleon.porttasks;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
@@ -33,9 +33,9 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import com.nucleon.enums.PortTaskData;
-import com.nucleon.enums.PortTaskTrigger;
-import com.nucleon.ui.SailingHelperPluginPanel;
+import com.nucleon.porttasks.enums.PortTaskData;
+import com.nucleon.porttasks.enums.PortTaskTrigger;
+import com.nucleon.porttasks.ui.SailingHelperPluginPanel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;

@@ -24,10 +24,10 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.enums;
+package com.nucleon.porttasks.enums;
 
 // todo: replace with net.runelite.api.gameval.ItemID when released
-import com.nucleon.gameval.ItemID;
+import com.nucleon.porttasks.gameval.ItemID;
 
 public enum PortTaskData
 {
@@ -127,7 +127,7 @@ public enum PortTaskData
 	public final PortPaths dockMarkers;
 	public final boolean reversePath;
 	public final String taskName;
-	private final int cargo;
+	public final int cargo;
 	public final int cargoAmount;
 
 	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)

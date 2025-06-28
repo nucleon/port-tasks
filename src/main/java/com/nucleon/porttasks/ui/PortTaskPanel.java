@@ -24,12 +24,12 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.ui;
+package com.nucleon.porttasks.ui;
 
-import com.nucleon.ui.adapters.HidePortTaskSlotOverlay;
-import com.nucleon.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
-import com.nucleon.PortTask;
-import com.nucleon.SailingHelperPlugin;
+import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
+import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColorMouseAdapter;
+import com.nucleon.porttasks.PortTask;
+import com.nucleon.porttasks.SailingHelperPlugin;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
@@ -170,6 +170,10 @@ public class PortTaskPanel extends JPanel
 		{
 			cargoRemainingText.setText("Delivered: " + delivered + "/" + required);
 		}
+		if (delivered == required)
+		{
+			cargoRemainingText.setText("Claim Rewards!");
+		}
 
 		PortTaskInformationCenter.add(cargoRemainingText);
 
@@ -179,7 +183,7 @@ public class PortTaskPanel extends JPanel
 		hideOverlay.add(hidePortTaskSlotOverlay);
 		taskName.setText(portTask.getData().taskName);
 		taskName.setHorizontalAlignment(SwingConstants.CENTER);
-		taskName.setFont(taskName.getFont().deriveFont(18f)); // 18f = new font size
+
 
 		nameWrapper.add(taskName, BorderLayout.CENTER);
 		nameWrapper.add(hideOverlay, BorderLayout.EAST);
@@ -198,8 +202,8 @@ public class PortTaskPanel extends JPanel
 		destinationWrapper.add(destinationLabel, BorderLayout.WEST);
 		destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
 
-		// portSlotWrapper.add(noticeWrapper); we don't want this right now
 		portSlotWrapper.add(cargoWrapper);
+		//portSlotWrapper.add(noticeWrapper);
 		portSlotWrapper.add(destinationWrapper);
 
 		PortTaskSlotContainer.setLayout(new BorderLayout());
@@ -263,7 +267,11 @@ public class PortTaskPanel extends JPanel
 
 		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
 		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
-		noticeLabel.setText(portTask.getData().getNoticeBoard().getName());
+		noticeLabel.setText("Item ID: " + portTask.getData().cargo); //todo: get actual item name from itemmanager after beta
+
+		cargoLabel.setToolTipText("Cargo Location");
+		destinationLabel.setToolTipText("Delivery Location");
+		noticeLabel.setToolTipText("Cargo Item Needed");
 	}
 
 

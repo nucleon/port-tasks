@@ -27,7 +27,7 @@
  * Interpolates long lines into shorter segments to bypass RuneLite’s overlay draw distance limit.
  */
 
-package com.nucleon.overlay;
+package com.nucleon.porttasks.overlay;
 
 import java.util.ArrayList;
 import net.runelite.api.Client;

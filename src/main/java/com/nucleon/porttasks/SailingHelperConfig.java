@@ -24,16 +24,39 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon;
+package com.nucleon.porttasks;
 
-import net.runelite.client.RuneLite;
-import net.runelite.client.externalplugins.ExternalPluginManager;
+import java.awt.Color;
+import net.runelite.client.config.Config;
+import net.runelite.client.config.ConfigGroup;
+import net.runelite.client.config.ConfigItem;
 
-public class SailingHelperPluginTest
+@ConfigGroup("example")
+public interface SailingHelperConfig extends Config
 {
-	public static void main(String[] args) throws Exception
+	@ConfigItem(
+		keyName = "navColor",
+		name = "Navigation Line Color",
+		description = "The color of the navigation line"
+	)
+	default Color getNavColor()
 	{
-		ExternalPluginManager.loadBuiltin(SailingHelperPlugin.class);
-		RuneLite.main(args);
+		return Color.GREEN;
+	}
+	enum Overlay
+	{
+		NONE,
+		MAP,
+		WORLD,
+		BOTH
+	}
+	@ConfigItem(
+		keyName = "drawOverlay",
+		name = "Draw path",
+		description = "Draw path for port task"
+	)
+	default Overlay getDrawOverlay()
+	{
+		return Overlay.BOTH;
 	}
 }

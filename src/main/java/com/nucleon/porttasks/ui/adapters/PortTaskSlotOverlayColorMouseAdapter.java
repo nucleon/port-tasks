@@ -1,4 +1,4 @@
-package com.nucleon.ui.adapters;
+package com.nucleon.porttasks.ui.adapters;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 
-import com.nucleon.SailingHelperPlugin;
-import com.nucleon.ui.PortTaskPanel;
+import com.nucleon.porttasks.SailingHelperPlugin;
+import com.nucleon.porttasks.ui.PortTaskPanel;
 import net.runelite.client.util.ImageUtil;
 
 public class PortTaskSlotOverlayColorMouseAdapter extends MouseAdapter

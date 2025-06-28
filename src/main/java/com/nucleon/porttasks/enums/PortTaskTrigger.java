@@ -24,12 +24,12 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.enums;
+package com.nucleon.porttasks.enums;
 
 import java.util.HashMap;
 import java.util.Map;
 // todo: replace with net.runelite.api.gameval.VarbitID when released
-import com.nucleon.gameval.VarbitID;
+import com.nucleon.porttasks.gameval.VarbitID;
 
 public enum PortTaskTrigger
 {

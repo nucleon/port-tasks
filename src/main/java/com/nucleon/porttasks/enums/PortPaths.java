@@ -174,9 +174,7 @@ public enum PortPaths
 			new RelativeMove(0, -35),
 			new RelativeMove(14, -14),
 			new RelativeMove(11, 0),
-			new RelativeMove(40, 40),
-			new RelativeMove(0, 15),
-			new RelativeMove(16, 16)
+			new RelativeMove(56, 56)
 	),
 
 	MUSA_POINT_RUINS_OF_UNKAH(

@@ -271,7 +271,17 @@ public enum PortPaths
 	PORT_SARIM_ARDOUGNE(
 		PortLocation.PORT_SARIM,
 		PortLocation.ARDOUGNE,
-		new RelativeMove(0, 0)
+			new RelativeMove(0, -42),
+			new RelativeMove(-56, -56),
+			new RelativeMove(-11, 0),
+			new RelativeMove(-14, 14),
+			new RelativeMove(0, 50),
+			new RelativeMove(-28, 28),
+			new RelativeMove(-23, 0),
+			new RelativeMove(-27, 27),
+			new RelativeMove(-80, 0),
+			new RelativeMove(-44, 44)
+
 	),
 	CATHERBY_ENTRANA(
 		PortLocation.CATHERBY,

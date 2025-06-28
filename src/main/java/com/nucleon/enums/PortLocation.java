@@ -5,8 +5,8 @@ import net.runelite.api.coords.WorldPoint;
 public enum PortLocation
 {
 	MUSA_POINT("Musa Point", new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0)),
-	PORT_SARIM("Port Sarim", new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0)),
-	PANDEMONIUM("Pandemonium", new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0)),
+	PORT_SARIM("Port Sarim", new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0), new WorldPoint(3056, 3194, 0)),
+	PANDEMONIUM("Pandemonium", new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0), new WorldPoint(3078, 2987, 0)),
 	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0)),
 	RUINS_OF_UNKAH("Ruins of Unkah", new WorldPoint(3144, 2825, 0), new WorldPoint(3145, 2828, 0)),
 	RED_ROCK("Red Rock", new WorldPoint(2809, 2509, 0), new WorldPoint(2805, 2512, 0)),
@@ -31,12 +31,21 @@ public enum PortLocation
 	private final String name;
 	private final WorldPoint worldPoint;
 	private final WorldPoint cargoLocation;
+	private final WorldPoint navigationLocation;
 
+
+	// temp constructor until navigation location is added for all ports
 	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation)
+	{
+		this(name, worldPoint, cargoLocation, null);
+	}
+
+	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation, WorldPoint navigationLocation)
 	{
 		this.name = name;
 		this.worldPoint = worldPoint;
 		this.cargoLocation = cargoLocation;
+		this.navigationLocation = navigationLocation;
 	}
 
 	public String getName()
@@ -53,4 +62,8 @@ public enum PortLocation
 	{
 		return cargoLocation;
 	}
+	public WorldPoint getNavigationLocation()
+  {
+    return navigationLocation;
+  }
 }

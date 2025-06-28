@@ -1,5 +1,6 @@
 package com.nucleon;
 
+import com.nucleon.enums.PortPaths;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -36,11 +37,9 @@ class SailingHelperOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		List<WorldPoint> linePoints = List.of(
-				new WorldPoint(2961, 3146, 0),
-				new WorldPoint(2977, 3146, 0)
-		);
-		WorldLines.drawLinesOnWorld(graphics, client, linePoints, Color.green);
+		List<WorldPoint> linePoints = PortPaths.PORT_SARIM_PANDEMONIUM.getFullPath();
+		WorldLines.drawLinesOnWorld(graphics, client, linePoints, config.getNavColor());
+
 		return null;
 	}
 }

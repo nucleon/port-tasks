@@ -1,7 +1,6 @@
 package com.nucleon;
 
 import com.nucleon.enums.PortPaths;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.List;
@@ -37,7 +36,7 @@ class SailingHelperWorldOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		List<WorldPoint> linePoints = PortPaths.CATHERBY_BRIMHAVEN.getFullPath();
+		List<WorldPoint> linePoints = PortPaths.BRIMHAVEN_MUSA_POINT.getFullPath();
 		renderOverlayLines(graphics, true, linePoints);
 
 		return null;

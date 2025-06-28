@@ -24,7 +24,7 @@ public interface SailingHelperConfig extends Config
 		WORLD,
 		BOTH
 	}
-  	@ConfigItem(
+	@ConfigItem(
 		keyName = "drawOverlay",
 		name = "Draw path",
 		description = "Draw path for port task"

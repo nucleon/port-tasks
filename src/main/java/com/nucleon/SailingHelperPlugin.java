@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.nucleon.enums.PortTaskData;
 import com.nucleon.enums.PortTaskTrigger;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.GameStateChanged;
@@ -52,9 +51,9 @@ public class SailingHelperPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		log.info("Example started!");
-		if(config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
 			overlayManager.add(sailingHelperMapOverlay);
-		if(config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
 			overlayManager.add(sailingHelperWorldOverlay);
 	}
 

@@ -4,7 +4,7 @@ import net.runelite.api.coords.WorldPoint;
 
 public enum PortLocation
 {
-	MUSA_POINT("Musa Point", new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0)),
+	MUSA_POINT("Musa Point", new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0), new WorldPoint(2965, 3146, 0)),
 	PORT_SARIM("Port Sarim", new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0), new WorldPoint(3056, 3194, 0)),
 	PANDEMONIUM("Pandemonium", new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0), new WorldPoint(3078, 2987, 0)),
 	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0)),
@@ -63,7 +63,7 @@ public enum PortLocation
 		return cargoLocation;
 	}
 	public WorldPoint getNavigationLocation()
-  {
-    return navigationLocation;
-  }
+	{
+		return navigationLocation;
+	}
 }

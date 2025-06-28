@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import net.runelite.api.Client;
 import net.runelite.api.Constants;
 import net.runelite.api.Point;
-import net.runelite.api.WorldView;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.InterfaceID;
@@ -69,7 +68,7 @@ public class WorldLines
 
 			if (currentPoint == null || currentPoint.equals(dontRenderPoint) || nextPoint == null || nextPoint.equals(dontRenderPoint))
 			{
-				continue;
+			continue;
 			}
 
 			List<LocalPoint> startPoints = WorldPerspective.getInstanceLocalPointFromReal(client, currentPoint);
@@ -155,61 +154,61 @@ public class WorldLines
 		return new Line2D.Double(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
 
-public static void drawLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color)
-    {
-        for (int i = 0; i < linePoints.size() - 1; i++)
-        {
-            WorldPoint startWp = linePoints.get(i);
-            WorldPoint endWp = linePoints.get(i + 1);
+	public static void drawLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color)
+	{
+		for (int i = 0; i < linePoints.size() - 1; i++)
+		{
+			WorldPoint startWp = linePoints.get(i);
+			WorldPoint endWp = linePoints.get(i + 1);
 
-            if (startWp == null || endWp == null) continue;
-            if (startWp.equals(new WorldPoint(0, 0, 0))) continue;
-            if (endWp.equals(new WorldPoint(0, 0, 0))) continue;
-            if (startWp.getPlane() != endWp.getPlane()) continue;
+			if (startWp == null || endWp == null) continue;
+			if (startWp.equals(new WorldPoint(0, 0, 0))) continue;
+			if (endWp.equals(new WorldPoint(0, 0, 0))) continue;
+			if (startWp.getPlane() != endWp.getPlane()) continue;
 
-            List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
+			List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
 
-            for (int j = 0; j < interpolated.size() - 1; j++)
-            {
-                WorldPoint wp1 = interpolated.get(j);
-                WorldPoint wp2 = interpolated.get(j + 1);
+			for (int j = 0; j < interpolated.size() - 1; j++)
+			{
+				WorldPoint wp1 = interpolated.get(j);
+				WorldPoint wp2 = interpolated.get(j + 1);
 
-                List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
-                List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
+				List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
+				List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
 
-                if (points1.isEmpty() || points2.isEmpty()) continue;
+				if (points1.isEmpty() || points2.isEmpty()) continue;
 
-                LocalPoint lp1 = points1.get(0);
-                LocalPoint lp2 = points2.get(0);
+				LocalPoint lp1 = points1.get(0);
+				LocalPoint lp2 = points2.get(0);
 
-                Line2D.Double newLine = getWorldLines(client, lp1, lp2);
-                if (newLine != null)
-                {
-                    OverlayUtil.renderPolygon(graphics, newLine, color);
-                }
-            }
-        }
-    }
+				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
+				if (newLine != null)
+				{
+						OverlayUtil.renderPolygon(graphics, newLine, color);
+				}
+			}
+		}
+	}
 
-    private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)
-    {
-        List<WorldPoint> result = new ArrayList<>();
-        int steps = Math.max(start.distanceTo(end), 1);
+	private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)
+	{
+		List<WorldPoint> result = new ArrayList<>();
+		int steps = Math.max(start.distanceTo(end), 1);
 
-        for (int i = 0; i <= steps; i++)
-        {
-            double t = i / (double) steps;
-            int x = (int) Math.round(lerp(start.getX(), end.getX(), t));
-            int y = (int) Math.round(lerp(start.getY(), end.getY(), t));
-            int plane = start.getPlane();
-            result.add(new WorldPoint(x, y, plane));
-        }
+		for (int i = 0; i <= steps; i++)
+		{
+			double t = i / (double) steps;
+			int x = (int) Math.round(lerp(start.getX(), end.getX(), t));
+			int y = (int) Math.round(lerp(start.getY(), end.getY(), t));
+			int plane = start.getPlane();
+			result.add(new WorldPoint(x, y, plane));
+		}
 
-        return result;
-    }
+		return result;
+	}
 
-    private static double lerp(int a, int b, double t)
-    {
-        return a + (b - a) * t;
-    }
+	private static double lerp(int a, int b, double t)
+	{
+		return a + (b - a) * t;
+	}
 }

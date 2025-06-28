@@ -182,10 +182,14 @@ public enum PortPaths
 	MUSA_POINT_RUINS_OF_UNKAH(
 			PortLocation.MUSA_POINT,
 			PortLocation.RUINS_OF_UNKAH,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(103, -103),
+			new RelativeMove(0, -20),
+			new RelativeMove(45, -45),
+			new RelativeMove(0, -117),
+			new RelativeMove(20, 0)
 	),
 
 	PANDEMONIUM_PORT_KHAZARD(

@@ -52,7 +52,8 @@ public enum PortLocation
 	PORT_ROBERTS("Port Roberts", new WorldPoint(1871, 3300, 0), new WorldPoint(1863, 3297, 0)),
 	LANDS_END("Lands End", new WorldPoint(1506, 3402, 0), new WorldPoint(1505, 3407, 0)),
 	CRABCLAW("Crabclaw", new WorldPoint(1726, 3452, 0), new WorldPoint(1724, 3461, 0)),
-	FORTIS("Fortis", new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0));
+	FORTIS("Fortis", new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0)),
+	EMPTY("Default", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0));
 
 	private final String name;
 	private final WorldPoint worldPoint;

@@ -8,7 +8,10 @@ import net.runelite.api.coords.WorldPoint;
 
 public enum PortPaths
 {
-
+	DEFAULT(
+		PortLocation.EMPTY,
+		PortLocation.EMPTY
+	),
 	PORT_SARIM_PANDEMONIUM(
 		PortLocation.PORT_SARIM,
 		PortLocation.PANDEMONIUM,
@@ -16,7 +19,8 @@ public enum PortPaths
 		new RelativeMove(-22, -22),
 		new RelativeMove(0, -91),
 		new RelativeMove(44, -44)
-	);/*
+	);
+	/*
 	CATHERBY_BRIMHAVEN(
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,

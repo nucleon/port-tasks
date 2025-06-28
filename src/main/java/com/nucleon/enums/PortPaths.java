@@ -40,9 +40,9 @@ public enum PortPaths
 		new RelativeMove(76, 0),
 		new RelativeMove(47, -47),
 		new RelativeMove(13, 0),
-		new RelativeMove(10, -10),
+		new RelativeMove(14, -14),
 		new RelativeMove(0, -63),
-		new RelativeMove(63, -63),
+		new RelativeMove(59, -59),
 		new RelativeMove(37, 0),
 		new RelativeMove(8, -8)
 

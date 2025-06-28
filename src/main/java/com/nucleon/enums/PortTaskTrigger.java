@@ -9,7 +9,7 @@ public enum PortTaskTrigger
 {
 	TASK_SLOT_0_ID(VarbitID.PORT_TASK_SLOT_0_ID, TaskType.ID, 0),
 	TASK_SLOT_0_TAKEN(VarbitID.PORT_TASK_SLOT_0_CARGO_TAKEN,  TaskType.TAKEN, 0),
-	TASK_SLOT_0_DELIVERED(VarbitID.PORT_TASK_SLOT_0_CARGO_DELIVERED,TaskType.DELIVERED, 0),
+	TASK_SLOT_0_DELIVERED(VarbitID.PORT_TASK_SLOT_0_CARGO_DELIVERED, TaskType.DELIVERED, 0),
 	TASK_SLOT_1_ID(VarbitID.PORT_TASK_SLOT_1_ID, TaskType.ID, 1),
 	TASK_SLOT_1_TAKEN(VarbitID.PORT_TASK_SLOT_1_CARGO_TAKEN,  TaskType.TAKEN, 1),
 	TASK_SLOT_1_DELIVERED(VarbitID.PORT_TASK_SLOT_1_CARGO_DELIVERED, TaskType.DELIVERED, 1),
@@ -72,5 +72,11 @@ public enum PortTaskTrigger
 	public static boolean contains(int id)
 	{
 		return lookup.containsKey(id);
+	}
+
+	@Override
+	public String toString()
+	{
+		return String.format("%s (Type: %s, Slot: %d)", name(), type, slot);
 	}
 }

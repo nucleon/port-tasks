@@ -24,10 +24,10 @@
  */
 package com.nucleon.overlay;
 
+import java.util.ArrayList;
 import net.runelite.api.Client;
 import net.runelite.api.Constants;
 import net.runelite.api.Point;
-import net.runelite.api.WorldView;
 import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.InterfaceID;
@@ -68,7 +68,7 @@ public class WorldLines
 
 			if (currentPoint == null || currentPoint.equals(dontRenderPoint) || nextPoint == null || nextPoint.equals(dontRenderPoint))
 			{
-				continue;
+			continue;
 			}
 
 			List<LocalPoint> startPoints = WorldPerspective.getInstanceLocalPointFromReal(client, currentPoint);
@@ -165,99 +165,50 @@ public class WorldLines
 			if (startWp.equals(new WorldPoint(0, 0, 0))) continue;
 			if (endWp.equals(new WorldPoint(0, 0, 0))) continue;
 			if (startWp.getPlane() != endWp.getPlane()) continue;
-			List<LocalPoint> startPoints = WorldPerspective.getInstanceLocalPointFromReal(client, startWp);
-			List<LocalPoint> destinationPoints = WorldPerspective.getInstanceLocalPointFromReal(client, endWp);
-			if (startPoints.isEmpty() || destinationPoints.isEmpty()) continue;
-			LocalPoint startPoint = startPoints.get(0);
-			LocalPoint destinationPoint = destinationPoints.get(0);
 
-			int MAX_LP = 13056;
+			List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
 
-			if (destinationPoint == null)
+			for (int j = 0; j < interpolated.size() - 1; j++)
 			{
-				// Work out point of intersection of loaded area
-				int xDiff = endWp.getX() - startWp.getX();
-				int yDiff = endWp.getY() - startWp.getY();
+				WorldPoint wp1 = interpolated.get(j);
+				WorldPoint wp2 = interpolated.get(j + 1);
 
-				int changeToGetXToBorder;
-				if (xDiff != 0)
-				{
-					int goalLine = 0;
-					if (xDiff > 0) goalLine = MAX_LP;
-					changeToGetXToBorder = (goalLine - startPoint.getX()) / xDiff;
-				}
-				else
-				{
-					changeToGetXToBorder = Integer.MAX_VALUE;
-				}
-				int changeToGetYToBorder;
-				if (yDiff != 0)
-				{
-					int goalLine = 0;
-					if (yDiff > 0) goalLine = MAX_LP;
-					changeToGetYToBorder = (goalLine - startPoint.getY()) / yDiff;
-				}
-				else
-				{
-					changeToGetYToBorder = Integer.MAX_VALUE;
-				}
-				if (Math.abs(changeToGetXToBorder) < Math.abs(changeToGetYToBorder))
-				{
-					destinationPoint = new LocalPoint(startPoint.getX() + (xDiff * changeToGetXToBorder), startPoint.getY() + (yDiff * changeToGetXToBorder), WorldView.TOPLEVEL);
-				}
-				else
-				{
-					destinationPoint = new LocalPoint(startPoint.getX() + (xDiff * changeToGetYToBorder), startPoint.getY() + (yDiff * changeToGetYToBorder), WorldView.TOPLEVEL);
-				}
-			}
+				List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
+				List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
 
-			if (startPoint == null)
-			{
-				// Work out point of intersection of loaded area
-				int xDiff = startWp.getX() - endWp.getX();
-				int yDiff = startWp.getY() - endWp.getY();
+				if (points1.isEmpty() || points2.isEmpty()) continue;
 
-				// if diff negative, go to 0?
-				int changeToGetXToBorder;
-				if (xDiff != 0)
-				{
-					int goalLine = 0;
-					if (xDiff > 0) goalLine = MAX_LP;
-					changeToGetXToBorder = (goalLine - destinationPoint.getX()) / xDiff;
-				}
-				else
-				{
-					changeToGetXToBorder = 1000000000;
-				}
-				int changeToGetYToBorder;
-				if (yDiff != 0)
-				{
-					int goalLine = 0;
-					if (yDiff > 0) goalLine = MAX_LP;
-					changeToGetYToBorder = (goalLine - destinationPoint.getY()) / yDiff;
-				}
-				else
-				{
-					changeToGetYToBorder = 1000000000;
-				}
+				LocalPoint lp1 = points1.get(0);
+				LocalPoint lp2 = points2.get(0);
 
-				if (Math.abs(changeToGetXToBorder) < Math.abs(changeToGetYToBorder))
+				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
+				if (newLine != null)
 				{
-					startPoint = new LocalPoint(destinationPoint.getX() + (xDiff * changeToGetXToBorder), destinationPoint.getY() + (yDiff * changeToGetXToBorder), WorldView.TOPLEVEL);
+						OverlayUtil.renderPolygon(graphics, newLine, color);
 				}
-				else
-				{
-					startPoint = new LocalPoint(destinationPoint.getX() + (xDiff * changeToGetYToBorder), destinationPoint.getY() + (yDiff * changeToGetYToBorder), WorldView.TOPLEVEL);
-				}
-			}
-
-			// If one is in scene, find local point we intersect with
-
-			Line2D.Double newLine = getWorldLines(client, startPoint, destinationPoint);
-			if (newLine != null)
-			{
-				OverlayUtil.renderPolygon(graphics, newLine, color);
 			}
 		}
+	}
+
+	private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)
+	{
+		List<WorldPoint> result = new ArrayList<>();
+		int steps = Math.max(start.distanceTo(end), 1);
+
+		for (int i = 0; i <= steps; i++)
+		{
+			double t = i / (double) steps;
+			int x = (int) Math.round(lerp(start.getX(), end.getX(), t));
+			int y = (int) Math.round(lerp(start.getY(), end.getY(), t));
+			int plane = start.getPlane();
+			result.add(new WorldPoint(x, y, plane));
+		}
+
+		return result;
+	}
+
+	private static double lerp(int a, int b, double t)
+	{
+		return a + (b - a) * t;
 	}
 }

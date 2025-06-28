@@ -51,11 +51,12 @@ public class SailingHelperPlugin extends Plugin
 	private ConfigManager configManager;
 	@Inject
 	private Gson gson;
-
 	@Getter
 	@Inject
 	private ColorPickerManager colorPickerManager;
-
+	private SailingHelperMapOverlay sailingHelperMapOverlay;
+	@Inject
+	private SailingHelperWorldOverlay sailingHelperWorldOverlay;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
 	private int[] varPlayers;
@@ -70,6 +71,7 @@ public class SailingHelperPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
+
 		pluginPanel = new SailingHelperPluginPanel(this, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
@@ -84,17 +86,26 @@ public class SailingHelperPlugin extends Plugin
 		clientToolbar.addNavigation(navigationButton);
 		overlayManager.add(sailingHelperOverlay);
 		pluginPanel.rebuild();
+
+		log.info("Example started!");
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.MAP)
+			overlayManager.add(sailingHelperMapOverlay);
+		if (config.getDrawOverlay() == SailingHelperConfig.Overlay.BOTH || config.getDrawOverlay() == SailingHelperConfig.Overlay.WORLD)
+			overlayManager.add(sailingHelperWorldOverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		log.info("Example stopped!");
+
 		overlayManager.remove(sailingHelperOverlay);
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
-		overlayManager.remove(sailingHelperOverlay);
+		overlayManager.remove(sailingHelperWorldOverlay);
+		overlayManager.remove(sailingHelperMapOverlay);
+
 	}
 
 	@Subscribe
@@ -147,6 +158,7 @@ public class SailingHelperPlugin extends Plugin
 		// we need to handle the other trigger types, like taken, delivered, and value = 0 is canceled
 		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 		{
+			log.debug("Changed: {} (value {})", trigger, value);
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null)
 			{

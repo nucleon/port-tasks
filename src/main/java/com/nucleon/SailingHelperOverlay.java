@@ -1,11 +1,15 @@
 package com.nucleon;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import com.nucleon.overlay.WorldLines;
 import net.runelite.api.Client;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 
 import net.runelite.client.ui.overlay.OverlayLayer;
@@ -26,12 +30,17 @@ class SailingHelperOverlay extends Overlay
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		setLayer(OverlayLayer.UNDER_WIDGETS);
 	}
 
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
+		List<WorldPoint> linePoints = List.of(
+				new WorldPoint(2961, 3146, 0),
+				new WorldPoint(2977, 3146, 0)
+		);
+		WorldLines.drawLinesOnWorld(graphics, client, linePoints, Color.green);
 		return null;
 	}
 }

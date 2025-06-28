@@ -17,6 +17,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
 
 import java.util.List;
 
@@ -35,6 +36,12 @@ public class SailingHelperPlugin extends Plugin
 	@Inject
 	private SailingHelperConfig config;
 
+	@Inject
+	private OverlayManager overlayManager;
+
+	@Inject
+	private SailingHelperOverlay sailingHelperOverlay;
+
 	List<PortTask> currentTasks = new ArrayList<>();
 	private int[] varPlayers;
 	private int varPlayerReadDelay = 5;
@@ -43,12 +50,14 @@ public class SailingHelperPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		log.info("Example started!");
+		overlayManager.add(sailingHelperOverlay);
 	}
 
 	@Override
 	protected void shutDown() throws Exception
 	{
 		log.info("Example stopped!");
+		overlayManager.remove(sailingHelperOverlay);
 	}
 
 	@Subscribe

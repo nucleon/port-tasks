@@ -169,10 +169,14 @@ public enum PortPaths
 	MUSA_POINT_PORT_SARIM(
 			PortLocation.MUSA_POINT,
 			PortLocation.PORT_SARIM,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(14, -14),
+			new RelativeMove(11, 0),
+			new RelativeMove(40, 40),
+			new RelativeMove(0, 15),
+			new RelativeMove(16, 16)
 	),
 
 	MUSA_POINT_RUINS_OF_UNKAH(

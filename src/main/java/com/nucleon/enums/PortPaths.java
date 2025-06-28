@@ -1,69 +1,321 @@
-/*
- * Copyright (c) 2025, nucleon <https://github.com/nucleon>
- * Copyright (c) 2025, Cooper Morris <https://github.com/coopermor>
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- * 1. Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- *
- * 2. Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
 package com.nucleon.enums;
 
+import com.nucleon.RelativeMove;
 import java.util.ArrayList;
 import java.util.List;
 import net.runelite.api.coords.WorldPoint;
 
+
 public enum PortPaths
 {
-	PORT_SARIM_PANDEMONIUM(
-		PortLocation.PORT_SARIM,
-		PortLocation.PANDEMONIUM,
-		new WorldPoint(3056, 3151, 0),
-		new WorldPoint(3034, 3123, 0),
-		new WorldPoint(3034, 3040, 0),
-		new WorldPoint(3078, 3015, 0)
+	DEFAULT(
+		PortLocation.EMPTY,
+		PortLocation.EMPTY
 	),
 	CATHERBY_BRIMHAVEN(
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,
-		new WorldPoint(2781, 3393, 0),
-		new WorldPoint(2781, 3315, 0),
-		new WorldPoint(2754, 3300, 0)
+		new RelativeMove(-42, -42)
 	),
 	BRIMHAVEN_MUSA_POINT(
 		PortLocation.BRIMHAVEN,
 		PortLocation.MUSA_POINT,
-		new WorldPoint(2754, 3244, 0),
-		new WorldPoint(2759, 3248, 0),
-		new WorldPoint(2787, 3248, 0),
-		new WorldPoint(2819, 3212, 0),
-		new WorldPoint(2900, 3212, 0),
-		new WorldPoint(2965, 3165, 0)
-		//new WorldPoint(2965, 3150, 0)
+		new RelativeMove(0, 8),
+		new RelativeMove(7, 7),
+		new RelativeMove(33, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(76, 0),
+		new RelativeMove(47, -47),
+		new RelativeMove(13, 0),
+		new RelativeMove(5, -5)
+	),
+
+	BRIMHAVEN_PANDEMONIUM(
+		PortLocation.BRIMHAVEN,
+		PortLocation.PANDEMONIUM,
+		new RelativeMove(0, 8),
+		new RelativeMove(7, 7),
+		new RelativeMove(33, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(76, 0),
+		new RelativeMove(47, -47),
+		new RelativeMove(13, 0),
+		new RelativeMove(14, -14),
+		new RelativeMove(0, -63),
+		new RelativeMove(59, -59),
+		new RelativeMove(37, 0),
+		new RelativeMove(8, -8)
+
+	),
+
+	BRIMHAVEN_PORT_KHAZARD(
+		PortLocation.BRIMHAVEN,
+		PortLocation.PORT_KHAZARD,
+		new RelativeMove(0, 15),
+		new RelativeMove(-7, 7),
+		new RelativeMove(-26, 0),
+		new RelativeMove(-33, -33)
+	),
+
+	CATHERBY_ARDOUGNE(
+		PortLocation.CATHERBY,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(-42, -42),
+		new RelativeMove(0, -91),
+		new RelativeMove(-16, -16)
+	),
+
+	CATHERBY_MUSA_POINT(
+		PortLocation.CATHERBY,
+		PortLocation.MUSA_POINT,
+		new RelativeMove(62, 0),
+		new RelativeMove(20, -20),
+		new RelativeMove(0, -42),
+		new RelativeMove(4, -4),
+		new RelativeMove(0, -105),
+		new RelativeMove(60, -60),
+		new RelativeMove(18, 0),
+		new RelativeMove(5, -5)
+	),
+
+	CATHERBY_PANDEMONIUM(
+		PortLocation.CATHERBY,
+		PortLocation.PANDEMONIUM,
+		new RelativeMove(62, 0),
+		new RelativeMove(20, -20),
+		new RelativeMove(0, -42),
+		new RelativeMove(4, -4),
+		new RelativeMove(0, -105),
+		new RelativeMove(60, -60),
+		new RelativeMove(18, 0),
+		new RelativeMove(13, -13),
+		new RelativeMove(0, -67),
+		new RelativeMove(75, -75),
+		new RelativeMove(25, 0),
+		new RelativeMove(5, -5)
+	),
+
+	CATHERBY_PORT_KHAZARD(
+			PortLocation.CATHERBY,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	CATHERBY_PORT_SARIM(
+			PortLocation.CATHERBY,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	ARDOUGNE_PORT_KHAZARD(
+			PortLocation.ARDOUGNE,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	ARDOUGNE_RUINS_OF_UNKAH(
+			PortLocation.ARDOUGNE,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	ENTRANA_MUSA_POINT(
+			PortLocation.ENTRANA,
+			PortLocation.MUSA_POINT,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	MUSA_POINT_PANDEMONIUM(
+			PortLocation.MUSA_POINT,
+			PortLocation.PANDEMONIUM,
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(103, -103),
+			new RelativeMove(0, -20)
+	),
+
+	MUSA_POINT_PORT_KHAZARD(
+			PortLocation.MUSA_POINT,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(5, 0),
+			new RelativeMove(0, 10),
+			new RelativeMove(-35, 35),
+			new RelativeMove(-20, 0),
+			new RelativeMove(-25, 25),
+			new RelativeMove(-85, 0),
+			new RelativeMove(-41, 41),
+			new RelativeMove(-40, 0),
+			new RelativeMove(-40, -40),
+			new RelativeMove(0, -15),
+			new RelativeMove(5, -5)
+	),
+
+	MUSA_POINT_PORT_SARIM(
+			PortLocation.MUSA_POINT,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(14, -14),
+			new RelativeMove(11, 0),
+			new RelativeMove(40, 40),
+			new RelativeMove(0, 15),
+			new RelativeMove(16, 16)
+	),
+
+	MUSA_POINT_RUINS_OF_UNKAH(
+			PortLocation.MUSA_POINT,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(5, 0),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(103, -103),
+			new RelativeMove(0, -20),
+			new RelativeMove(45, -45),
+			new RelativeMove(0, -117),
+			new RelativeMove(20, 0)
+	),
+
+	PANDEMONIUM_PORT_KHAZARD(
+			PortLocation.PANDEMONIUM,
+			PortLocation.PORT_KHAZARD,
+			new RelativeMove(0, 20),
+			new RelativeMove(-103, 103),
+			new RelativeMove(0, 35),
+			new RelativeMove(-5, 5),
+			new RelativeMove(0, 10),
+			new RelativeMove(-35, 35),
+			new RelativeMove(-20, 0),
+			new RelativeMove(-25, 25),
+			new RelativeMove(-85, 0),
+			new RelativeMove(-41, 41),
+			new RelativeMove(-40, 0),
+			new RelativeMove(-40, -40),
+			new RelativeMove(0, -15),
+			new RelativeMove(5, -5)
+
+	),
+
+	PANDEMONIUM_RUINS_OF_UNKAH(
+			PortLocation.PANDEMONIUM,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PORT_KHAZARD_PORT_SARIM(
+			PortLocation.PORT_KHAZARD,
+			PortLocation.PORT_SARIM,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	PORT_KHAZARD_RUINS_OF_UNKAH(
+			PortLocation.PORT_KHAZARD,
+			PortLocation.RUINS_OF_UNKAH,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+
+	RUINS_OF_UNKAH_SUMMER_SHORE(
+			PortLocation.RUINS_OF_UNKAH,
+			PortLocation.SUMMER_SHORE,
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0),
+			new RelativeMove(0, 0)
+	),
+	PORT_SARIM_PANDEMONIUM(
+		PortLocation.PORT_SARIM,
+		PortLocation.PANDEMONIUM,
+		new RelativeMove(0, -43),
+		new RelativeMove(-22, -22),
+		new RelativeMove(0, -75),
+		new RelativeMove(44, -44)
+	),
+	PORT_SARIM_ARDOUGNE(
+		PortLocation.PORT_SARIM,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	CATHERBY_ENTRANA(
+		PortLocation.CATHERBY,
+		PortLocation.ENTRANA,
+		new RelativeMove(0, 0)
+	),
+	CATHERBY_RUINS_OF_UNKAH(
+		PortLocation.CATHERBY,
+		PortLocation.RUINS_OF_UNKAH,
+		new RelativeMove(0, 0)
+	),
+	BRIMHAVEN_ARDOUGNE(
+		PortLocation.BRIMHAVEN,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	PORT_KHAZARD_ENTRANA(
+		PortLocation.PORT_KHAZARD,
+		PortLocation.ENTRANA,
+		new RelativeMove(0, 0)
+	),
+	PORT_KHAZARD_CORSAIR_COVE(
+		PortLocation.PORT_KHAZARD,
+		PortLocation.CORSAIR_COVE,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_BRIMHAVEN(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.BRIMHAVEN,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_PORT_SARIM(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.PORT_SARIM,
+		new RelativeMove(0, 0)
+	),
+	RUINS_OF_UNKAH_CORSAIR_COVE(
+		PortLocation.RUINS_OF_UNKAH,
+		PortLocation.CORSAIR_COVE,
+		new RelativeMove(0, 0)
+	),
+	PANDEMONIUM_ARDOUGNE(
+		PortLocation.PANDEMONIUM,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
+	),
+	MUSA_POINT_ARDOUGNE(
+		PortLocation.MUSA_POINT,
+		PortLocation.ARDOUGNE,
+		new RelativeMove(0, 0)
 	);
 
 	private final PortLocation start;
 	private final PortLocation end;
-	private final List<WorldPoint> pathPoints;
+	private final List<RelativeMove> pathPoints;
 
-	PortPaths(PortLocation start, PortLocation end, WorldPoint... pathPoints)
+	PortPaths(PortLocation start, PortLocation end, RelativeMove... pathPoints)
 	{
 		this.start = start;
 		this.end = end;
@@ -80,16 +332,16 @@ public enum PortPaths
 		return end;
 	}
 
-	public List<WorldPoint> getPathPoints()
-	{
-		return pathPoints;
-	}
-
 	public List<WorldPoint> getFullPath()
 	{
 		List<WorldPoint> fullPath = new ArrayList<>();
-		fullPath.add(start.getNavigationLocation());
-		fullPath.addAll(pathPoints);
+		WorldPoint current = start.getNavigationLocation();
+		fullPath.add(current);
+		for (RelativeMove delta : pathPoints)
+		{
+			current = new WorldPoint(current.getX() + delta.getDx(), current.getY() + delta.getDy(), current.getPlane());
+			fullPath.add(current);
+		}
 		fullPath.add(end.getNavigationLocation());
 		return fullPath;
 	}

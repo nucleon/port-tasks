@@ -289,7 +289,8 @@ public enum PortPaths
 	BRIMHAVEN_ARDOUGNE(
 		PortLocation.BRIMHAVEN,
 		PortLocation.ARDOUGNE,
-		new RelativeMove(0, 0)
+		new RelativeMove(0, 16),
+		new RelativeMove(-12, 12)
 	),
 	PORT_KHAZARD_ENTRANA(
 		PortLocation.PORT_KHAZARD,

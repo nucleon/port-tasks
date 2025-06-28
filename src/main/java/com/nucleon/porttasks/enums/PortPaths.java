@@ -231,10 +231,25 @@ public enum PortPaths
 	PORT_KHAZARD_RUINS_OF_UNKAH(
 			PortLocation.PORT_KHAZARD,
 			PortLocation.RUINS_OF_UNKAH,
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0),
-			new RelativeMove(0, 0)
+			new RelativeMove(0, 25),
+			new RelativeMove(-20, 20),
+			new RelativeMove(50, 50),
+			new RelativeMove(45, 0),
+			new RelativeMove(41, -41),
+			new RelativeMove(85, 0),
+			new RelativeMove(25, -25),
+			new RelativeMove(20, 0),
+			new RelativeMove(35, -35),
+			new RelativeMove(0, -10),
+			new RelativeMove(5, -5),
+			new RelativeMove(0, -35),
+			new RelativeMove(103, -103),
+			new RelativeMove(0, -20),
+			new RelativeMove(0, -20),
+			new RelativeMove(45, -45),
+			new RelativeMove(0, -98),
+			new RelativeMove(20, 0)
+
 	),
 
 	RUINS_OF_UNKAH_SUMMER_SHORE(

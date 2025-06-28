@@ -252,7 +252,7 @@ public enum PortPaths
 		PortLocation.PANDEMONIUM,
 		new RelativeMove(0, -43),
 		new RelativeMove(-22, -22),
-		new RelativeMove(0, -91),
+		new RelativeMove(0, -75),
 		new RelativeMove(44, -44)
 	),
 	PORT_SARIM_ARDOUGNE(

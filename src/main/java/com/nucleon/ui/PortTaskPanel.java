@@ -14,9 +14,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -41,7 +41,8 @@ public class PortTaskPanel extends JPanel
 
 	public final JLabel
 			PortTaskOverlayColor = new JLabel(),
-			hidePortTaskSlotOverlay = new JLabel();
+			hidePortTaskSlotOverlay = new JLabel(),
+			cargoRemainingText = new JLabel();
 
 	private final JLabel
 			save   = new JLabel("Save"),
@@ -77,8 +78,8 @@ public class PortTaskPanel extends JPanel
 		nameWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		nameWrapper.setBorder(NAME_BOTTOM_BORDER);
 
-		JPanel nameActions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 3));
-		nameActions.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		JPanel hideOverlay = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 3));
+		hideOverlay.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		PortTaskSlotContainer.setBorder(new EmptyBorder(5, 0, 5, 0));
 		PortTaskSlotContainer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -89,19 +90,36 @@ public class PortTaskPanel extends JPanel
 		JPanel rightActionsPrayer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
 		rightActionsPrayer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+
 		PortTaskOverlayColor.setToolTipText("edit portTask color");
 		PortTaskOverlayColor.setForeground(portTask.getOverlayColor() == null ? Color.red : portTask.getOverlayColor());
 		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColorMouseAdapter(PortTaskOverlayColor, this));
 		leftActionsPrayer.add(PortTaskOverlayColor);
 
+		int taken = portTask.getCargoTaken();
+		int required = portTask.getData().getCargoAmount();
+
+		cargoRemainingText.setText("Cargo: " + taken + "/" + required);
+		cargoRemainingText.setToolTipText("Remaining cargo");
+
+		if (taken < required)
+		{
+			cargoRemainingText.setForeground(Color.RED);
+		}
+		else
+		{
+			cargoRemainingText.setForeground(UIManager.getColor("Label.foreground"));
+		}
+		rightActionsPrayer.add(cargoRemainingText);
 
 		hidePortTaskSlotOverlay.setToolTipText((portTask.isTracking() ? "Hide" : "Show") + " portTask");
 		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, portTask, this, plugin));
 
-		nameActions.add(hidePortTaskSlotOverlay);
+		hideOverlay.add(hidePortTaskSlotOverlay);
 		nameInput.setText(portTask.getData().taskName);
+		nameInput.setEditable(false);
 		nameWrapper.add(nameInput, BorderLayout.CENTER);
-		nameWrapper.add(nameActions, BorderLayout.EAST);
+		nameWrapper.add(hideOverlay, BorderLayout.EAST);
 
 		JPanel portSlotWrapper = new JPanel();
 		portSlotWrapper.setLayout(new BoxLayout(portSlotWrapper, BoxLayout.Y_AXIS));

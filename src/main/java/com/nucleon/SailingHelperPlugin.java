@@ -52,6 +52,7 @@ public class SailingHelperPlugin extends Plugin
 	@Getter
 	@Inject
 	private ColorPickerManager colorPickerManager;
+	@Inject
 	private SailingHelperMapOverlay sailingHelperMapOverlay;
 	@Inject
 	private SailingHelperWorldOverlay sailingHelperWorldOverlay;
@@ -121,7 +122,7 @@ public class SailingHelperPlugin extends Plugin
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
 			int value = client.getVarbitValue(varbit.getId());
-			// log.debug("Changed: {} (value {})", varbit.getName(), value);
+			log.info("Changed: {} (value {})", varbit.name(), value);
 
 
 			// we accepted a new task, took cargo, delivered cargo or canceled a task
@@ -156,11 +157,30 @@ public class SailingHelperPlugin extends Plugin
 		{
 			log.debug("Changed: {} (value {})", trigger, value);
 			PortTaskData data = PortTaskData.fromId(value);
-			if (data != null)
+			if (data != null && value != 0)
 			{
-				currentTasks.add(new PortTask(data, trigger.getSlot(), false, false, true, true, Color.green));
+				currentTasks.add(new PortTask(data, trigger.getSlot(), false, false, true, true, Color.green, 0));
 				pluginPanel.rebuild();
 			}
+			if (value == 0)
+			{
+				currentTasks.removeIf(task -> task.getSlot() == trigger.getSlot());
+				pluginPanel.rebuild();
+			}
+		}
+		if (trigger.getType() == PortTaskTrigger.TaskType.TAKEN)
+		{
+			int slot = trigger.getSlot();
+
+			for (PortTask task : currentTasks)
+			{
+				if (task.getSlot() == slot)
+				{
+					task.setCargoTaken(value); // Update the cargoTaken value
+					break;
+				}
+			}
+			pluginPanel.rebuild(); // Refresh UI if necessary
 		}
 	}
 
@@ -177,7 +197,7 @@ public class SailingHelperPlugin extends Plugin
 				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
 					PortTaskData data = PortTaskData.fromId(value);
-					currentTasks.add(new PortTask(data, varbit.getSlot(), false, false, true, true, Color.green));
+					currentTasks.add(new PortTask(data, varbit.getSlot(), false, false, true, true, Color.green, 0));
 					pluginPanel.rebuild();
 					//System.out.println(currentTasks.size());
 				}

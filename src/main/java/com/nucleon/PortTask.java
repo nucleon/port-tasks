@@ -19,4 +19,5 @@ public class PortTask
 	private boolean tracking;
 	private boolean active;
 	private Color overlayColor;
+	private int cargoTaken;
 }

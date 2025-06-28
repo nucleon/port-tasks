@@ -1,6 +1,6 @@
 package com.nucleon;
 
-import com.nucleon.enums.PortPaths;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.List;
@@ -36,14 +36,17 @@ class SailingHelperMapOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		List<WorldPoint> linePoints = PortPaths.BRIMHAVEN_MUSA_POINT.getFullPath();
-		renderOverlayLines(graphics, true, linePoints);
-
+		renderOverlayLines(graphics);
 		return null;
 	}
 
-	private void renderOverlayLines(Graphics2D g, boolean map, List<WorldPoint> lp)
+	private void renderOverlayLines(Graphics2D g)
 	{
-		WorldLines.createWorldMapLines(g, client, lp, config.getNavColor());
+		for (PortTask tasks : plugin.currentTasks)
+		{
+			Color overlayColor = tasks.getOverlayColor();
+			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+		}
 	}
 }

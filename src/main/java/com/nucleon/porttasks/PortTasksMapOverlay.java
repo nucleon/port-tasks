@@ -67,20 +67,20 @@ class PortTasksMapOverlay extends Overlay
 		return null;
 	}
 
-private void renderOverlayLines(Graphics2D g)
-{
-	for (PortTask tasks : plugin.currentTasks)
+	private void renderOverlayLines(Graphics2D g)
 	{
-		Color overlayColor = tasks.getOverlayColor();
-		List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-		if (tasks.getData().reversePath)
+		for (PortTask tasks : plugin.currentTasks)
 		{
-			Collections.reverse(journey);
-		}
-		if (tasks.isTracking())
-		{
-			WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+			Color overlayColor = tasks.getOverlayColor();
+			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+			if (tasks.getData().reversePath)
+			{
+				Collections.reverse(journey);
+			}
+			if (tasks.isTracking())
+			{
+				WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+			}
 		}
 	}
-}
 }

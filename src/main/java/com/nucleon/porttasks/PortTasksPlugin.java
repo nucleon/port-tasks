@@ -29,7 +29,6 @@ package com.nucleon.porttasks;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import javax.inject.Inject;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -46,6 +45,7 @@ import net.runelite.api.events.GameTick;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -129,19 +129,10 @@ public class PortTasksPlugin extends Plugin
 
 			clientToolbar.addNavigation(navigationButton);
 
-			if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
-			{
-				overlayManager.add(sailingHelperMapOverlay);
-				overlayManager.add(sailingHelperMiniMapOverlay);
-			}
-
-			if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
-			{
-				overlayManager.add(sailingHelperWorldOverlay);
-			}
+			registerOverlays();
 			pluginPanel.rebuild();
 		}
-		if(event.getGameState() == GameState.LOGIN_SCREEN && pluginStarted)
+		if (event.getGameState() == GameState.LOGIN_SCREEN && pluginStarted)
 		{
 			shutDown();
 		}
@@ -158,6 +149,20 @@ public class PortTasksPlugin extends Plugin
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(sailingHelperMiniMapOverlay);
 		pluginStarted = false;
+	}
+
+	@Subscribe
+	public void onConfigChanged(final ConfigChanged event)
+	{
+		if (!event.getGroup().equals(PortTasksConfig.CONFIG_GROUP))
+			return;
+		if (event.getKey().equals("drawOverlay"))
+		{
+			overlayManager.remove(sailingHelperWorldOverlay);
+			overlayManager.remove(sailingHelperMapOverlay);
+			overlayManager.remove(sailingHelperMiniMapOverlay);
+			registerOverlays();
+		}
 	}
 
 	@Subscribe
@@ -205,7 +210,7 @@ public class PortTasksPlugin extends Plugin
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null && value != 0)
 			{
-				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, Color.green, 0));
+				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, config.getNavColor(), 0));
 				pluginPanel.rebuild();
 			}
 			if (value == 0)
@@ -257,7 +262,7 @@ public class PortTasksPlugin extends Plugin
 				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
 					PortTaskData data = PortTaskData.fromId(value);
-					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, Color.green, 0));
+					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
 					pluginPanel.rebuild();
 				}
 				else
@@ -266,6 +271,20 @@ public class PortTasksPlugin extends Plugin
 					pluginPanel.rebuild();
 				}
 			}
+		}
+	}
+
+	private void registerOverlays()
+	{
+		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
+		{
+			overlayManager.add(sailingHelperMapOverlay);
+			overlayManager.add(sailingHelperMiniMapOverlay);
+		}
+
+		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
+		{
+			overlayManager.add(sailingHelperWorldOverlay);
 		}
 	}
 

@@ -31,9 +31,10 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("example")
+@ConfigGroup(PortTasksConfig.CONFIG_GROUP)
 public interface PortTasksConfig extends Config
 {
+	String CONFIG_GROUP = "porttasks";
 	@ConfigItem(
 		keyName = "navColor",
 		name = "Navigation Line Color",

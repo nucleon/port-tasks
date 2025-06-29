@@ -363,7 +363,19 @@ public enum PortPaths
 	RUINS_OF_UNKAH_BRIMHAVEN(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.BRIMHAVEN,
-		new RelativeMove(0, 0)
+		new RelativeMove(-20, 0),
+		new RelativeMove(0, 98),
+		new RelativeMove(-45, 45),
+		new RelativeMove(0, 25),
+		new RelativeMove(-110, 110),
+		new RelativeMove(0, 60),
+		new RelativeMove(-35, 35),
+		new RelativeMove(-20, 0),
+		new RelativeMove(-25, 25),
+		new RelativeMove(-85, 0),
+		new RelativeMove(-20, 20),
+		new RelativeMove(-24, 0),
+		new RelativeMove(-5, -5)
 	),
 	RUINS_OF_UNKAH_PORT_SARIM(
 		PortLocation.RUINS_OF_UNKAH,

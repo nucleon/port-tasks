@@ -128,7 +128,7 @@ public enum PortPaths
 			PortLocation.RUINS_OF_UNKAH,
 
 			new RelativeMove(90, 0),
-			new RelativeMove(30, -30),
+			new RelativeMove(38, -38),
 			new RelativeMove(17, 0),
 			new RelativeMove(12, -12),
 

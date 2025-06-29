@@ -114,6 +114,7 @@ public class PortTasksPlugin extends Plugin
 
 		if (isBetaWorld && !pluginStarted)
 		{
+			log.info("Starting plugin Port Tasks");
 			pluginStarted = true; // this flag is needed, otherwise the load lines trigger a startup
 			pluginPanel = new PortTasksPluginPanel(this, config);
 
@@ -140,16 +141,23 @@ public class PortTasksPlugin extends Plugin
 			}
 			pluginPanel.rebuild();
 		}
-		else
+		if(event.getGameState() == GameState.LOGIN_SCREEN && pluginStarted)
 		{
-			clientToolbar.removeNavigation(navigationButton);
-			pluginPanel = null;
-			navigationButton = null;
-			overlayManager.remove(sailingHelperWorldOverlay);
-			overlayManager.remove(sailingHelperMapOverlay);
-			overlayManager.remove(sailingHelperMiniMapOverlay);
-			pluginStarted = false;
+			shutDown();
 		}
+	}
+
+	@Override
+	protected void shutDown()
+	{
+		log.info("Stopping Port Tasks");
+		clientToolbar.removeNavigation(navigationButton);
+		pluginPanel = null;
+		navigationButton = null;
+		overlayManager.remove(sailingHelperWorldOverlay);
+		overlayManager.remove(sailingHelperMapOverlay);
+		overlayManager.remove(sailingHelperMiniMapOverlay);
+		pluginStarted = false;
 	}
 
 	@Subscribe
@@ -160,7 +168,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
 			int value = client.getVarbitValue(varbit.getId());
-			log.info("Changed: {} (value {})", varbit.name(), value);
+			log.debug("Changed: {} (value {})", varbit.name(), value);
 
 
 			// we accepted a new task, took cargo, delivered cargo or canceled a task

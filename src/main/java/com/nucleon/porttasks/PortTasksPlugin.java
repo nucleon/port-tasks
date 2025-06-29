@@ -40,6 +40,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameState;
+import net.runelite.api.WorldType;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.VarbitChanged;
@@ -95,54 +96,56 @@ public class PortTasksPlugin extends Plugin
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
 
-	@Override
-	protected void startUp() throws Exception
-	{
-
-		pluginPanel = new PortTasksPluginPanel(this, config);
-
-		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
-
-		navigationButton = NavigationButton.builder()
-				.tooltip(PLUGIN_NAME)
-				.icon(icon)
-				.priority(5)
-				.panel(pluginPanel)
-				.build();
-
-		clientToolbar.addNavigation(navigationButton);
-
-		log.info("Example started!");
-		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
-		{
-			overlayManager.add(sailingHelperMapOverlay);
-			overlayManager.add(sailingHelperMiniMapOverlay);
-		}
-		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
-		{
-			overlayManager.add(sailingHelperWorldOverlay);
-		}
-		pluginPanel.rebuild();
-	}
-
-	@Override
-	protected void shutDown() throws Exception
-	{
-		clientToolbar.removeNavigation(navigationButton);
-		pluginPanel = null;
-		navigationButton = null;
-		overlayManager.remove(sailingHelperWorldOverlay);
-		overlayManager.remove(sailingHelperMapOverlay);
-		overlayManager.remove(sailingHelperMiniMapOverlay);
-
-	}
-
 	@Subscribe
-	public void onGameStateChanged(GameStateChanged gameStateChanged)
+	public void onGameStateChanged(GameStateChanged event)
 	{
-		if (gameStateChanged.getGameState() == GameState.LOGGED_IN)
+		if (event.getGameState() != GameState.LOGGED_IN || client == null)
+		{
+			return;
+		}
+
+		if (event.getGameState() == GameState.LOGGED_IN)
 		{
 			delegate.isLoggedIn = true;
+		}
+
+		boolean isBetaWorld = client.getWorldType().contains(WorldType.BETA_WORLD);
+
+		if (isBetaWorld)
+		{
+			pluginPanel = new PortTasksPluginPanel(this, config);
+
+			final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
+
+			navigationButton = NavigationButton.builder()
+					.tooltip(PLUGIN_NAME)
+					.icon(icon)
+					.priority(5)
+					.panel(pluginPanel)
+					.build();
+
+			clientToolbar.addNavigation(navigationButton);
+
+			if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
+			{
+				overlayManager.add(sailingHelperMapOverlay);
+				overlayManager.add(sailingHelperMiniMapOverlay);
+			}
+
+			if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
+			{
+				overlayManager.add(sailingHelperWorldOverlay);
+			}
+			pluginPanel.rebuild();
+		}
+		else
+		{
+			clientToolbar.removeNavigation(navigationButton);
+			pluginPanel = null;
+			navigationButton = null;
+			overlayManager.remove(sailingHelperWorldOverlay);
+			overlayManager.remove(sailingHelperMapOverlay);
+			overlayManager.remove(sailingHelperMiniMapOverlay);
 		}
 	}
 

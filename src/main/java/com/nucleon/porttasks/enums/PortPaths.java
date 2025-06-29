@@ -125,10 +125,10 @@ public enum PortPaths
 	ARDOUGNE_PORT_KHAZARD(
 		PortLocation.ARDOUGNE,
 		PortLocation.PORT_KHAZARD,
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0)
+		new RelativeMove(5, 0),
+		new RelativeMove(7, -7),
+		new RelativeMove(0, -60),
+		new RelativeMove(6, -6)
 	),
 
 	ARDOUGNE_RUINS_OF_UNKAH(

@@ -317,7 +317,19 @@ public enum PortPaths
 	CATHERBY_RUINS_OF_UNKAH(
 		PortLocation.CATHERBY,
 		PortLocation.RUINS_OF_UNKAH,
-		new RelativeMove(0, 0)
+		new RelativeMove(62, 0),
+		new RelativeMove(20, -20),
+		new RelativeMove(0, -42),
+		new RelativeMove(4, -4),
+		new RelativeMove(0, -105),
+		new RelativeMove(60, -60),
+		new RelativeMove(18, 0),
+		new RelativeMove(14, -14),
+		new RelativeMove(0, -51),
+		new RelativeMove(153, -153),
+		new RelativeMove(0, -131),
+		new RelativeMove(5, -5),
+		new RelativeMove(10, 0)
 	),
 	BRIMHAVEN_ARDOUGNE(
 		PortLocation.BRIMHAVEN,

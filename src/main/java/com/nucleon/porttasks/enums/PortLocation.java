@@ -46,7 +46,7 @@ public enum PortLocation
 	DEEPFIN_POINT("Deepfin Point", new WorldPoint(1932, 2791, 0), new WorldPoint(1926, 2791, 0)),
 	SUNSET_COAST("Sunset Coast", new WorldPoint(1511, 2975, 0), new WorldPoint(1514, 2977, 0)),
 	ALDARIN("Aldarin", new WorldPoint(1452, 2970, 0), new WorldPoint(1448, 2969, 0)),
-	SUMMER_SHORE("Summer Shore", new WorldPoint(3174, 2367, 0), new WorldPoint(3172, 2370, 0)),
+	SUMMER_SHORE("Summer Shore", new WorldPoint(0, 0, 0), new WorldPoint(3172, 2370, 0), new WorldPoint(3174, 2367, 0)),
 	VOID_KNIGHT("Void Knights' Outpost", new WorldPoint(2651, 2678, 0), new WorldPoint(2651, 2673, 0)),
 	PORT_TYRAS("Port Tyras", new WorldPoint(2144, 3120, 0), new WorldPoint(2150, 3123, 0)),
 	PORT_ROBERTS("Port Roberts", new WorldPoint(1871, 3300, 0), new WorldPoint(1863, 3297, 0)),

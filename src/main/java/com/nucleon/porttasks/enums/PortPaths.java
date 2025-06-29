@@ -279,10 +279,13 @@ public enum PortPaths
 	RUINS_OF_UNKAH_SUMMER_SHORE(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.SUMMER_SHORE,
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0),
-		new RelativeMove(0, 0)
+			new RelativeMove(-7, 0),
+			new RelativeMove(0, -31),
+			new RelativeMove(-43, -43),
+			new RelativeMove(0, -110),
+			new RelativeMove(-22, -22),
+			new RelativeMove(0, -207),
+			new RelativeMove(44, -44)
 	),
 	PORT_SARIM_PANDEMONIUM(
 		PortLocation.PORT_SARIM,

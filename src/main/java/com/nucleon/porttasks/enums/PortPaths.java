@@ -132,19 +132,24 @@ public enum PortPaths
 	),
 
 	ARDOUGNE_RUINS_OF_UNKAH(
-		PortLocation.ARDOUGNE,
-		PortLocation.RUINS_OF_UNKAH,
-		new RelativeMove(90, 0),
-		new RelativeMove(38, -38),
-		new RelativeMove(17, 0),
-		new RelativeMove(12, -12),
-		new RelativeMove(90, 0),
-		new RelativeMove(55, -55),
-		new RelativeMove(0, -42),
-		new RelativeMove(121, -121),
-		new RelativeMove(0, -20),
-		new RelativeMove(43, -43),
-		new RelativeMove(0, -104)
+			PortLocation.ARDOUGNE,
+			PortLocation.RUINS_OF_UNKAH,
+
+			new RelativeMove(90, 0),
+			new RelativeMove(34, -34),
+			new RelativeMove(17, 0),
+			new RelativeMove(12, -12),
+
+			new RelativeMove(85, 0),
+			new RelativeMove(55, -55),
+
+			new RelativeMove(0, -42),
+			new RelativeMove(121, -121),
+			new RelativeMove(0, -20),
+			new RelativeMove(43, -43),
+			new RelativeMove(0, -108)
+
+
 	),
 
 	ENTRANA_MUSA_POINT(

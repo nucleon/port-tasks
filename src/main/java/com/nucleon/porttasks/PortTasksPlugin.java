@@ -95,6 +95,7 @@ public class PortTasksPlugin extends Plugin
 	private static final String ICON_FILE = "icon.png";
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
+	private boolean pluginStarted = false;
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
@@ -111,8 +112,9 @@ public class PortTasksPlugin extends Plugin
 
 		boolean isBetaWorld = client.getWorldType().contains(WorldType.BETA_WORLD);
 
-		if (isBetaWorld)
+		if (isBetaWorld && !pluginStarted)
 		{
+			pluginStarted = true; // this flag is needed, otherwise the load lines trigger a startup
 			pluginPanel = new PortTasksPluginPanel(this, config);
 
 			final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
@@ -146,6 +148,7 @@ public class PortTasksPlugin extends Plugin
 			overlayManager.remove(sailingHelperWorldOverlay);
 			overlayManager.remove(sailingHelperMapOverlay);
 			overlayManager.remove(sailingHelperMiniMapOverlay);
+			pluginStarted = false;
 		}
 	}
 

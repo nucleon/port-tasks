@@ -190,7 +190,6 @@ public class PortTasksPlugin extends Plugin
 			if (data != null && value != 0)
 			{
 				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, config.getNavColor(), 0));
-				currentTasks.add(new PortTask(data, trigger.getSlot() + 3, false, 0, true, true, config.getNavColor(), 0));
 				pluginPanel.rebuild();
 			}
 			if (value == 0)

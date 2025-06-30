@@ -41,7 +41,6 @@ import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.WorldType;
 import net.runelite.api.events.GameStateChanged;
-import net.runelite.api.events.GameTick;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -87,8 +86,8 @@ public class PortTasksPlugin extends Plugin
 	private PortTasksMiniMapOverlay sailingHelperMiniMapOverlay;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
+
 	private int[] varPlayers;
-	private int varPlayerReadDelay = 5;
 	private PortTasksPluginPanel pluginPanel;
 	private NavigationButton navigationButton;
 	private static final String PLUGIN_NAME = "Port Tasks";
@@ -119,7 +118,6 @@ public class PortTasksPlugin extends Plugin
 			pluginPanel = new PortTasksPluginPanel(this, config);
 
 			final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
-
 			navigationButton = NavigationButton.builder()
 					.tooltip(PLUGIN_NAME)
 					.icon(icon)
@@ -128,10 +126,10 @@ public class PortTasksPlugin extends Plugin
 					.build();
 
 			clientToolbar.addNavigation(navigationButton);
-
 			registerOverlays();
 			pluginPanel.rebuild();
 		}
+
 		if (event.getGameState() == GameState.LOGIN_SCREEN && pluginStarted)
 		{
 			shutDown();
@@ -145,10 +143,10 @@ public class PortTasksPlugin extends Plugin
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
+		pluginStarted = false;
 		overlayManager.remove(sailingHelperWorldOverlay);
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(sailingHelperMiniMapOverlay);
-		pluginStarted = false;
 	}
 
 	@Subscribe
@@ -168,30 +166,11 @@ public class PortTasksPlugin extends Plugin
 	@Subscribe
 	public void onVarbitChanged(VarbitChanged event)
 	{
-		// Check if the varbit changed is in our triggers
 		if (PortTaskTrigger.contains(event.getVarbitId()))
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
 			int value = client.getVarbitValue(varbit.getId());
-			log.debug("Changed: {} (value {})", varbit.name(), value);
-
-
-			// we accepted a new task, took cargo, delivered cargo or canceled a task
 			handlePortTaskTrigger(varbit, value);
-		}
-	}
-
-	@Subscribe
-	public void onGameTick(GameTick event)
-	{
-		if (varPlayerReadDelay > 0)
-		{
-			varPlayerReadDelay--;
-		}
-		else if (varPlayerReadDelay == 0)
-		{
-			//readPortDataFromClientVarps();
-			varPlayerReadDelay = -1;
 		}
 	}
 
@@ -203,7 +182,6 @@ public class PortTasksPlugin extends Plugin
 
 	private void handlePortTaskTrigger(PortTaskTrigger trigger, int value)
 	{
-		// we need to handle the other trigger types, like taken, delivered, and value = 0 is canceled
 		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 		{
 			log.debug("Changed: {} (value {})", trigger, value);
@@ -219,6 +197,7 @@ public class PortTasksPlugin extends Plugin
 				pluginPanel.rebuild();
 			}
 		}
+
 		if (trigger.getType() == PortTaskTrigger.TaskType.TAKEN)
 		{
 			int slot = trigger.getSlot();
@@ -233,6 +212,7 @@ public class PortTasksPlugin extends Plugin
 			}
 			pluginPanel.rebuild(); // Refresh UI if necessary
 		}
+
 		if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
 		{
 			int slot = trigger.getSlot();

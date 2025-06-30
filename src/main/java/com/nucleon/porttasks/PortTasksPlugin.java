@@ -31,7 +31,6 @@ import com.google.inject.Provides;
 import javax.inject.Inject;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
 import com.nucleon.porttasks.enums.PortTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
 import com.nucleon.porttasks.ui.PortTasksPluginPanel;
@@ -84,6 +83,8 @@ public class PortTasksPlugin extends Plugin
 	private PortTasksWorldOverlay sailingHelperWorldOverlay;
 	@Inject
 	private PortTasksMiniMapOverlay sailingHelperMiniMapOverlay;
+	@Inject
+	private PortTasksLedgerOverlay portTasksLedgerOverlay;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
 
@@ -146,7 +147,7 @@ public class PortTasksPlugin extends Plugin
 		pluginStarted = false;
 		overlayManager.remove(sailingHelperWorldOverlay);
 		overlayManager.remove(sailingHelperMapOverlay);
-		overlayManager.remove(sailingHelperMiniMapOverlay);
+		overlayManager.remove(portTasksLedgerOverlay);
 	}
 
 	@Subscribe
@@ -158,7 +159,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			overlayManager.remove(sailingHelperWorldOverlay);
 			overlayManager.remove(sailingHelperMapOverlay);
-			overlayManager.remove(sailingHelperMiniMapOverlay);
+			overlayManager.remove(portTasksLedgerOverlay);
 			registerOverlays();
 		}
 	}
@@ -206,11 +207,11 @@ public class PortTasksPlugin extends Plugin
 			{
 				if (task.getSlot() == slot)
 				{
-					task.setCargoTaken(value); // Update the cargoTaken value
+					task.setCargoTaken(value);
 					break;
 				}
 			}
-			pluginPanel.rebuild(); // Refresh UI if necessary
+			pluginPanel.rebuild();
 		}
 
 		if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
@@ -221,11 +222,11 @@ public class PortTasksPlugin extends Plugin
 			{
 				if (task.getSlot() == slot)
 				{
-					task.setDelivered(value); // Update the cargoTaken value
+					task.setDelivered(value);
 					break;
 				}
 			}
-			pluginPanel.rebuild(); // Refresh UI if necessary
+			pluginPanel.rebuild();
 		}
 	}
 
@@ -259,13 +260,13 @@ public class PortTasksPlugin extends Plugin
 		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
 		{
 			overlayManager.add(sailingHelperMapOverlay);
-			overlayManager.add(sailingHelperMiniMapOverlay);
 		}
 
 		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
 		{
 			overlayManager.add(sailingHelperWorldOverlay);
 		}
+		overlayManager.add(portTasksLedgerOverlay);
 	}
 
 	public void saveSlotSettings()

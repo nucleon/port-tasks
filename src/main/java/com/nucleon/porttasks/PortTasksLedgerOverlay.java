@@ -36,7 +36,9 @@ import javax.inject.Inject;
 import com.nucleon.porttasks.gameval.LedgerID;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
+import net.runelite.api.ObjectComposition;
 import net.runelite.api.Perspective;
+import net.runelite.api.Point;
 import net.runelite.api.Tile;
 
 import net.runelite.client.ui.overlay.Overlay;
@@ -47,28 +49,28 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 
 class PortTasksLedgerOverlay extends Overlay
 {
-private final Client client;
-private final PortTasksPlugin plugin;
-private final PortTasksConfig config;
+	private final Client client;
+	private final PortTasksPlugin plugin;
+	private final PortTasksConfig config;
 
-@Inject
-private PortTasksLedgerOverlay(Client client, PortTasksPlugin plugin, PortTasksConfig config)
-{
-	this.client = client;
-	this.plugin = plugin;
-	this.config = config;
+	@Inject
+	private PortTasksLedgerOverlay(Client client, PortTasksPlugin plugin, PortTasksConfig config)
+	{
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
 
-	setPosition(OverlayPosition.DYNAMIC);
-	setPriority(PRIORITY_HIGHEST);
-	setLayer(OverlayLayer.UNDER_WIDGETS);
-}
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.UNDER_WIDGETS);
+	}
 
-@Override
-public Dimension render(Graphics2D graphics)
-{
-	renderOverlay(graphics);
-	return null;
-}
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		renderOverlay(graphics);
+		return null;
+	}
 
 	private void renderOverlay(Graphics2D g)
 	{
@@ -94,48 +96,58 @@ public Dimension render(Graphics2D graphics)
 			}
 
 			Tile[][][] sceneTiles = client.getTopLevelWorldView().getScene().getTiles();
-			for (int plane = 0; plane < sceneTiles.length; plane++)
+			for (Tile[][] sceneTile : sceneTiles)
 			{
-				for (int x = 0; x < sceneTiles[plane].length; x++)
+				for (int x = 0; x < sceneTile.length; x++)
 				{
-					for (int y = 0; y < sceneTiles[plane][x].length; y++)
+					for (int y = 0; y < sceneTile[x].length; y++)
 					{
-						Tile tile = sceneTiles[plane][x][y];
+						Tile tile = sceneTile[x][y];
 						if (tile == null)
 						{
 							continue;
 						}
 
-						for (GameObject gameObject : tile.getGameObjects())
+						for (GameObject object : tile.getGameObjects())
 						{
-							if (gameObject == null)
+							if (object == null)
 							{
 								continue;
 							}
 
-							int objectId = gameObject.getId();
+							int objectId = object.getId();
 
-							if (objectId == pickupLedgerObjectID && cargoTakenFromLedger < cargoRequired)
+							boolean isPickup = objectId == pickupLedgerObjectID && cargoTakenFromLedger < cargoRequired;
+							boolean isDelivery = objectId == deliveryLedgerObjectID && cargoDeliveredToLedger < cargoRequired;
+
+							if (!isPickup && !isDelivery)
 							{
-								renderObjectOverlay(g, gameObject, Color.YELLOW);
+								continue;
 							}
-							else if (objectId == deliveryLedgerObjectID && cargoDeliveredToLedger < cargoRequired)
+
+							ObjectComposition comp = client.getObjectDefinition(objectId);
+							int sizeX = comp.getSizeX();
+
+							Polygon poly = Perspective.getCanvasTileAreaPoly(client, object.getLocalLocation(), sizeX);
+							if (poly != null)
 							{
-								renderObjectOverlay(g, gameObject, Color.CYAN);
+								Color color = isPickup ? Color.YELLOW : Color.CYAN;
+								OverlayUtil.renderPolygon(g, poly, color);
+							}
+
+							String label = isPickup
+									? String.format("Cargo: %d/%d", cargoTakenFromLedger, cargoRequired)
+									: String.format("Delivered: %d/%d", cargoDeliveredToLedger, cargoRequired);
+
+							Point textLocation = Perspective.getCanvasTextLocation(client, g, object.getLocalLocation(), label, 0);
+							if (textLocation != null)
+							{
+								OverlayUtil.renderTextLocation(g, textLocation, label, Color.WHITE);
 							}
 						}
 					}
 				}
 			}
-		}
-	}
-
-	private void renderObjectOverlay(Graphics2D g, GameObject object, Color color)
-	{
-		Polygon poly = Perspective.getCanvasTilePoly(client, object.getLocalLocation());
-		if (poly != null)
-		{
-			OverlayUtil.renderPolygon(g, poly, color);
 		}
 	}
 }

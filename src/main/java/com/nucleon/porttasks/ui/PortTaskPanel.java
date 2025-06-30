@@ -26,6 +26,7 @@
  */
 package com.nucleon.porttasks.ui;
 
+import com.nucleon.porttasks.gameval.ItemID;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTask;
@@ -203,8 +204,8 @@ public class PortTaskPanel extends JPanel
 		destinationWrapper.add(destinationLabel, BorderLayout.WEST);
 		destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
 
+		portSlotWrapper.add(noticeWrapper);
 		portSlotWrapper.add(cargoWrapper);
-		//portSlotWrapper.add(noticeWrapper);
 		portSlotWrapper.add(destinationWrapper);
 
 		PortTaskSlotContainer.setLayout(new BorderLayout());
@@ -268,7 +269,8 @@ public class PortTaskPanel extends JPanel
 
 		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
 		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
-		noticeLabel.setText("Item ID: " + portTask.getData().cargo); //todo: get actual item name from itemmanager after beta
+		noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + ItemID.getNameById(portTask.getData().cargo));
+
 
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");

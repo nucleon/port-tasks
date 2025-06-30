@@ -2,11 +2,11 @@
 
 Tired of getting lost between ports? With support for over 70 courier tasks in the Sailing Beta, delivering pirate looty in the high seas of Old School RuneScape has never been easier.
 
-Hey, Forgetting Cargo? This plugin automatically tracks your current Port Tasks!
+This plugin automatically tracks your current Port Tasks!
 
 ![Sidebar Panel](docs/plugin_panel.png)
 
-We understand you can't always look at the panel, so this plugin also helps you find the ledgers, they are always hiding.
+We understand you can't always look at the panel, so this plugin also helps you find the ledgers. <br>Port Tasks can share ledgers, so we show that too!
 
 ![Ledger Overlays1](docs/ledger_cargo_overlay.png) ![Ledger Overlays2](docs/ledger_delivery_overlay.png)
 

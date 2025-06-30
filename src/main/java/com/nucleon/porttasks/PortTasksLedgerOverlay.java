@@ -26,10 +26,15 @@
  */
 package com.nucleon.porttasks;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -74,13 +79,16 @@ class PortTasksLedgerOverlay extends Overlay
 
 	private void renderOverlay(Graphics2D g)
 	{
+		// we need to track if a port courier task is sharing a ledger for delivery or cargo
+		Map<Integer, List<PortTask>> ledgerUsageMap = new HashMap<>();
+		// we need to store a reference to an objectid and an overlay
+		Map<Integer, Integer> overlayCount = new HashMap<>();
+
+		//  looping through all the port tasks currently assigned
 		for (PortTask task : plugin.currentTasks)
-		{
+		{	// get the port locations and check them against the ledger port locations in our LedgerID enum
 			String cargoPickupLocation = task.getData().getCargoLocation().getName();
 			String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
-			int cargoTakenFromLedger = task.getCargoTaken();
-			int cargoDeliveredToLedger = task.getDelivered();
-			int cargoRequired = task.getData().getCargoAmount();
 
 			Integer pickupLedgerObjectID = LedgerID.containsName(cargoPickupLocation)
 					? LedgerID.getObjectIdByName(cargoPickupLocation)
@@ -89,52 +97,76 @@ class PortTasksLedgerOverlay extends Overlay
 			Integer deliveryLedgerObjectID = LedgerID.containsName(cargoDeliveryLocation)
 					? LedgerID.getObjectIdByName(cargoDeliveryLocation)
 					: null;
-
-			if (pickupLedgerObjectID == null || deliveryLedgerObjectID == null)
+			// store a reference to them in the map, so we can render
+			// multicolored overlays for shared ledgers in port tasks
+			if (pickupLedgerObjectID != null)
 			{
-				continue;
+				ledgerUsageMap.computeIfAbsent(pickupLedgerObjectID, k -> new ArrayList<>()).add(task);
 			}
-
-			Tile[][][] sceneTiles = client.getTopLevelWorldView().getScene().getTiles();
-			for (Tile[][] sceneTile : sceneTiles)
+			if (deliveryLedgerObjectID != null)
 			{
-				for (int x = 0; x < sceneTile.length; x++)
+				ledgerUsageMap.computeIfAbsent(deliveryLedgerObjectID, k -> new ArrayList<>()).add(task);
+			}
+		}
+
+		// loop through the scene, find the ledger object
+		Tile[][][] sceneTiles = client.getTopLevelWorldView().getScene().getTiles();
+		for (Tile[][] sceneTile : sceneTiles)
+		{
+			for (Tile[] tiles : sceneTile)
+			{
+				for (Tile tile : tiles)
 				{
-					for (int y = 0; y < sceneTile[x].length; y++)
+					if (tile == null)
 					{
-						Tile tile = sceneTile[x][y];
-						if (tile == null)
+						continue;
+					}
+
+					for (GameObject object : tile.getGameObjects())
+					{
+						if (object == null)
+						{
+							continue;
+						}
+						// if the ledger in this scene isn't a ledger with a port task, escape
+						int objectId = object.getId();
+						List<PortTask> tasksAtLedger = ledgerUsageMap.get(objectId);
+						if (tasksAtLedger == null || tasksAtLedger.isEmpty())
 						{
 							continue;
 						}
 
-						for (GameObject object : tile.getGameObjects())
+						ObjectComposition comp = client.getObjectDefinition(objectId);
+						int size = comp.getSizeX();
+
+						Polygon poly = Perspective.getCanvasTileAreaPoly(client, object.getLocalLocation(), size);
+						if (poly != null)
+						{	// we stored the tasks that are using this ledger,
+							// so we can draw a dynamic tile
+							Color[] colors = getOverlayColors(tasksAtLedger);
+							renderMultiColoredSquare(g, poly, colors);
+						}
+						// loop through the tasks at this ledger object, get the cargo information and render a text overlay
+						// for more than one task, store them in a overlayCount map and stack the text
+						int offsetIndex = overlayCount.getOrDefault(objectId, 0);
+						for (PortTask task : tasksAtLedger)
 						{
-							if (object == null)
-							{
-								continue;
-							}
+							String cargoPickupLocation = task.getData().getCargoLocation().getName();
+							String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
+							int cargoTakenFromLedger = task.getCargoTaken();
+							int cargoDeliveredToLedger = task.getDelivered();
+							int cargoRequired = task.getData().getCargoAmount();
 
-							int objectId = object.getId();
-
-							boolean isPickup = objectId == pickupLedgerObjectID && cargoTakenFromLedger < cargoRequired;
-							boolean isDelivery = objectId == deliveryLedgerObjectID && cargoDeliveredToLedger < cargoRequired;
+							Integer pickupId = LedgerID.getObjectIdByName(cargoPickupLocation);
+							Integer deliveryId = LedgerID.getObjectIdByName(cargoDeliveryLocation);
+							boolean isPickup = pickupId != null && objectId == pickupId && cargoTakenFromLedger < cargoRequired;
+							boolean isDelivery = deliveryId != null && objectId == deliveryId && cargoDeliveredToLedger < cargoRequired;
 
 							if (!isPickup && !isDelivery)
 							{
 								continue;
 							}
-
-							ObjectComposition comp = client.getObjectDefinition(objectId);
-							int sizeX = comp.getSizeX();
-
-							Polygon poly = Perspective.getCanvasTileAreaPoly(client, object.getLocalLocation(), sizeX);
-							if (poly != null)
-							{
-								Color color = isPickup ? Color.YELLOW : Color.CYAN;
-								OverlayUtil.renderPolygon(g, poly, color);
-							}
-
+							// so we know it's either a pickup or delivery, display the data of either
 							String label = isPickup
 									? String.format("Cargo: %d/%d", cargoTakenFromLedger, cargoRequired)
 									: String.format("Delivered: %d/%d", cargoDeliveredToLedger, cargoRequired);
@@ -142,12 +174,63 @@ class PortTasksLedgerOverlay extends Overlay
 							Point textLocation = Perspective.getCanvasTextLocation(client, g, object.getLocalLocation(), label, 0);
 							if (textLocation != null)
 							{
-								OverlayUtil.renderTextLocation(g, textLocation, label, Color.WHITE);
+								int yOffset = 15 * offsetIndex;
+								Point raisedLocation = new Point(textLocation.getX(), textLocation.getY() - yOffset);
+								OverlayUtil.renderTextLocation(g, raisedLocation, label, Color.WHITE);
+								offsetIndex++;
 							}
 						}
+						// +1 overlay on this ledger object
+						overlayCount.put(objectId, offsetIndex);
 					}
 				}
 			}
 		}
+	}
+
+	private void renderMultiColoredSquare(Graphics2D g, Polygon poly, Color... colors)
+	{
+		if (poly == null || poly.npoints < 2 || colors.length == 0)
+		{
+			return;
+		}
+
+		g.setColor(new Color(0, 0, 0, 50));
+		g.fillPolygon(poly);
+
+		int nPoints = poly.npoints;
+		int edgesPerColor = nPoints / colors.length;
+		int remainder = nPoints % colors.length;
+
+		int edgeIndex = 0;
+		for (int colorIndex = 0; colorIndex < colors.length; colorIndex++)
+		{
+			int count = edgesPerColor + (colorIndex < remainder ? 1 : 0);
+			g.setColor(colors[colorIndex]);
+			g.setStroke(new BasicStroke(2));
+
+			for (int i = 0; i < count; i++, edgeIndex++)
+			{
+				int p1 = edgeIndex % nPoints;
+				int p2 = (edgeIndex + 1) % nPoints;
+
+				int x1 = poly.xpoints[p1];
+				int y1 = poly.ypoints[p1];
+				int x2 = poly.xpoints[p2];
+				int y2 = poly.ypoints[p2];
+
+				g.drawLine(x1, y1, x2, y2);
+			}
+		}
+	}
+
+	private Color[] getOverlayColors(List<PortTask> tasks)
+	{
+		Color[] colors = new Color[tasks.size()];
+		for (int i = 0; i < tasks.size(); i++)
+		{
+			colors[i] = tasks.get(i).getOverlayColor();
+		}
+		return colors;
 	}
 }

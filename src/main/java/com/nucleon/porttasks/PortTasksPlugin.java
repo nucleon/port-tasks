@@ -38,9 +38,11 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.events.VarbitChanged;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
@@ -82,7 +84,10 @@ public class PortTasksPlugin extends Plugin
 	private PortTasksLedgerOverlay portTasksLedgerOverlay;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
-
+	@Inject
+	private ClientThread clientThread;
+	@Inject
+	private ItemManager itemManager;
 	private int[] varPlayers;
 	private PortTasksPluginPanel pluginPanel;
 	private NavigationButton navigationButton;
@@ -95,7 +100,7 @@ public class PortTasksPlugin extends Plugin
 	protected void startUp()
 	{
 		log.info("Starting plugin Port Tasks");
-		pluginPanel = new PortTasksPluginPanel(this, config);
+		pluginPanel = new PortTasksPluginPanel(this, clientThread, itemManager, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 		navigationButton = NavigationButton.builder()

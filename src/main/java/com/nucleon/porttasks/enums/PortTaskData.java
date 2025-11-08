@@ -365,10 +365,7 @@ public enum PortTaskData
 		this.cargoAmount = cargoAmount;
 	}
 
-	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, String taskName, int cargo, int cargoAmount)
-	{
-		this(id, noticeBoard, cargoLocation, deliveryLocation, null, false, taskName, cargo, cargoAmount);
-	}
+
 
 	public PortLocation getCargoLocation()
 	{

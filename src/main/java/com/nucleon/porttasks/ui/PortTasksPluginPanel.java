@@ -36,6 +36,8 @@ import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.ui.adapters.ReloadPortTasks;
 
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
@@ -60,6 +62,8 @@ public class PortTasksPluginPanel extends PluginPanel
 		public final PortTasksPlugin plugin;
 		private final PortTasksConfig config;
 		private final JPanel markerView = new JPanel();
+		private ClientThread clientThread;
+		private ItemManager itemManager;
 
 		static
 		{
@@ -67,11 +71,12 @@ public class PortTasksPluginPanel extends PluginPanel
 			RELOAD_ICON = new ImageIcon(addIcon);
 		}
 
-		public PortTasksPluginPanel(PortTasksPlugin plugin, PortTasksConfig config)
+		public PortTasksPluginPanel(PortTasksPlugin plugin, ClientThread clientThread, ItemManager itemManager, PortTasksConfig config)
 		{
 			this.plugin = plugin;
 			this.config = config;
-
+			this.clientThread = clientThread;
+			this.itemManager = itemManager;
 			setLayout(new BorderLayout());
 			setBorder(new EmptyBorder(10, 10, 10, 10));
 			setupErrorPanel(true);
@@ -119,7 +124,7 @@ public class PortTasksPluginPanel extends PluginPanel
 			List<PortTask> currentTasks = plugin.getCurrentTasks();
 			for (PortTask task : currentTasks)
 			{
-				markerView.add(new PortTaskPanel(plugin, task, task.getSlot()));
+				markerView.add(new PortTaskPanel(plugin, task, clientThread, itemManager, task.getSlot()));
 				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
 			}
 			if (currentTasks.isEmpty())

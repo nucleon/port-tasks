@@ -31,7 +31,6 @@ import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTask;
 import com.nucleon.porttasks.PortTasksPlugin;
 
-import javax.inject.Inject;
 import net.runelite.api.ItemComposition;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.game.ItemManager;
@@ -58,10 +57,8 @@ import java.awt.image.BufferedImage;
 public class PortTaskPanel extends JPanel
 {
 	public final PortTasksPlugin plugin;
-	@Inject
-	private ClientThread clientThread;
-	@Inject
-	private ItemManager itemManager;
+	private final ClientThread clientThread;
+	private final ItemManager itemManager;
 
 	private static final Border NAME_BOTTOM_BORDER = new CompoundBorder(
 			BorderFactory.createMatteBorder(0, 0, 1, 0, ColorScheme.DARK_GRAY_COLOR),
@@ -123,11 +120,12 @@ public class PortTaskPanel extends JPanel
 		PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
 	}
 
-	public PortTaskPanel(PortTasksPlugin plugin, PortTask portTask, int slot)
+	public PortTaskPanel(PortTasksPlugin plugin, PortTask portTask, ClientThread clientThread, ItemManager itemManager, int slot)
 	{
 		this.plugin = plugin;
 		this.portTask = portTask;
-
+		this.clientThread = clientThread;
+		this.itemManager = itemManager;
 		setLayout(new BorderLayout());
 		setBackground(ColorScheme.DARKER_GRAY_COLOR);
 		setBorder(new EmptyBorder(0, 0, 0, 0));

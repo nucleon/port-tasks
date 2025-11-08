@@ -54,7 +54,6 @@ public enum PortLocation
 	HOSIDIUS("Hosidius", new WorldPoint(1726, 3452, 0), new WorldPoint(1724, 3461, 0)),
 	CIVITAS_ILLA_FORTIS("Civitas illa Fortis", new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0)),
 	PORT_PISCARILIUS("Port Piscarilius", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	VOID_KNIGHTS_OUTPOST("Void Knights' Outpost", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
 	CAIRN_ISLE("Cairn Isle", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
 	PRIFDDINAS("Prifddinas", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
 	PISCATORIS("Piscatoris", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),

@@ -91,7 +91,7 @@ public class PortTasksPlugin extends Plugin
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
 
-	@Subscribe
+	@Override
 	protected void startUp()
 	{
 		log.info("Starting plugin Port Tasks");

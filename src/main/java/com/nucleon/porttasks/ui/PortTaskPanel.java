@@ -33,6 +33,7 @@ import com.nucleon.porttasks.PortTasksPlugin;
 
 import javax.inject.Inject;
 import net.runelite.api.ItemComposition;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
@@ -57,6 +58,10 @@ import java.awt.image.BufferedImage;
 public class PortTaskPanel extends JPanel
 {
 	public final PortTasksPlugin plugin;
+	@Inject
+	private ClientThread clientThread;
+	@Inject
+	private ItemManager itemManager;
 
 	private static final Border NAME_BOTTOM_BORDER = new CompoundBorder(
 			BorderFactory.createMatteBorder(0, 0, 1, 0, ColorScheme.DARK_GRAY_COLOR),
@@ -271,15 +276,14 @@ public class PortTaskPanel extends JPanel
 
 		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
 		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
-		final ItemComposition cargoComposition = itemManager.getItemComposition(portTask.getData().cargo);
-		noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
-
-
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");
 		noticeLabel.setToolTipText("Cargo Item Needed");
+		clientThread.invokeLater(() ->
+		{
+			final ItemComposition cargoComposition = itemManager.getItemComposition(portTask.getData().cargo);
+			noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
+		});
 	}
-
-
 
 }

@@ -38,7 +38,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.nucleon.porttasks.gameval.LedgerID;
+import com.nucleon.porttasks.enums.LedgerID;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.ObjectComposition;

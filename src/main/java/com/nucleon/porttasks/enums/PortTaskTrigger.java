@@ -28,8 +28,7 @@ package com.nucleon.porttasks.enums;
 
 import java.util.HashMap;
 import java.util.Map;
-// todo: replace with net.runelite.api.gameval.VarbitID when released
-import com.nucleon.porttasks.gameval.VarbitID;
+import net.runelite.api.gameval.VarbitID;
 
 public enum PortTaskTrigger
 {

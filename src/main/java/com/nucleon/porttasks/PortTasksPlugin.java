@@ -37,9 +37,6 @@ import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.GameState;
-import net.runelite.api.WorldType;
-import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -60,8 +57,6 @@ import java.util.List;
 )
 public class PortTasksPlugin extends Plugin
 {
-	@Inject
-	private PortTasksDelegate delegate;
 	@Inject
 	private Client client;
 	@Inject
@@ -95,46 +90,24 @@ public class PortTasksPlugin extends Plugin
 	private static final String ICON_FILE = "icon.png";
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
-	private boolean pluginStarted = false;
 
 	@Subscribe
-	public void onGameStateChanged(GameStateChanged event)
+	protected void startUp()
 	{
-		if (event.getGameState() != GameState.LOGGED_IN || client == null)
-		{
-			return;
-		}
+		log.info("Starting plugin Port Tasks");
+		pluginPanel = new PortTasksPluginPanel(this, config);
 
-		if (event.getGameState() == GameState.LOGGED_IN)
-		{
-			delegate.isLoggedIn = true;
-		}
+		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
+		navigationButton = NavigationButton.builder()
+				.tooltip(PLUGIN_NAME)
+				.icon(icon)
+				.priority(5)
+				.panel(pluginPanel)
+				.build();
 
-		boolean isBetaWorld = client.getWorldType().contains(WorldType.BETA_WORLD);
-
-		if (isBetaWorld && !pluginStarted)
-		{
-			log.info("Starting plugin Port Tasks");
-			pluginStarted = true; // this flag is needed, otherwise the load lines trigger a startup
-			pluginPanel = new PortTasksPluginPanel(this, config);
-
-			final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
-			navigationButton = NavigationButton.builder()
-					.tooltip(PLUGIN_NAME)
-					.icon(icon)
-					.priority(5)
-					.panel(pluginPanel)
-					.build();
-
-			clientToolbar.addNavigation(navigationButton);
-			registerOverlays();
-			pluginPanel.rebuild();
-		}
-
-		if (event.getGameState() == GameState.LOGIN_SCREEN && pluginStarted)
-		{
-			shutDown();
-		}
+		clientToolbar.addNavigation(navigationButton);
+		registerOverlays();
+		pluginPanel.rebuild();
 	}
 
 	@Override
@@ -144,12 +117,12 @@ public class PortTasksPlugin extends Plugin
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
-		pluginStarted = false;
 		overlayManager.remove(sailingHelperWorldOverlay);
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(portTasksLedgerOverlay);
 	}
 
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onConfigChanged(final ConfigChanged event)
 	{
@@ -164,6 +137,7 @@ public class PortTasksPlugin extends Plugin
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onVarbitChanged(VarbitChanged event)
 	{
@@ -175,6 +149,7 @@ public class PortTasksPlugin extends Plugin
 		}
 	}
 
+	@SuppressWarnings("unused")
 	@Provides
 	PortTasksConfig provideConfig(ConfigManager configManager)
 	{

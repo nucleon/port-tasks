@@ -26,12 +26,14 @@
  */
 package com.nucleon.porttasks.ui;
 
-import com.nucleon.porttasks.gameval.ItemID;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTask;
 import com.nucleon.porttasks.PortTasksPlugin;
 
+import javax.inject.Inject;
+import net.runelite.api.ItemComposition;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
@@ -269,7 +271,8 @@ public class PortTaskPanel extends JPanel
 
 		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
 		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
-		noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + ItemID.getNameById(portTask.getData().cargo));
+		final ItemComposition cargoComposition = itemManager.getItemComposition(portTask.getData().cargo);
+		noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
 
 
 		cargoLabel.setToolTipText("Cargo Location");

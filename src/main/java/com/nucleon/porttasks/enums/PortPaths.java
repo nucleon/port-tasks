@@ -617,7 +617,9 @@ public enum PortPaths
 	),
 	ETCETERIA_RELLEKKA(
 		PortLocation.ETCETERIA,
-		PortLocation.RELLEKKA
+		PortLocation.RELLEKKA,
+		new RelativeMove(0, -10),
+		new RelativeMove(18, -18)
 	),
 	NEITIZNOT_RELLEKKA(
 		PortLocation.NEITIZNOT,

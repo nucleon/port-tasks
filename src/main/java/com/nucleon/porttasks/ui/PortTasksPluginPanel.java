@@ -54,6 +54,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -168,7 +170,10 @@ public class PortTasksPluginPanel extends PluginPanel
 			developerPanel.setBorder(new EmptyBorder(2, 2, 2, 2));
 
 			JComboBox<String> portPathDropdown = new JComboBox<>();
-			for (PortPaths path : PortPaths.values())
+			PortPaths[] paths = PortPaths.values();
+			Arrays.sort(paths, Comparator.comparing(Enum::name));
+
+			for (PortPaths path : paths)
 			{
 				portPathDropdown.addItem(path.name());
 			}

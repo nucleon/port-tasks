@@ -615,8 +615,8 @@ public enum PortPaths
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PRIFDDINAS
 	),
-	ECETERIA_RELLEKKA(
-		PortLocation.ECETERIA,
+	ETCETERIA_RELLEKKA(
+		PortLocation.ETCETERIA,
 		PortLocation.RELLEKKA
 	),
 	NEITIZNOT_RELLEKKA(
@@ -643,32 +643,32 @@ public enum PortPaths
 		PortLocation.PORT_TYRAS,
 		PortLocation.RELLEKKA
 	),
-	ECETERIA_JATIZO(
-		PortLocation.ECETERIA,
+	ETCETERIA_JATIZO(
+		PortLocation.ETCETERIA,
 		PortLocation.JATIZO
 	),
-	ECETERIA_PORT_ROBERTS(
-		PortLocation.ECETERIA,
+	ETCETERIA_PORT_ROBERTS(
+		PortLocation.ETCETERIA,
 		PortLocation.PORT_ROBERTS
 	),
-	ECETERIA_PORT_PISCARILIUS(
-		PortLocation.ECETERIA,
+	ETCETERIA_PORT_PISCARILIUS(
+		PortLocation.ETCETERIA,
 		PortLocation.PORT_PISCARILIUS
 	),
-	ECETERIA_NEITIZNOT(
-		PortLocation.ECETERIA,
+	ETCETERIA_NEITIZNOT(
+		PortLocation.ETCETERIA,
 		PortLocation.NEITIZNOT
 	),
-	ECETERIA_SUNSET_COAST(
-		PortLocation.ECETERIA,
+	ETCETERIA_SUNSET_COAST(
+		PortLocation.ETCETERIA,
 		PortLocation.SUNSET_COAST
 	),
-	ECETERIA_PISCATORIS(
-		PortLocation.ECETERIA,
+	ETCETERIA_PISCATORIS(
+		PortLocation.ETCETERIA,
 		PortLocation.PISCATORIS
 	),
-	ECETERIA_HOSIDIUS(
-		PortLocation.ECETERIA,
+	ETCETERIA_HOSIDIUS(
+		PortLocation.ETCETERIA,
 		PortLocation.HOSIDIUS
 	),
 	LUNAR_ISLE_PISCATORIS(
@@ -799,9 +799,9 @@ public enum PortPaths
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.RELLEKKA
 	),
-	DEEPFIN_POINT_ECETERIA(
+	DEEPFIN_POINT_ETCETERIA(
 		PortLocation.DEEPFIN_POINT,
-		PortLocation.ECETERIA
+		PortLocation.ETCETERIA
 	),
 	;
 

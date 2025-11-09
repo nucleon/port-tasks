@@ -53,21 +53,21 @@ public enum PortLocation
 	LANDS_END("Land's End", new WorldPoint(1506, 3402, 0), new WorldPoint(1505, 3407, 0)),
 	HOSIDIUS("Hosidius", new WorldPoint(1726, 3452, 0), new WorldPoint(1724, 3461, 0)),
 	CIVITAS_ILLA_FORTIS("Civitas illa Fortis", new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0)),
-	PORT_PISCARILIUS("Port Piscarilius", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	CAIRN_ISLE("Cairn Isle", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	PRIFDDINAS("Prifddinas", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	PISCATORIS("Piscatoris", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	LUNAR_ISLE("Lunar Isle", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	RELLEKKA("Rellekka", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	JATIZO("Jatizo", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	ECETERIA("Eceteria", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	NEITIZNOT("Neitiznot", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
-	EMPTY("Default", new WorldPoint(0, 0, 0), new WorldPoint(0, 0, 0)),
+	PORT_PISCARILIUS("Port Piscarilius", new WorldPoint(1845, 3681, 0)),
+	CAIRN_ISLE("Cairn Isle", new WorldPoint(2745, 2952, 0)),
+	PRIFDDINAS("Prifddinas", new WorldPoint(2158, 3319, 0)),
+	PISCATORIS("Piscatoris", new WorldPoint(2300, 3689, 0)),
+	LUNAR_ISLE("Lunar Isle", new WorldPoint(2157, 3881, 0)),
+	RELLEKKA("Rellekka", new WorldPoint(2630, 3709, 0)),
+	JATIZO("Jatizo", new WorldPoint(2412, 3776, 0)),
+	ETCETERIA("Etceteria", new WorldPoint(2612, 3836, 0)),
+	NEITIZNOT("Neitiznot", new WorldPoint(2302, 3782, 0)),
+	EMPTY("Default", new WorldPoint(0,0 ,0)),
 	;
 
 	private final String name;
-	private final WorldPoint worldPoint;
-	private final WorldPoint cargoLocation;
+	private final WorldPoint gangplankLocation;
+	private final WorldPoint noticeBoardLocation;
 	private final WorldPoint navigationLocation;
 
 	// temp constructor until navigation location is added for all ports
@@ -75,11 +75,17 @@ public enum PortLocation
 	{
 		this(name, worldPoint, cargoLocation, null);
 	}
-	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation, WorldPoint navigationLocation)
+
+	PortLocation(String name, WorldPoint navigationLocation)
+	{
+		this(name, null, null, navigationLocation);
+	}
+
+	PortLocation(String name, WorldPoint gangplankLocation, WorldPoint noticeBoardLocation, WorldPoint navigationLocation)
 	{
 		this.name = name;
-		this.worldPoint = worldPoint;
-		this.cargoLocation = cargoLocation;
+		this.gangplankLocation = gangplankLocation;
+		this.noticeBoardLocation = noticeBoardLocation;
 		this.navigationLocation = navigationLocation;
 	}
 	public String getName()
@@ -87,14 +93,14 @@ public enum PortLocation
 		return name;
 	}
 
-	public WorldPoint getWorldPoint()
+	public WorldPoint getGangplankLocation()
 	{
-		return worldPoint;
+		return gangplankLocation;
 	}
 
-	public WorldPoint getCargoLocation()
+	public WorldPoint getNoticeBoardLocation()
 	{
-		return cargoLocation;
+		return noticeBoardLocation;
 	}
 
 	public WorldPoint getNavigationLocation()

@@ -31,15 +31,9 @@ package com.nucleon.porttasks.overlay;
 
 import java.util.ArrayList;
 import net.runelite.api.Client;
-import net.runelite.api.Constants;
 import net.runelite.api.Point;
-import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.api.gameval.InterfaceID;
-import net.runelite.api.widgets.Widget;
-import net.runelite.client.ui.overlay.OverlayUtil;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.List;
@@ -59,60 +53,6 @@ public class WorldLines
 		}
 	}
 
-	public static void createMinimapLines(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color)
-	{
-		if (linePoints == null || linePoints.size() < 2)
-		{
-			return;
-		}
-		for (int i = 0; i < linePoints.size() - 1; i++)
-		{
-			WorldPoint dontRenderPoint = new WorldPoint(0, 0, 0);
-			WorldPoint currentPoint = linePoints.get(i);
-			WorldPoint nextPoint = linePoints.get(i + 1);
-
-			if (currentPoint == null || currentPoint.equals(dontRenderPoint) || nextPoint == null || nextPoint.equals(dontRenderPoint))
-			{
-			continue;
-			}
-
-			List<LocalPoint> startPoints = WorldPerspective.getInstanceLocalPointFromReal(client, currentPoint);
-			List<LocalPoint> destinationPoints = WorldPerspective.getInstanceLocalPointFromReal(client, nextPoint);
-			if (startPoints.isEmpty() || destinationPoints.isEmpty()) continue;
-			LocalPoint startPoint = startPoints.get(0);
-			LocalPoint destinationPoint = destinationPoints.get(0);
-
-			Point startPosOnMinimap = net.runelite.api.Perspective.localToMinimap(client, startPoint, 10000000);
-			Point destinationPosOnMinimap = net.runelite.api.Perspective.localToMinimap(client, destinationPoint, 10000000);
-
-			if (destinationPosOnMinimap == null || startPosOnMinimap == null)
-			{
-				continue;
-			}
-
-			Line2D.Double line = new Line2D.Double(startPosOnMinimap.getX(), startPosOnMinimap.getY(), destinationPosOnMinimap.getX(), destinationPosOnMinimap.getY());
-
-			Rectangle bounds = new Rectangle(0, 0, client.getCanvasWidth(), client.getCanvasHeight());
-			Widget minimapWidget = client.getWidget(InterfaceID.ToplevelOsrsStretch.MINIMAP);
-
-			if (minimapWidget == null)
-			{
-				minimapWidget = client.getWidget(InterfaceID.ToplevelPreEoc.MINIMAP);
-			}
-			if (minimapWidget == null)
-			{
-				minimapWidget = client.getWidget(InterfaceID.Toplevel.MINIMAP);
-			}
-
-			if (minimapWidget != null)
-			{
-				bounds = minimapWidget.getBounds();
-			}
-
-			DirectionArrow.drawLine(graphics, line, color, bounds);
-		}
-	}
-
 	public static void renderWorldMapLine(Graphics2D graphics, Client client, Rectangle mapViewArea, Point startPoint, Point endPoint, Color color)
 	{
 		if (mapViewArea == null || startPoint == null || endPoint == null)
@@ -128,50 +68,19 @@ public class WorldLines
 		DirectionArrow.drawLine(graphics, line, color, WorldPerspective.getWorldMapClipArea(client));
 	}
 
-	public static Line2D.Double getWorldLines(@Nonnull Client client, @Nonnull LocalPoint startLocation, LocalPoint endLocation)
-	{
-		final int plane = client.getPlane();
-
-		final int startX = startLocation.getX();
-		final int startY = startLocation.getY();
-		final int endX = endLocation.getX();
-		final int endY = endLocation.getY();
-
-		final int sceneX = startLocation.getSceneX();
-		final int sceneY = startLocation.getSceneY();
-
-		if (sceneX < 0 || sceneY < 0 || sceneX >= Constants.SCENE_SIZE || sceneY >= Constants.SCENE_SIZE)
-		{
-			return null;
-		}
-
-		final int startHeight = net.runelite.api.Perspective.getTileHeight(client, startLocation, plane);
-		final int endHeight = net.runelite.api.Perspective.getTileHeight(client, endLocation, plane);
-
-		Point p1 = net.runelite.api.Perspective.localToCanvas(client, startX, startY, startHeight);
-		Point p2 = net.runelite.api.Perspective.localToCanvas(client, endX, endY, endHeight);
-
-		if (p1 == null || p2 == null)
-		{
-			return null;
-		}
-
-		return new Line2D.Double(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-	}
-
-	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig)
+	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig, int z)
 	{
 		if (tracerConfig.isTracerEnabled())
 		{
-			drawLinesOnWorldWithTracer(graphics, client, linePoints, baseColor, tracerConfig);
+			drawLinesOnWorldWithTracer(graphics, client, linePoints, baseColor, tracerConfig, z);
 		}
 		else
 		{
-			drawLinesOnWorld(graphics, client, linePoints, baseColor);
+			drawLinesOnWorld(graphics, client, linePoints, baseColor, z);
 		}
 	}
 
-	public static void drawLinesOnWorldWithTracer(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig)
+	public static void drawLinesOnWorldWithTracer(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig, int z)
 	{
 		int time = tracerConfig.getFrameTick();
 		float tracerIntensity = tracerConfig.getTracerIntensity();
@@ -187,35 +96,46 @@ public class WorldLines
 			if (startWp.getPlane() != endWp.getPlane()) continue;
 
 			List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
+			if (interpolated.isEmpty()) continue;
 
-			for (int j = 0; j < interpolated.size() - 1; j++)
+			int segmentCount = interpolated.size() - 1;
+			int pulsePosition = time % segmentCount;
+
+			for (int j = 0; j < segmentCount; j++)
 			{
 				WorldPoint wp1 = interpolated.get(j);
 				WorldPoint wp2 = interpolated.get(j + 1);
 
-				List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
-				List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
+				List<Point> points1 = WorldPerspective.worldToCanvasWithOffset(client, wp1, z);
+				List<Point> points2 = WorldPerspective.worldToCanvasWithOffset(client, wp2, z);
 
 				if (points1.isEmpty() || points2.isEmpty()) continue;
 
-				LocalPoint lp1 = points1.get(0);
-				LocalPoint lp2 = points2.get(0);
+				Point p1 = points1.get(0);
+				Point p2 = points2.get(0);
 
-				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
-				if (newLine != null)
+				if (p1 == null || p2 == null)
 				{
-					int segmentCount = interpolated.size() - 1;
-					int pulsePosition = time % segmentCount;
-
-					Color color = (j == pulsePosition) ? baseColor : dimColor(baseColor, tracerIntensity);
-					OverlayUtil.renderPolygon(graphics, newLine, color);
+					continue;
 				}
+
+				Color color = (j == pulsePosition) ? baseColor : dimColor(baseColor, tracerIntensity);
+
+				graphics.setColor(color);
+				graphics.setStroke(new BasicStroke(2));
+				graphics.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 			}
 		}
 	}
 
-	public static void drawLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color)
+
+	public static void drawLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color, int z)
 	{
+		if (linePoints == null || linePoints.size() < 2)
+		{
+			return;
+		}
+
 		for (int i = 0; i < linePoints.size() - 1; i++)
 		{
 			WorldPoint startWp = linePoints.get(i);
@@ -227,25 +147,32 @@ public class WorldLines
 			if (startWp.getPlane() != endWp.getPlane()) continue;
 
 			List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
+			if (interpolated.isEmpty()) continue;
 
 			for (int j = 0; j < interpolated.size() - 1; j++)
 			{
 				WorldPoint wp1 = interpolated.get(j);
 				WorldPoint wp2 = interpolated.get(j + 1);
 
-				List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
-				List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
+				List<Point> points1 = WorldPerspective.worldToCanvasWithOffset(client, wp1, z);
+				List<Point> points2 = WorldPerspective.worldToCanvasWithOffset(client, wp2, z);
 
-				if (points1.isEmpty() || points2.isEmpty()) continue;
-
-				LocalPoint lp1 = points1.get(0);
-				LocalPoint lp2 = points2.get(0);
-
-				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
-				if (newLine != null)
+				if (points1.isEmpty() || points2.isEmpty())
 				{
-					OverlayUtil.renderPolygon(graphics, newLine, color);
+					continue;
 				}
+
+				Point p1 = points1.get(0);
+				Point p2 = points2.get(0);
+
+				if (p1 == null || p2 == null)
+				{
+					continue;
+				}
+
+				graphics.setColor(color);
+				graphics.setStroke(new BasicStroke(2f));
+				graphics.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 			}
 		}
 	}

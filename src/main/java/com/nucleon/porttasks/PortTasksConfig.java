@@ -66,7 +66,16 @@ public interface PortTasksConfig extends Config
 		return Overlay.BOTH;
 	}
 
-
+	@ConfigItem(
+			keyName = "pathOffset",
+			name = "Offset Height Per Task",
+			description = "each path will be drawn at a different height",
+			section = pathSection
+	)
+	default boolean enableHeightOffset()
+	{
+		return false;
+	}
 	@ConfigSection(
 			name = "Tracer Settings",
 			description = "Configure animation and visual settings for overlay direction tracers",

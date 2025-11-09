@@ -204,7 +204,45 @@ private final static int SE = 1;
 		return null;
 	}
 
-	public static Point getMinimapPoint(Client client, WorldPoint start, WorldPoint destination)
+	public static List<Point> worldToCanvasWithOffset(Client client, WorldPoint worldPoint, int zOffset)
+	{
+		List<Point> canvasPoints = new ArrayList<>();
+
+		if (worldPoint == null)
+		{
+			return canvasPoints;
+		}
+
+		// Support instanced regions like the rest of WorldPerspective
+		Collection<WorldPoint> instances = WorldPerspective.toLocalInstanceFromReal(client, worldPoint);
+		for (WorldPoint wp : instances)
+		{
+			if (wp == null)
+			{
+				continue;
+			}
+
+			LocalPoint lp = LocalPoint.fromWorld(client.getTopLevelWorldView(), wp);
+			if (lp == null)
+			{
+				continue;
+			}
+
+			// Project to screen using the supplied zOffset
+			Point canvas = net.runelite.api.Perspective.localToCanvas(client, lp, wp.getPlane(), zOffset);
+			if (canvas != null)
+			{
+				canvasPoints.add(canvas);
+			}
+		}
+
+		return canvasPoints;
+	}
+
+
+
+
+public static Point getMinimapPoint(Client client, WorldPoint start, WorldPoint destination)
 	{
 		var worldMapData = client.getWorldMap().getWorldMapData();
 		if (worldMapData.surfaceContainsPosition(start.getX(), start.getY()) !=

@@ -34,6 +34,7 @@ import java.awt.FlowLayout;
 import com.nucleon.porttasks.PortTask;
 import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.ui.adapters.ReloadPortTasks;
 
 import net.runelite.client.callback.ClientThread;
@@ -46,6 +47,7 @@ import net.runelite.client.util.ImageUtil;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -116,6 +118,11 @@ public class PortTasksPluginPanel extends PluginPanel
 			// setup panels border layout
 			add(northPanel, BorderLayout.NORTH);
 			add(centerPanel, BorderLayout.CENTER);
+
+			if (plugin.developerMode)
+			{
+				addDeveloperPanel();
+			}
 		}
 
 		public void rebuild()
@@ -152,5 +159,29 @@ public class PortTasksPluginPanel extends PluginPanel
 				markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
 				markerView.add(errorPanel);
 			}
+		}
+
+		private void addDeveloperPanel()
+		{
+			JPanel developerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			developerPanel.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+			developerPanel.setBorder(new EmptyBorder(2, 2, 2, 2));
+
+			JComboBox<String> portPathDropdown = new JComboBox<>();
+			for (PortPaths path : PortPaths.values())
+			{
+				portPathDropdown.addItem(path.name());
+			}
+			portPathDropdown.setFocusable(false);
+			portPathDropdown.setToolTipText("Developer actions");
+
+			portPathDropdown.addActionListener(e ->
+			{
+				String selected = (String) portPathDropdown.getSelectedItem();
+				plugin.setDeveloperPathSelected(PortPaths.valueOf(selected));
+			});
+
+			developerPanel.add(portPathDropdown);
+			add(developerPanel, BorderLayout.SOUTH);
 		}
 }

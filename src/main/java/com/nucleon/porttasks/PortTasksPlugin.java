@@ -29,12 +29,15 @@ package com.nucleon.porttasks;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import javax.inject.Inject;
+import javax.inject.Named;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.enums.PortTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
 import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.events.VarbitChanged;
@@ -88,6 +91,9 @@ public class PortTasksPlugin extends Plugin
 	private ClientThread clientThread;
 	@Inject
 	private ItemManager itemManager;
+	@Inject
+	@Named("developerMode")
+	public boolean developerMode;
 	private int[] varPlayers;
 	private PortTasksPluginPanel pluginPanel;
 	private NavigationButton navigationButton;
@@ -95,6 +101,9 @@ public class PortTasksPlugin extends Plugin
 	private static final String ICON_FILE = "icon.png";
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
+	@Getter
+	@Setter
+	public PortPaths developerPathSelected;
 
 	@Override
 	protected void startUp()

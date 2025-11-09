@@ -64,6 +64,7 @@ class PortTasksMapOverlay extends Overlay
 	public Dimension render(Graphics2D graphics)
 	{
 		renderOverlayLines(graphics);
+		renderOverlayLinesDeveloper(graphics);
 		return null;
 	}
 
@@ -80,6 +81,17 @@ class PortTasksMapOverlay extends Overlay
 			if (tasks.isTracking())
 			{
 				WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+			}
+		}
+	}
+
+	private void renderOverlayLinesDeveloper(Graphics2D g)
+	{
+		if (plugin.developerMode)
+		{
+			if (plugin.developerPathSelected != null)
+			{
+				WorldLines.createWorldMapLines(g, client, plugin.getDeveloperPathSelected().getFullPath(), Color.CYAN);
 			}
 		}
 	}

@@ -80,7 +80,7 @@ class PortTasksWorldOverlay extends Overlay
 			}
 			if (tasks.isTracking())
 			{
-				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
+				WorldLines.drawPortTaskLinesOnWorld(g, client, journey, overlayColor, plugin.tracerConfig);
 			}
 		}
 	}

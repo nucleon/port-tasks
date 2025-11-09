@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.enums.PortTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
+import com.nucleon.porttasks.overlay.TracerConfig;
 import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +44,7 @@ import net.runelite.api.Client;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
+import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.game.ItemManager;
@@ -92,6 +94,10 @@ public class PortTasksPlugin extends Plugin
 	@Inject
 	private ItemManager itemManager;
 	@Inject
+	public TracerConfig tracerConfig;
+	@Inject
+	private EventBus eventBus;
+	@Inject
 	@Named("developerMode")
 	public boolean developerMode;
 	private int[] varPlayers;
@@ -122,6 +128,7 @@ public class PortTasksPlugin extends Plugin
 		clientToolbar.addNavigation(navigationButton);
 		registerOverlays();
 		pluginPanel.rebuild();
+		eventBus.register(tracerConfig);
 	}
 
 	@Override

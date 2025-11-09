@@ -159,6 +159,61 @@ public class WorldLines
 		return new Line2D.Double(p1.getX(), p1.getY(), p2.getX(), p2.getY());
 	}
 
+	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig)
+	{
+		if (tracerConfig.isTracerEnabled())
+		{
+			drawLinesOnWorldWithTracer(graphics, client, linePoints, baseColor, tracerConfig);
+		}
+		else
+		{
+			drawLinesOnWorld(graphics, client, linePoints, baseColor);
+		}
+	}
+
+	public static void drawLinesOnWorldWithTracer(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color baseColor, TracerConfig tracerConfig)
+	{
+		int time = tracerConfig.getFrameTick();
+		float tracerIntensity = tracerConfig.getTracerIntensity();
+
+		for (int i = 0; i < linePoints.size() - 1; i++)
+		{
+			WorldPoint startWp = linePoints.get(i);
+			WorldPoint endWp = linePoints.get(i + 1);
+
+			if (startWp == null || endWp == null) continue;
+			if (startWp.equals(new WorldPoint(0, 0, 0))) continue;
+			if (endWp.equals(new WorldPoint(0, 0, 0))) continue;
+			if (startWp.getPlane() != endWp.getPlane()) continue;
+
+			List<WorldPoint> interpolated = interpolateLine(startWp, endWp);
+
+			for (int j = 0; j < interpolated.size() - 1; j++)
+			{
+				WorldPoint wp1 = interpolated.get(j);
+				WorldPoint wp2 = interpolated.get(j + 1);
+
+				List<LocalPoint> points1 = WorldPerspective.getInstanceLocalPointFromReal(client, wp1);
+				List<LocalPoint> points2 = WorldPerspective.getInstanceLocalPointFromReal(client, wp2);
+
+				if (points1.isEmpty() || points2.isEmpty()) continue;
+
+				LocalPoint lp1 = points1.get(0);
+				LocalPoint lp2 = points2.get(0);
+
+				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
+				if (newLine != null)
+				{
+					int segmentCount = interpolated.size() - 1;
+					int pulsePosition = time % segmentCount;
+
+					Color color = (j == pulsePosition) ? baseColor : dimColor(baseColor, tracerIntensity);
+					OverlayUtil.renderPolygon(graphics, newLine, color);
+				}
+			}
+		}
+	}
+
 	public static void drawLinesOnWorld(Graphics2D graphics, Client client, List<WorldPoint> linePoints, Color color)
 	{
 		for (int i = 0; i < linePoints.size() - 1; i++)
@@ -189,31 +244,40 @@ public class WorldLines
 				Line2D.Double newLine = getWorldLines(client, lp1, lp2);
 				if (newLine != null)
 				{
-						OverlayUtil.renderPolygon(graphics, newLine, color);
+					OverlayUtil.renderPolygon(graphics, newLine, color);
 				}
 			}
 		}
 	}
 
-	private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)
+	private static Color dimColor(Color color, float factor)
 	{
-		List<WorldPoint> result = new ArrayList<>();
-		int steps = Math.max(start.distanceTo(end), 1);
+		factor = Math.min(Math.max(factor, 0f), 1f);
+		int r = (int)(color.getRed() * factor);
+		int g = (int)(color.getGreen() * factor);
+		int b = (int)(color.getBlue() * factor);
+		return new Color(r, g, b, color.getAlpha());
+	}
 
-		for (int i = 0; i <= steps; i++)
+	private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)
 		{
-			double t = i / (double) steps;
-			int x = (int) Math.round(lerp(start.getX(), end.getX(), t));
-			int y = (int) Math.round(lerp(start.getY(), end.getY(), t));
-			int plane = start.getPlane();
-			result.add(new WorldPoint(x, y, plane));
+			List<WorldPoint> result = new ArrayList<>();
+			int steps = Math.max(start.distanceTo(end), 1);
+
+			for (int i = 0; i <= steps; i++)
+			{
+				double t = i / (double) steps;
+				int x = (int) Math.round(lerp(start.getX(), end.getX(), t));
+				int y = (int) Math.round(lerp(start.getY(), end.getY(), t));
+				int plane = start.getPlane();
+				result.add(new WorldPoint(x, y, plane));
+			}
+
+			return result;
 		}
 
-		return result;
+		private static double lerp(int a, int b, double t)
+		{
+			return a + (b - a) * t;
+		}
 	}
-
-	private static double lerp(int a, int b, double t)
-	{
-		return a + (b - a) * t;
-	}
-}

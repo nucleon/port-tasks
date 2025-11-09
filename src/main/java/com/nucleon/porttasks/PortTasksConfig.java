@@ -30,34 +30,90 @@ import java.awt.Color;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
+import net.runelite.client.config.ConfigSection;
+import net.runelite.client.config.Range;
 
 @ConfigGroup(PortTasksConfig.CONFIG_GROUP)
 public interface PortTasksConfig extends Config
 {
 	String CONFIG_GROUP = "porttasks";
+
+	@ConfigSection(
+			name = "Path Settings",
+			description = "Configure animation and visual settings for tracers",
+			position = 1
+	)
+	String pathSection = "pathSection";
 	@ConfigItem(
-		keyName = "navColor",
-		name = "Navigation Line Color",
-		description = "The color of the navigation line"
+			keyName = "navColor",
+			name = "Default Line Color",
+			description = "The color of the navigation line",
+			section = pathSection
 	)
 	default Color getNavColor()
 	{
 		return Color.GREEN;
 	}
+
+	@ConfigItem(
+			keyName = "drawOverlay",
+			name = "Draw Path",
+			description = "Draw path for port task",
+			section = pathSection
+	)
+	default Overlay getDrawOverlay()
+	{
+		return Overlay.BOTH;
+	}
+
+
+	@ConfigSection(
+			name = "Tracer Settings",
+			description = "Configure animation and visual settings for overlay direction tracers",
+			position = 1
+	)
+	String tracerSection = "tracerSection";
+
+	@ConfigItem(
+			keyName = "enableTracer",
+			name = "Enable Tracer Overlay",
+			description = "Toggle tracer animation on path lines",
+			section = tracerSection
+	)
+	default boolean enableTracer()
+	{
+		return false;
+	}
+
+	@Range(min = 0, max = 60)
+	@ConfigItem(
+			keyName = "tracerSpeed",
+			name = "Tracer Speed",
+			description = "Adjust how fast the tracer animation moves (lower = slower)",
+			section = tracerSection
+	)
+	default int tracerSpeed()
+	{
+		return 30;
+	}
+
+	@Range(min = 0, max = 100)
+	@ConfigItem(
+			keyName = "tracerIntensity",
+			name = "Tracer Intensity",
+			description = "Control brightness or visibility of the tracer (0–100%)",
+			section = tracerSection
+	)
+	default int tracerIntensity()
+	{
+		return 50;
+	}
+
 	enum Overlay
 	{
 		NONE,
 		MAP,
 		WORLD,
 		BOTH
-	}
-	@ConfigItem(
-		keyName = "drawOverlay",
-		name = "Draw path",
-		description = "Draw path for port task"
-	)
-	default Overlay getDrawOverlay()
-	{
-		return Overlay.BOTH;
 	}
 }

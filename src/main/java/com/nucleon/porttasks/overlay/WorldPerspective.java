@@ -42,7 +42,6 @@ import static net.runelite.api.Constants.CHUNK_SIZE;
 
 public class WorldPerspective
 {
-// Order of poly corners from getCanvasTilePoly
 private final static int SW = 0;
 private final static int NW = 3;
 private final static int NE = 2;
@@ -57,7 +56,6 @@ private final static int SE = 1;
 
 		if (worldPoint == null) return Collections.singleton(null);
 
-		// find instance chunks using the template point. there might be more than one.
 		List<WorldPoint> worldPoints = new ArrayList<>();
 
 		int[][][] instanceTemplateChunks = client.getInstanceTemplateChunks();
@@ -183,7 +181,6 @@ private final static int SE = 1;
 
 			var worldMapPosition = worldMap.getWorldMapPosition();
 
-			//Offset in tiles from anchor sides
 			int yTileMax = worldMapPosition.getY() - heightInTiles / 2;
 			int yTileOffset = (yTileMax - worldPoint.getY() - 1) * -1;
 			int xTileOffset = worldPoint.getX() + widthInTiles / 2 - worldMapPosition.getX();
@@ -191,7 +188,6 @@ private final static int SE = 1;
 			int xGraphDiff = ((int) (xTileOffset * pixelsPerTile));
 			int yGraphDiff = (int) (yTileOffset * pixelsPerTile);
 
-			//Center on tile.
 			yGraphDiff -= pixelsPerTile - Math.ceil(pixelsPerTile / 2);
 			xGraphDiff += pixelsPerTile - Math.ceil(pixelsPerTile / 2);
 
@@ -213,7 +209,6 @@ private final static int SE = 1;
 			return canvasPoints;
 		}
 
-		// Support instanced regions like the rest of WorldPerspective
 		Collection<WorldPoint> instances = WorldPerspective.toLocalInstanceFromReal(client, worldPoint);
 		for (WorldPoint wp : instances)
 		{
@@ -228,7 +223,6 @@ private final static int SE = 1;
 				continue;
 			}
 
-			// Project to screen using the supplied zOffset
 			Point canvas = net.runelite.api.Perspective.localToCanvas(client, lp, wp.getPlane(), zOffset);
 			if (canvas != null)
 			{
@@ -306,25 +300,20 @@ public static Point getMinimapPoint(Client client, WorldPoint start, WorldPoint 
 			addToPoly(client, areaPoly, new WorldPoint(x, zone.getMaxY(), zone.getMinWorldPoint().getPlane()), NW);
 		}
 
-		// NE corner
 		addToPoly(client, areaPoly, new WorldPoint(zone.getMaxX(), zone.getMaxY(), zone.getMinWorldPoint().getPlane()), NW, NE, SE);
 
-		// West side
 		for (int y = zone.getMaxY() - 1; y > zone.getMinY(); y--)
 		{
 			addToPoly(client, areaPoly, new WorldPoint(zone.getMaxX(), y, zone.getMinWorldPoint().getPlane()), SE);
 		}
 
-		// SE corner
 		addToPoly(client, areaPoly, new WorldPoint(zone.getMaxX(), zone.getMinY(), zone.getMinWorldPoint().getPlane()), SE, SW);
 
-		// South side
 		for (int x = zone.getMaxX() - 1; x > zone.getMinX(); x--)
 		{
 			addToPoly(client, areaPoly, new WorldPoint(x, zone.getMinY(), zone.getMinWorldPoint().getPlane()), SW);
 		}
 
-		// SW corner
 		addToPoly(client, areaPoly, new WorldPoint(zone.getMinX(), zone.getMinY(), zone.getMinWorldPoint().getPlane()), SW, NW);
 
 		for (int y = zone.getMinY() + 1; y < zone.getMaxY(); y++)

@@ -30,60 +30,60 @@ import net.runelite.api.coords.WorldPoint;
 
 public enum PortLocation
 {
-	MUSA_POINT("Musa Point", new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0), new WorldPoint(2965, 3146, 0)),
-	PORT_SARIM("Port Sarim", new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0), new WorldPoint(3056, 3194, 0)),
-	PANDEMONIUM("The Pandemonium", new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0), new WorldPoint(3078, 2987, 0)),
-	ENTRANA("Entrana", new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0), new WorldPoint(2883, 3336, 0)),
-	RUINS_OF_UNKAH("Ruins of Unkah", new WorldPoint(0, 0, 0), new WorldPoint(3144, 2825, 0), new WorldPoint(3143, 2824, 0)),
-	RED_ROCK("Red Rock", new WorldPoint(2809, 2509, 0), new WorldPoint(2805, 2512, 0)),
-	ARDOUGNE("Ardougne", new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0), new WorldPoint(2670, 3259, 0)),
-	BRIMHAVEN("Brimhaven", new WorldPoint(2758, 3230, 0), new WorldPoint(2768, 3225, 0), new WorldPoint(2754, 3231, 0)),
-	CATHERBY("Catherby", new WorldPoint(2796, 3412, 0), new WorldPoint(2799, 3413, 0), new WorldPoint(2796, 3408, 0)),
-	PORT_KHAZARD("Port Khazard", new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0), new WorldPoint(2688, 3162, 0)),
-	SHILO_VILLAGE("Shilo Village", new WorldPoint(2750, 2952, 0), new WorldPoint(2756, 2949, 0)),
-	CORSAIR_COVE("Corsair Cove", new WorldPoint(2580, 2844, 0), new WorldPoint(2580, 2848, 0), new WorldPoint(2586, 2844, 0)),
-	BARRACUDA_HQ("Barracuda HQ", new WorldPoint(2294, 2520, 0), new WorldPoint(2289, 2530, 0)),
-	DEEPFIN_POINT("Deepfin Point", new WorldPoint(1932, 2791, 0), new WorldPoint(1926, 2791, 0)),
-	SUNSET_COAST("Sunset Coast", new WorldPoint(1511, 2975, 0), new WorldPoint(1514, 2977, 0)),
-	ALDARIN("Aldarin", new WorldPoint(1452, 2970, 0), new WorldPoint(1448, 2969, 0)),
-	SUMMER_SHORE("Summer Shore", new WorldPoint(0, 0, 0), new WorldPoint(3172, 2370, 0), new WorldPoint(3174, 2367, 0)),
-	VOID_KNIGHT("Void Knights' Outpost", new WorldPoint(2651, 2678, 0), new WorldPoint(2651, 2673, 0)),
-	PORT_TYRAS("Port Tyras", new WorldPoint(2144, 3120, 0), new WorldPoint(2150, 3123, 0)),
-	PORT_ROBERTS("Port Roberts", new WorldPoint(1871, 3300, 0), new WorldPoint(1863, 3297, 0)),
-	LANDS_END("Land's End", new WorldPoint(1506, 3402, 0), new WorldPoint(1505, 3407, 0)),
-	HOSIDIUS("Hosidius", new WorldPoint(1726, 3452, 0), new WorldPoint(1724, 3461, 0)),
-	CIVITAS_ILLA_FORTIS("Civitas illa Fortis", new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0)),
-	PORT_PISCARILIUS("Port Piscarilius", new WorldPoint(1845, 3681, 0)),
-	CAIRN_ISLE("Cairn Isle", new WorldPoint(2745, 2952, 0)),
-	PRIFDDINAS("Prifddinas", new WorldPoint(2158, 3319, 0)),
-	PISCATORIS("Piscatoris", new WorldPoint(2300, 3689, 0)),
-	LUNAR_ISLE("Lunar Isle", new WorldPoint(2157, 3881, 0)),
-	RELLEKKA("Rellekka", new WorldPoint(2630, 3709, 0)),
-	JATIZO("Jatizo", new WorldPoint(2412, 3776, 0)),
-	ETCETERIA("Etceteria", new WorldPoint(2612, 3836, 0)),
-	NEITIZNOT("Neitiznot", new WorldPoint(2302, 3782, 0)),
-	EMPTY("Default", new WorldPoint(0,0 ,0)),
+	MUSA_POINT("Musa Point", 10, new WorldPoint(2961, 3146, 0), new WorldPoint(3952, 3150, 0), new WorldPoint(2965, 3146, 0)),
+	PORT_SARIM("Port Sarim", 1, new WorldPoint(3051, 3193, 0), new WorldPoint(3030, 3198, 0), new WorldPoint(3056, 3194, 0)),
+	PANDEMONIUM("The Pandemonium", 1, new WorldPoint(3070, 2987, 0), new WorldPoint(3058, 2986, 0), new WorldPoint(3078, 2987, 0)),
+	ENTRANA("Entrana", 36, new WorldPoint(2879, 3335, 0), new WorldPoint(2874, 3339, 0), new WorldPoint(2883, 3336, 0)),
+	RUINS_OF_UNKAH("Ruins of Unkah", 48, new WorldPoint(0, 0, 0), new WorldPoint(3144, 2825, 0), new WorldPoint(3143, 2824, 0)),
+	RED_ROCK("Red Rock", null, new WorldPoint(2809, 2509, 0), new WorldPoint(2805, 2512, 0)),
+	ARDOUGNE("Ardougne", 28, new WorldPoint(2683, 3265, 0), new WorldPoint(2674, 3269, 0), new WorldPoint(2670, 3259, 0)),
+	BRIMHAVEN("Brimhaven", 25, new WorldPoint(2758, 3230, 0), new WorldPoint(2768, 3225, 0), new WorldPoint(2754, 3231, 0)),
+	CATHERBY("Catherby", 20, new WorldPoint(2796, 3412, 0), new WorldPoint(2799, 3413, 0), new WorldPoint(2796, 3408, 0)),
+	PORT_KHAZARD("Port Khazard", 30, new WorldPoint(2686, 3162, 0), new WorldPoint(2678, 3162, 0), new WorldPoint(2688, 3162, 0)),
+	CORSAIR_COVE("Corsair Cove", 40, new WorldPoint(2580, 2844, 0), new WorldPoint(2580, 2848, 0), new WorldPoint(2586, 2844, 0)),
+	DEEPFIN_POINT("Deepfin Point", 67, new WorldPoint(1932, 2791, 0), new WorldPoint(1926, 2791, 0)),
+	SUNSET_COAST("Sunset Coast", 44, new WorldPoint(1511, 2975, 0), new WorldPoint(1514, 2977, 0)),
+	ALDARIN("Aldarin", 46, new WorldPoint(1452, 2970, 0), new WorldPoint(1448, 2969, 0)),
+	SUMMER_SHORE("Summer Shore", 45, new WorldPoint(0, 0, 0), new WorldPoint(3172, 2370, 0), new WorldPoint(3174, 2367, 0)),
+	VOID_KNIGHT("Void Knights' Outpost", 50, new WorldPoint(2651, 2678, 0), new WorldPoint(2651, 2673, 0)),
+	PORT_TYRAS("Port Tyras", 66, new WorldPoint(2144, 3120, 0), new WorldPoint(2150, 3123, 0)),
+	PORT_ROBERTS("Port Roberts", 50, new WorldPoint(1871, 3300, 0), new WorldPoint(1863, 3297, 0)),
+	LANDS_END("Land's End", 5, new WorldPoint(1506, 3402, 0), new WorldPoint(1505, 3407, 0)),
+	HOSIDIUS("Hosidius", 5, new WorldPoint(1726, 3452, 0), new WorldPoint(1724, 3461, 0)),
+	CIVITAS_ILLA_FORTIS("Civitas illa Fortis", 38, new WorldPoint(1775, 3142, 0), new WorldPoint(1780, 3147, 0)),
+	PORT_PISCARILIUS("Port Piscarilius", 15, new WorldPoint(1845, 3681, 0)),
+	CAIRN_ISLE("Cairn Isle", 42, new WorldPoint(2745, 2952, 0)),
+	PRIFDDINAS("Prifddinas", 70, new WorldPoint(2158, 3319, 0)),
+	PISCATORIS("Piscatoris", 75, new WorldPoint(2300, 3689, 0)),
+	LUNAR_ISLE("Lunar Isle", 76, new WorldPoint(2157, 3881, 0)),
+	RELLEKKA("Rellekka", 62, new WorldPoint(2630, 3709, 0)),
+	JATIZO("Jatizo", 68, new WorldPoint(2412, 3776, 0)),
+	ETCETERIA("Etceteria", 65, new WorldPoint(2612, 3836, 0)),
+	NEITIZNOT("Neitiznot", 68, new WorldPoint(2302, 3782, 0)),
+	EMPTY("Default", null, new WorldPoint(0,0 ,0)),
 	;
 
 	private final String name;
+	private final Integer sailingLevelRequired;
 	private final WorldPoint gangplankLocation;
 	private final WorldPoint noticeBoardLocation;
 	private final WorldPoint navigationLocation;
 
 	// temp constructor until navigation location is added for all ports
-	PortLocation(String name, WorldPoint worldPoint, WorldPoint cargoLocation)
+	PortLocation(String name, Integer sailingLevelRequired, WorldPoint worldPoint, WorldPoint cargoLocation)
 	{
-		this(name, worldPoint, cargoLocation, null);
+		this(name, sailingLevelRequired, worldPoint, cargoLocation, null);
 	}
 
-	PortLocation(String name, WorldPoint navigationLocation)
+	PortLocation(String name, Integer sailingLevelRequired, WorldPoint navigationLocation)
 	{
 		this(name, null, null, navigationLocation);
 	}
 
-	PortLocation(String name, WorldPoint gangplankLocation, WorldPoint noticeBoardLocation, WorldPoint navigationLocation)
+	PortLocation(String name, Integer sailingLevelRequired, WorldPoint gangplankLocation, WorldPoint noticeBoardLocation, WorldPoint navigationLocation)
 	{
 		this.name = name;
+		this.sailingLevelRequired = sailingLevelRequired;
 		this.gangplankLocation = gangplankLocation;
 		this.noticeBoardLocation = noticeBoardLocation;
 		this.navigationLocation = navigationLocation;

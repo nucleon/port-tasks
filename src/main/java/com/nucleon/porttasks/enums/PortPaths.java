@@ -11,15 +11,18 @@ public enum PortPaths
 	DEFAULT(
 		PortLocation.EMPTY,
 		PortLocation.EMPTY
+		// Sailing >= 0, used in 0 tasks
 	),
 	CATHERBY_BRIMHAVEN(
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,
+		// Sailing >= 25, used in 4 tasks
 		new RelativeMove(-42, -42)
 	),
 	BRIMHAVEN_MUSA_POINT(
 		PortLocation.BRIMHAVEN,
 		PortLocation.MUSA_POINT,
+		// Sailing >= 25, used in 6 tasks
 		new RelativeMove(0, 8),
 		new RelativeMove(7, 7),
 		new RelativeMove(33, 0),
@@ -33,6 +36,7 @@ public enum PortPaths
 	BRIMHAVEN_PANDEMONIUM(
 		PortLocation.BRIMHAVEN,
 		PortLocation.PANDEMONIUM,
+		// Sailing >= 25, used in 5 tasks
 		new RelativeMove(0, 8),
 		new RelativeMove(7, 7),
 		new RelativeMove(33, 0),
@@ -51,6 +55,7 @@ public enum PortPaths
 	BRIMHAVEN_PORT_KHAZARD(
 		PortLocation.BRIMHAVEN,
 		PortLocation.PORT_KHAZARD,
+		// Sailing >= 30, used in 4 tasks
 		new RelativeMove(0, 15),
 		new RelativeMove(-7, 7),
 		new RelativeMove(-26, 0),
@@ -60,6 +65,7 @@ public enum PortPaths
 	CATHERBY_ARDOUGNE(
 		PortLocation.CATHERBY,
 		PortLocation.ARDOUGNE,
+		// Sailing >= 28, used in 6 tasks
 		new RelativeMove(-42, -42),
 		new RelativeMove(0, -91),
 		new RelativeMove(-16, -16)
@@ -68,6 +74,7 @@ public enum PortPaths
 	CATHERBY_MUSA_POINT(
 		PortLocation.CATHERBY,
 		PortLocation.MUSA_POINT,
+		// Sailing >= 20, used in 4 tasks
 		new RelativeMove(62, 0),
 		new RelativeMove(20, -20),
 		new RelativeMove(0, -42),
@@ -81,6 +88,7 @@ public enum PortPaths
 	CATHERBY_PANDEMONIUM(
 		PortLocation.CATHERBY,
 		PortLocation.PANDEMONIUM,
+		// Sailing >= 20, used in 4 tasks
 		new RelativeMove(62, 0),
 		new RelativeMove(20, -20),
 		new RelativeMove(0, -42),
@@ -98,6 +106,7 @@ public enum PortPaths
 	CATHERBY_PORT_KHAZARD(
 		PortLocation.CATHERBY,
 		PortLocation.PORT_KHAZARD,
+		// Sailing >= 30, used in 5 tasks
 		new RelativeMove(-42, -42),
 		new RelativeMove(0, -91),
 		new RelativeMove(-50, -50),
@@ -108,6 +117,7 @@ public enum PortPaths
 	CATHERBY_PORT_SARIM(
 		PortLocation.CATHERBY,
 		PortLocation.PORT_SARIM,
+		// Sailing >= 20, used in 6 tasks
 		new RelativeMove(62, 0),
 		new RelativeMove(20, -20),
 		new RelativeMove(0, -42),
@@ -125,6 +135,7 @@ public enum PortPaths
 	ARDOUGNE_PORT_KHAZARD(
 		PortLocation.ARDOUGNE,
 		PortLocation.PORT_KHAZARD,
+		// Sailing >= 30, used in 5 tasks
 		new RelativeMove(5, 0),
 		new RelativeMove(7, -7),
 		new RelativeMove(0, -60),
@@ -134,6 +145,7 @@ public enum PortPaths
 	ARDOUGNE_RUINS_OF_UNKAH(
 		PortLocation.ARDOUGNE,
 		PortLocation.RUINS_OF_UNKAH,
+		// Sailing >= 48, used in 2 tasks
 		new RelativeMove(90, 0),
 		new RelativeMove(34, -34),
 		new RelativeMove(17, 0),
@@ -150,6 +162,7 @@ public enum PortPaths
 	ENTRANA_MUSA_POINT(
 		PortLocation.ENTRANA,
 		PortLocation.MUSA_POINT,
+		// Sailing >= 36, used in 2 tasks
 		new RelativeMove(0, -118),
 		new RelativeMove(20, -20),
 		new RelativeMove(20, 0),
@@ -161,6 +174,7 @@ public enum PortPaths
 	MUSA_POINT_PANDEMONIUM(
 		PortLocation.MUSA_POINT,
 		PortLocation.PANDEMONIUM,
+		// Sailing >= 10, used in 6 tasks
 		new RelativeMove(5, 0),
 		new RelativeMove(5, -5),
 		new RelativeMove(0, -35),
@@ -171,6 +185,7 @@ public enum PortPaths
 	MUSA_POINT_PORT_KHAZARD(
 		PortLocation.MUSA_POINT,
 		PortLocation.PORT_KHAZARD,
+		// Sailing >= 30, used in 1 task
 		new RelativeMove(5, 0),
 		new RelativeMove(0, 10),
 		new RelativeMove(-35, 35),
@@ -187,6 +202,7 @@ public enum PortPaths
 	MUSA_POINT_PORT_SARIM(
 		PortLocation.MUSA_POINT,
 		PortLocation.PORT_SARIM,
+		// Sailing >= 10, used in 6 tasks
 		new RelativeMove(5, 0),
 		new RelativeMove(5, -5),
 		new RelativeMove(0, -35),
@@ -198,6 +214,7 @@ public enum PortPaths
 	MUSA_POINT_RUINS_OF_UNKAH(
 		PortLocation.MUSA_POINT,
 		PortLocation.RUINS_OF_UNKAH,
+		// Sailing >= 48, used in 0 tasks
 		new RelativeMove(5, 0),
 		new RelativeMove(5, -5),
 		new RelativeMove(0, -35),
@@ -211,6 +228,7 @@ public enum PortPaths
 	PANDEMONIUM_PORT_KHAZARD(
 		PortLocation.PANDEMONIUM,
 		PortLocation.PORT_KHAZARD,
+		// Sailing >= 30, used in 2 tasks
 		new RelativeMove(0, 20),
 		new RelativeMove(-103, 103),
 		new RelativeMove(0, 35),
@@ -230,6 +248,7 @@ public enum PortPaths
 	PANDEMONIUM_RUINS_OF_UNKAH(
 		PortLocation.PANDEMONIUM,
 		PortLocation.RUINS_OF_UNKAH,
+		// Sailing >= 48, used in 4 tasks
 		new RelativeMove(0, -20),
 		new RelativeMove(45, -45),
 		new RelativeMove(0, -98),
@@ -239,6 +258,7 @@ public enum PortPaths
 	PORT_KHAZARD_PORT_SARIM(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.PORT_SARIM,
+		// Sailing >= 30, used in 5 tasks
 		new RelativeMove(0, 60),
 		new RelativeMove(35, 35),
 		new RelativeMove(45, 0),
@@ -256,6 +276,7 @@ public enum PortPaths
 	PORT_KHAZARD_RUINS_OF_UNKAH(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.RUINS_OF_UNKAH,
+		// Sailing >= 48, used in 3 tasks
 		new RelativeMove(0, 25),
 		new RelativeMove(-20, 20),
 		new RelativeMove(50, 50),
@@ -279,17 +300,19 @@ public enum PortPaths
 	RUINS_OF_UNKAH_SUMMER_SHORE(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.SUMMER_SHORE,
-			new RelativeMove(-7, 0),
-			new RelativeMove(0, -31),
-			new RelativeMove(-43, -43),
-			new RelativeMove(0, -110),
-			new RelativeMove(-22, -22),
-			new RelativeMove(0, -207),
-			new RelativeMove(44, -44)
+		// Sailing >= 48, used in 3 tasks
+		new RelativeMove(-7, 0),
+		new RelativeMove(0, -31),
+		new RelativeMove(-43, -43),
+		new RelativeMove(0, -110),
+		new RelativeMove(-22, -22),
+		new RelativeMove(0, -207),
+		new RelativeMove(44, -44)
 	),
 	PORT_SARIM_PANDEMONIUM(
 		PortLocation.PORT_SARIM,
 		PortLocation.PANDEMONIUM,
+		// Sailing >= 1, used in 6 tasks
 		new RelativeMove(0, -43),
 		new RelativeMove(-22, -22),
 		new RelativeMove(0, -75),
@@ -298,6 +321,7 @@ public enum PortPaths
 	PORT_SARIM_ARDOUGNE(
 		PortLocation.PORT_SARIM,
 		PortLocation.ARDOUGNE,
+		// Sailing >= 28, used in 3 tasks
 		new RelativeMove(0, -43),
 		new RelativeMove(-50, -50),
 		new RelativeMove(-22, 0),
@@ -312,6 +336,7 @@ public enum PortPaths
 	CATHERBY_ENTRANA(
 		PortLocation.CATHERBY,
 		PortLocation.ENTRANA,
+		// Sailing >= 36, used in 2 tasks
 		new RelativeMove(60, 0),
 		new RelativeMove(16, -16),
 		new RelativeMove(0, -40),
@@ -320,6 +345,7 @@ public enum PortPaths
 	CATHERBY_RUINS_OF_UNKAH(
 		PortLocation.CATHERBY,
 		PortLocation.RUINS_OF_UNKAH,
+		// Sailing >= 48, used in 1 task
 		new RelativeMove(62, 0),
 		new RelativeMove(20, -20),
 		new RelativeMove(0, -42),
@@ -337,12 +363,14 @@ public enum PortPaths
 	BRIMHAVEN_ARDOUGNE(
 		PortLocation.BRIMHAVEN,
 		PortLocation.ARDOUGNE,
+		// Sailing >= 28, used in 4 tasks
 		new RelativeMove(0, 16),
 		new RelativeMove(-12, 12)
 	),
 	PORT_KHAZARD_ENTRANA(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.ENTRANA,
+		// Sailing >= 36, used in 1 task
 		new RelativeMove(0, 59),
 		new RelativeMove(38, 38),
 		new RelativeMove(66, 0),
@@ -355,6 +383,7 @@ public enum PortPaths
 	PORT_KHAZARD_CORSAIR_COVE(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.CORSAIR_COVE,
+		// Sailing >= 40, used in 6 tasks
 		new RelativeMove(0, -20),
 		new RelativeMove(24, -24),
 		new RelativeMove(0, -175),
@@ -363,6 +392,7 @@ public enum PortPaths
 	RUINS_OF_UNKAH_BRIMHAVEN(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.BRIMHAVEN,
+		// Sailing >= 48, used in 1 task
 		new RelativeMove(-20, 0),
 		new RelativeMove(0, 98),
 		new RelativeMove(-45, 45),
@@ -380,6 +410,7 @@ public enum PortPaths
 	RUINS_OF_UNKAH_PORT_SARIM(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.PORT_SARIM,
+		// Sailing >= 48, used in 0 tasks
 		new RelativeMove(-20, 0),
 		new RelativeMove(0, 98),
 		new RelativeMove(-45, 45),
@@ -391,6 +422,7 @@ public enum PortPaths
 	RUINS_OF_UNKAH_CORSAIR_COVE(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.CORSAIR_COVE,
+		// Sailing >= 48, used in 0 tasks
 		new RelativeMove(-7, 0),
 		new RelativeMove(0, -31),
 		new RelativeMove(-43, -43),
@@ -400,6 +432,7 @@ public enum PortPaths
 	PANDEMONIUM_ARDOUGNE(
 		PortLocation.PANDEMONIUM,
 		PortLocation.ARDOUGNE,
+		// Sailing >= 28, used in 1 task
 		new RelativeMove(0, 22),
 		new RelativeMove(-105, 105),
 		new RelativeMove(0, 42),
@@ -412,6 +445,7 @@ public enum PortPaths
 	MUSA_POINT_ARDOUGNE(
 		PortLocation.MUSA_POINT,
 		PortLocation.ARDOUGNE,
+		// Sailing >= 28, used in 2 tasks
 		new RelativeMove(0, 16),
 		new RelativeMove(-28, 28),
 		new RelativeMove(-23, 0),
@@ -422,388 +456,484 @@ public enum PortPaths
 	BRIMHAVEN_PORT_SARIM(
 		PortLocation.BRIMHAVEN,
 		PortLocation.PORT_SARIM
+		// Sailing >= 25, used in 3 tasks
 	),
 	PORT_SARIM_RUINS_OF_UNKAH(
 		PortLocation.PORT_SARIM,
 		PortLocation.RUINS_OF_UNKAH
+		// Sailing >= 48, used in 4 tasks
 	),
 	PORT_PISCARILIUS_PORT_SARIM(
 		PortLocation.PORT_PISCARILIUS,
 		PortLocation.PORT_SARIM
+		// Sailing >= 15, used in 3 tasks
 	),
 	PORT_SARIM_VOID_KNIGHTS_OUTPOST(
 		PortLocation.PORT_SARIM,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 1 task
 	),
 	CORSAIR_COVE_PANDEMONIUM(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.PANDEMONIUM
+		// Sailing >= 40, used in 4 tasks
 	),
 	CATHERBY_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CATHERBY,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 1 task
 	),
 	BRIMHAVEN_CORSAIR_COVE(
 		PortLocation.BRIMHAVEN,
 		PortLocation.CORSAIR_COVE
+		// Sailing >= 40, used in 5 tasks
 	),
 	BRIMHAVEN_RED_ROCK(
 		PortLocation.BRIMHAVEN,
 		PortLocation.RED_ROCK
+		// Sailing >= 25, used in 2 tasks
 	),
 	BRIMHAVEN_SUMMER_SHORE(
 		PortLocation.BRIMHAVEN,
 		PortLocation.SUMMER_SHORE
+		// Sailing >= 45, used in 1 task
 	),
 	ARDOUGNE_PORT_TYRAS(
 		PortLocation.ARDOUGNE,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 5 tasks
 	),
 	ARDOUGNE_PORT_PISCARILIUS(
 		PortLocation.ARDOUGNE,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 28, used in 2 tasks
 	),
 	ARDOUGNE_RED_ROCK(
 		PortLocation.ARDOUGNE,
 		PortLocation.RED_ROCK
+		// Sailing >= 28, used in 2 tasks
 	),
 	CIVITAS_ILLA_FORTIS_PORT_KHAZARD(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PORT_KHAZARD
+		// Sailing >= 38, used in 2 tasks
 	),
 	CORSAIR_COVE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 3 tasks
 	),
 	CORSAIR_COVE_PORT_TYRAS(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 3 tasks
 	),
 	CORSAIR_COVE_PORT_PISCARILIUS(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 40, used in 2 tasks
 	),
 	CAIRN_ISLE_CORSAIR_COVE(
 		PortLocation.CAIRN_ISLE,
 		PortLocation.CORSAIR_COVE
+		// Sailing >= 42, used in 2 tasks
 	),
 	RED_ROCK_RUINS_OF_UNKAH(
 		PortLocation.RED_ROCK,
 		PortLocation.RUINS_OF_UNKAH
+		// Sailing >= 48, used in 3 tasks
 	),
 	RUINS_OF_UNKAH_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 2 tasks
 	),
 	RED_ROCK_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RED_ROCK,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 2 tasks
 	),
 	SUMMER_SHORE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.SUMMER_SHORE,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 2 tasks
 	),
 	DEEPFIN_POINT_VOID_KNIGHTS_OUTPOST(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 67, used in 2 tasks
 	),
 	LANDS_END_PRIFDDINAS(
 		PortLocation.LANDS_END,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 1 task
 	),
 	LANDS_END_PISCATORIS(
 		PortLocation.LANDS_END,
 		PortLocation.PISCATORIS
+		// Sailing >= 75, used in 2 tasks
 	),
 	CORSAIR_COVE_LANDS_END(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.LANDS_END
+		// Sailing >= 40, used in 1 task
 	),
 	LANDS_END_PORT_PISCARILIUS(
 		PortLocation.LANDS_END,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 15, used in 3 tasks
 	),
 	PORT_PISCARILIUS_PORT_ROBERTS(
 		PortLocation.PORT_PISCARILIUS,
 		PortLocation.PORT_ROBERTS
+		// Sailing >= 50, used in 3 tasks
 	),
 	PISCATORIS_PORT_PISCARILIUS(
 		PortLocation.PISCATORIS,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 75, used in 3 tasks
 	),
 	HOSIDIUS_PORT_PISCARILIUS(
 		PortLocation.HOSIDIUS,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 15, used in 2 tasks
 	),
 	LUNAR_ISLE_PORT_PISCARILIUS(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 76, used in 5 tasks
 	),
 	PORT_PISCARILIUS_PORT_TYRAS(
 		PortLocation.PORT_PISCARILIUS,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 3 tasks
 	),
 	PORT_PISCARILIUS_RELLEKKA(
 		PortLocation.PORT_PISCARILIUS,
 		PortLocation.RELLEKKA
+		// Sailing >= 62, used in 3 tasks
 	),
 	PORT_PISCARILIUS_PRIFDDINAS(
 		PortLocation.PORT_PISCARILIUS,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 2 tasks
 	),
 	ALDARIN_CIVITAS_ILLA_FORTIS(
 		PortLocation.ALDARIN,
 		PortLocation.CIVITAS_ILLA_FORTIS
+		// Sailing >= 46, used in 3 tasks
 	),
 	CIVITAS_ILLA_FORTIS_PORT_PISCARILIUS(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 38, used in 3 tasks
 	),
 	CIVITAS_ILLA_FORTIS_PORT_ROBERTS(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PORT_ROBERTS
+		// Sailing >= 50, used in 3 tasks
 	),
 	CIVITAS_ILLA_FORTIS_DEEPFIN_POINT(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.DEEPFIN_POINT
+		// Sailing >= 67, used in 2 tasks
 	),
 	CIVITAS_ILLA_FORTIS_PRIFDDINAS(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 4 tasks
 	),
 	CIVITAS_ILLA_FORTIS_SUNSET_COAST(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.SUNSET_COAST
+		// Sailing >= 44, used in 2 tasks
 	),
 	PORT_ROBERTS_PORT_TYRAS(
 		PortLocation.PORT_ROBERTS,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 2 tasks
 	),
 	DEEPFIN_POINT_PORT_TYRAS(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 67, used in 3 tasks
 	),
 	PORT_TYRAS_PRIFDDINAS(
 		PortLocation.PORT_TYRAS,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 4 tasks
 	),
 	LANDS_END_PORT_TYRAS(
 		PortLocation.LANDS_END,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 2 tasks
 	),
 	ALDARIN_PORT_TYRAS(
 		PortLocation.ALDARIN,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 1 task
 	),
 	PORT_ROBERTS_PRIFDDINAS(
 		PortLocation.PORT_ROBERTS,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 3 tasks
 	),
 	ARDOUGNE_PRIFDDINAS(
 		PortLocation.ARDOUGNE,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 3 tasks
 	),
 	DEEPFIN_POINT_PRIFDDINAS(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 2 tasks
 	),
 	ALDARIN_PRIFDDINAS(
 		PortLocation.ALDARIN,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 70, used in 2 tasks
 	),
 	LUNAR_ISLE_PRIFDDINAS(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PRIFDDINAS
+		// Sailing >= 76, used in 4 tasks
 	),
 	ETCETERIA_RELLEKKA(
 		PortLocation.ETCETERIA,
 		PortLocation.RELLEKKA,
+		// Sailing >= 65, used in 6 tasks
 		new RelativeMove(0, -10),
 		new RelativeMove(18, -18)
 	),
 	NEITIZNOT_RELLEKKA(
 		PortLocation.NEITIZNOT,
 		PortLocation.RELLEKKA
+		// Sailing >= 68, used in 3 tasks
 	),
 	RELLEKKA_SUNSET_COAST(
 		PortLocation.RELLEKKA,
 		PortLocation.SUNSET_COAST
+		// Sailing >= 62, used in 3 tasks
 	),
 	PORT_ROBERTS_RELLEKKA(
 		PortLocation.PORT_ROBERTS,
 		PortLocation.RELLEKKA
+		// Sailing >= 62, used in 2 tasks
 	),
 	PISCATORIS_RELLEKKA(
 		PortLocation.PISCATORIS,
 		PortLocation.RELLEKKA
+		// Sailing >= 75, used in 2 tasks
 	),
 	JATIZO_RELLEKKA(
 		PortLocation.JATIZO,
 		PortLocation.RELLEKKA
+		// Sailing >= 68, used in 2 tasks
 	),
 	PORT_TYRAS_RELLEKKA(
 		PortLocation.PORT_TYRAS,
 		PortLocation.RELLEKKA
+		// Sailing >= 66, used in 1 task
 	),
 	ETCETERIA_JATIZO(
 		PortLocation.ETCETERIA,
 		PortLocation.JATIZO
+		// Sailing >= 68, used in 3 tasks
 	),
 	ETCETERIA_PORT_ROBERTS(
 		PortLocation.ETCETERIA,
 		PortLocation.PORT_ROBERTS
+		// Sailing >= 65, used in 3 tasks
 	),
 	ETCETERIA_PORT_PISCARILIUS(
 		PortLocation.ETCETERIA,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 65, used in 2 tasks
 	),
 	ETCETERIA_NEITIZNOT(
 		PortLocation.ETCETERIA,
 		PortLocation.NEITIZNOT
+		// Sailing >= 68, used in 2 tasks
 	),
 	ETCETERIA_SUNSET_COAST(
 		PortLocation.ETCETERIA,
 		PortLocation.SUNSET_COAST
+		// Sailing >= 65, used in 2 tasks
 	),
 	ETCETERIA_PISCATORIS(
 		PortLocation.ETCETERIA,
 		PortLocation.PISCATORIS
+		// Sailing >= 75, used in 2 tasks
 	),
 	ETCETERIA_HOSIDIUS(
 		PortLocation.ETCETERIA,
 		PortLocation.HOSIDIUS
+		// Sailing >= 65, used in 1 task
 	),
 	LUNAR_ISLE_PISCATORIS(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PISCATORIS
+		// Sailing >= 76, used in 3 tasks
 	),
 	DEEPFIN_POINT_LUNAR_ISLE(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.LUNAR_ISLE
+		// Sailing >= 76, used in 2 tasks
 	),
 	LUNAR_ISLE_PORT_ROBERTS(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PORT_ROBERTS
+		// Sailing >= 76, used in 2 tasks
 	),
 	CIVITAS_ILLA_FORTIS_LUNAR_ISLE(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.LUNAR_ISLE
+		// Sailing >= 76, used in 2 tasks
 	),
 	LUNAR_ISLE_RED_ROCK(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.RED_ROCK
+		// Sailing >= 76, used in 2 tasks
 	),
 	ALDARIN_LUNAR_ISLE(
 		PortLocation.ALDARIN,
 		PortLocation.LUNAR_ISLE
+		// Sailing >= 76, used in 1 task
 	),
 	PORT_SARIM_RELLEKKA(
 		PortLocation.PORT_SARIM,
 		PortLocation.RELLEKKA
+		// Sailing >= 62, used in 1 task
 	),
 	PANDEMONIUM_CAIRN_ISLE(
 		PortLocation.PANDEMONIUM,
 		PortLocation.CAIRN_ISLE
+		// Sailing >= 42, used in 1 task
 	),
 	MUSA_POINT_CORSAIR_COVE(
 		PortLocation.MUSA_POINT,
 		PortLocation.CORSAIR_COVE
+		// Sailing >= 40, used in 1 task
 	),
 	MUSA_POINT_SUMMER_SHORE(
 		PortLocation.MUSA_POINT,
 		PortLocation.SUMMER_SHORE
+		// Sailing >= 45, used in 1 task
 	),
 	MUSA_POINT_PORT_TYRAS(
 		PortLocation.MUSA_POINT,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 1 task
 	),
 	CATHERBY_PORT_PISCARILIUS(
 		PortLocation.CATHERBY,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 20, used in 1 task
 	),
 	BRIMHAVEN_CIVITAS_ILLA_FORTIS(
 		PortLocation.BRIMHAVEN,
 		PortLocation.CIVITAS_ILLA_FORTIS
+		// Sailing >= 38, used in 1 task
 	),
 	ARDOUGNE_SUMMER_SHORE(
 		PortLocation.ARDOUGNE,
 		PortLocation.SUMMER_SHORE
+		// Sailing >= 45, used in 1 task
 	),
 	ARDOUGNE_CIVITAS_ILLA_FORTIS(
 		PortLocation.ARDOUGNE,
 		PortLocation.CIVITAS_ILLA_FORTIS
+		// Sailing >= 38, used in 1 task
 	),
 	ARDOUGNE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.ARDOUGNE,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 50, used in 1 task
 	),
 	PORT_KHAZARD_RELLEKKA(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.RELLEKKA
+		// Sailing >= 62, used in 1 task
 	),
 	PORT_KHAZARD_PORT_PISCARILIUS(
 		PortLocation.PORT_KHAZARD,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 30, used in 1 task
 	),
 	CORSAIR_COVE_CIVITAS_ILLA_FOTRIS(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.CIVITAS_ILLA_FORTIS
+		// Sailing >= 40, used in 1 task
 	),
 	CORSAIR_COVE_ALDARIN(
 		PortLocation.CORSAIR_COVE,
 		PortLocation.ALDARIN
+		// Sailing >= 46, used in 1 task
 	),
 	DEEPFIN_POINT_RUINS_OF_UNKAH(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.RUINS_OF_UNKAH
+		// Sailing >= 67, used in 1 task
 	),
 	DEEPFIN_POINT_LANDS_END(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.LANDS_END
+		// Sailing >= 67, used in 1 task
 	),
 	LANDS_END_PORT_KHAZARD(
 		PortLocation.LANDS_END,
 		PortLocation.PORT_KHAZARD
+		// Sailing >= 30, used in 1 task
 	),
 	LANDS_END_LUNAR_ISLE(
 		PortLocation.LANDS_END,
 		PortLocation.LUNAR_ISLE
+		// Sailing >= 76, used in 2 tasks
 	),
 	MUSA_POINT_PORT_PISCARILIUS(
 		PortLocation.MUSA_POINT,
 		PortLocation.PORT_PISCARILIUS
+		// Sailing >= 15, used in 1 task
 	),
 	CIVITAS_ILLA_FORTIS_PORT_SARIM(
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PORT_SARIM
+		// Sailing >= 38, used in 1 task
 	),
 	BRIMHAVEN_PORT_TYRAS(
 		PortLocation.BRIMHAVEN,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 66, used in 1 task
 	),
 	LUNAR_ISLE_PORT_TYRAS(
 		PortLocation.LUNAR_ISLE,
 		PortLocation.PORT_TYRAS
+		// Sailing >= 76, used in 1 task
 	),
 	PORT_TYRAS_RED_ROCK(
 		PortLocation.PORT_TYRAS,
 		PortLocation.RED_ROCK
+		// Sailing >= 66, used in 1 task
 	),
 	PRIFDDINAS_RELLEKKA(
 		PortLocation.PRIFDDINAS,
 		PortLocation.RELLEKKA
+		// Sailing >= 70, used in 1 task
 	),
 	PRIFDDINAS_VOID_KNIGHTS_OUTPOST(
 		PortLocation.PRIFDDINAS,
 		PortLocation.VOID_KNIGHT
+		// Sailing >= 70, used in 1 task
 	),
 	DEEPFIN_POINT_RELLEKKA(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.RELLEKKA
+		// Sailing >= 67, used in 1 task
 	),
 	DEEPFIN_POINT_ETCETERIA(
 		PortLocation.DEEPFIN_POINT,
 		PortLocation.ETCETERIA
+		// Sailing >= 67, used in 1 task
 	),
 	;
 

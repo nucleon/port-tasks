@@ -460,8 +460,14 @@ public enum PortPaths
 	),
 	PORT_SARIM_RUINS_OF_UNKAH(
 		PortLocation.PORT_SARIM,
-		PortLocation.RUINS_OF_UNKAH
+		PortLocation.RUINS_OF_UNKAH,
 		// Sailing >= 48, used in 4 tasks
+		new RelativeMove(0, -50),
+		new RelativeMove(-25, -25),
+		new RelativeMove(0, -68),
+		new RelativeMove(95, -95),
+		new RelativeMove(0, -127),
+		new RelativeMove(5, -5)
 	),
 	PORT_PISCARILIUS_PORT_SARIM(
 		PortLocation.PORT_PISCARILIUS,
@@ -475,8 +481,24 @@ public enum PortPaths
 	),
 	CORSAIR_COVE_PANDEMONIUM(
 		PortLocation.CORSAIR_COVE,
-		PortLocation.PANDEMONIUM
+		PortLocation.PANDEMONIUM,
 		// Sailing >= 40, used in 4 tasks
+		// Can you safely navigate around The Storm Tempor?
+		// I don't think so. Routing improvement if you can
+		new RelativeMove(105, 0),
+		new RelativeMove(25, 25),
+		new RelativeMove(0, 245),
+		new RelativeMove(-29, 29),
+		new RelativeMove(0, 77),
+		new RelativeMove(34, 34),
+		new RelativeMove(57, 0),
+		new RelativeMove(38, -38),
+		new RelativeMove(75, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(10, 0),
+		new RelativeMove(36, -36),
+		new RelativeMove(0, -40),
+		new RelativeMove(111, -111)
 	),
 	CATHERBY_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CATHERBY,
@@ -485,8 +507,16 @@ public enum PortPaths
 	),
 	BRIMHAVEN_CORSAIR_COVE(
 		PortLocation.BRIMHAVEN,
-		PortLocation.CORSAIR_COVE
+		PortLocation.CORSAIR_COVE,
 		// Sailing >= 40, used in 5 tasks
+		new RelativeMove(0, 17),
+		new RelativeMove(-5, 5),
+		new RelativeMove(-30, 0),
+		new RelativeMove(-31, -31),
+		new RelativeMove(0, -80),
+		new RelativeMove(30, -30),
+		new RelativeMove(00, -200),
+		new RelativeMove(-68, -68)
 	),
 	BRIMHAVEN_RED_ROCK(
 		PortLocation.BRIMHAVEN,
@@ -500,8 +530,23 @@ public enum PortPaths
 	),
 	ARDOUGNE_PORT_TYRAS(
 		PortLocation.ARDOUGNE,
-		PortLocation.PORT_TYRAS
+		PortLocation.PORT_TYRAS,
 		// Sailing >= 66, used in 5 tasks
+		new RelativeMove(7, 0),
+		new RelativeMove(10, -10),
+		new RelativeMove(0, -120),
+		new RelativeMove(25, -25),
+		new RelativeMove(0, -230),
+		new RelativeMove(-70, -70),
+		new RelativeMove(0, -100),
+		new RelativeMove(-30, -30),
+		new RelativeMove(-170, 0),
+		new RelativeMove(-70, -70),
+		new RelativeMove(-130, 0),
+		new RelativeMove(-180, 180),
+		new RelativeMove(0, 190),
+		new RelativeMove(70, 70),
+		new RelativeMove(0, 62)
 	),
 	ARDOUGNE_PORT_PISCARILIUS(
 		PortLocation.ARDOUGNE,
@@ -600,8 +645,14 @@ public enum PortPaths
 	),
 	LUNAR_ISLE_PORT_PISCARILIUS(
 		PortLocation.LUNAR_ISLE,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 76, used in 5 tasks
+		new RelativeMove(12, 0),
+		new RelativeMove(5, -5),
+		new RelativeMove(0, -120),
+		new RelativeMove(-20, -20),
+		new RelativeMove(-180, 0),
+		new RelativeMove(-55, -55)
 	),
 	PORT_PISCARILIUS_PORT_TYRAS(
 		PortLocation.PORT_PISCARILIUS,
@@ -640,8 +691,18 @@ public enum PortPaths
 	),
 	CIVITAS_ILLA_FORTIS_PRIFDDINAS(
 		PortLocation.CIVITAS_ILLA_FORTIS,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 4 tasks
+		new RelativeMove(-5, 0),
+		new RelativeMove(-5, 5),
+		new RelativeMove(0, 48),
+		new RelativeMove(10, 10),
+		new RelativeMove(64, 0),
+		new RelativeMove(9, -9),
+		new RelativeMove(40, 0),
+		new RelativeMove(45, 45),
+		new RelativeMove(170, 0),
+		new RelativeMove(61, 61)
 	),
 	CIVITAS_ILLA_FORTIS_SUNSET_COAST(
 		PortLocation.CIVITAS_ILLA_FORTIS,

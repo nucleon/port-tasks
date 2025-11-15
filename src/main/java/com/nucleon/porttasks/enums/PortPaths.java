@@ -1519,13 +1519,42 @@ public enum PortPaths
 		fullPath.add(current);
 		for (RelativeMove delta : pathPoints)
 		{
-			current = new WorldPoint(current.getX() + delta.getDx(), current.getY() + delta.getDy(), current.getPlane());
-			fullPath.add(current);
+			List<RelativeMove> moves = splitMove(delta, 50); // List<RelativeMove> moves = List.of(delta); to remove segmentation
+			for (RelativeMove m : moves)
+			{
+				current = new WorldPoint(current.getX() + m.getDx(), current.getY() + m.getDy(), current.getPlane());
+				fullPath.add(current);
+			}
 		}
 		fullPath.add(end.getNavigationLocation());
 		return fullPath;
 	}
+	private List<RelativeMove> splitMove(RelativeMove delta, int segmentLength)
+	{
+		int dx = delta.getDx();
+		int dy = delta.getDy();
+		int steps = Math.max(
+				Math.abs(dx) / segmentLength + (Math.abs(dx) % segmentLength != 0 ? 1 : 0),
+				Math.abs(dy) / segmentLength + (Math.abs(dy) % segmentLength != 0 ? 1 : 0)
+		);
 
+		if (steps <= 1)
+			return List.of(delta);
+
+		List<RelativeMove> result = new ArrayList<>(steps);
+		int stepDx = dx / steps;
+		int stepDy = dy / steps;
+		int remDx = dx % steps;
+		int remDy = dy % steps;
+
+		for (int i = 0; i < steps; i++)
+		{
+			int addX = stepDx + (i < remDx ? Integer.signum(remDx) : 0);
+			int addY = stepDy + (i < remDy ? Integer.signum(remDy) : 0);
+			result.add(new RelativeMove(addX, addY));
+		}
+		return result;
+	}
 	@Override
 	public String toString()
 	{

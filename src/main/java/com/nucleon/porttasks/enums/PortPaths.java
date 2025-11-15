@@ -927,8 +927,16 @@ public enum PortPaths
 	),
 	ALDARIN_PORT_TYRAS(
 		PortLocation.ALDARIN,
-		PortLocation.PORT_TYRAS
+		PortLocation.PORT_TYRAS,
 		// Sailing >= 66, used in 1 task
+		new RelativeMove(0, 6),
+		new RelativeMove(3, 3),
+		new RelativeMove(3, 0),
+		new RelativeMove(117, -117),
+		new RelativeMove(135, 0),
+		new RelativeMove(47, 47),
+		new RelativeMove(250, 0),
+		new RelativeMove(100, 100)
 	),
 	PORT_ROBERTS_PRIFDDINAS(
 		PortLocation.PORT_ROBERTS,
@@ -1190,8 +1198,24 @@ public enum PortPaths
 	),
 	ALDARIN_LUNAR_ISLE(
 		PortLocation.ALDARIN,
-		PortLocation.LUNAR_ISLE
+		PortLocation.LUNAR_ISLE,
 		// Sailing >= 76, used in 1 task
+		new RelativeMove(0, 6),
+		new RelativeMove(3, 3),
+		new RelativeMove(3, 0),
+		new RelativeMove(117, -117),
+		new RelativeMove(135, 0),
+		new RelativeMove(47, 47),
+		new RelativeMove(50, 0),
+		new RelativeMove(50, 0),
+		new RelativeMove(50, 0),
+		new RelativeMove(50, 0),
+		new RelativeMove(50, 0),
+		new RelativeMove(39, 39),
+		new RelativeMove(0, 599),
+		new RelativeMove(126, 126),
+		new RelativeMove(0, 187),
+		new RelativeMove(-14, 14)
 	),
 	PORT_SARIM_RELLEKKA(
 		PortLocation.PORT_SARIM,
@@ -1431,8 +1455,14 @@ public enum PortPaths
 	),
 	LUNAR_ISLE_PORT_TYRAS(
 		PortLocation.LUNAR_ISLE,
-		PortLocation.PORT_TYRAS
+		PortLocation.PORT_TYRAS,
 		// Sailing >= 76, used in 1 task
+		new RelativeMove(3, 0),
+		new RelativeMove(14, -14),
+		new RelativeMove(0, -187),
+		new RelativeMove(-126, -126),
+		new RelativeMove(0, -194),
+		new RelativeMove(10, -192)
 	),
 	PORT_TYRAS_RED_ROCK(
 		PortLocation.PORT_TYRAS,

@@ -26,7 +26,6 @@
  */
 package com.nucleon.porttasks.enums;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ObjectID;
@@ -52,8 +51,8 @@ public enum PortLocation
 	VOID_KNIGHT("Void Knights' Outpost", 50, ObjectID.SAILING_GANGPLANK_VOID_KNIGHTS_OUTPOST, ObjectID.PORT_TASK_BOARD_VOID_KNIGHTS_OUTPOST, new WorldPoint(2651, 2683, 0)),
 	PORT_TYRAS("Port Tyras", 66, ObjectID.SAILING_GANGPLANK_PORT_TYRAS, ObjectID.PORT_TASK_BOARD_PORT_TYRAS, new WorldPoint(2141, 3115, 0)),
 	PORT_ROBERTS("Port Roberts", 50, ObjectID.SAILING_GANGPLANK_PORT_ROBERTS, ObjectID.PORT_TASK_BOARD_PORT_ROBERTS, new WorldPoint(1858, 3307, 0)),
-	LANDS_END("Land's End", 5, ObjectID.SAILING_GANGPLANK_LANDS_END, ObjectID.PORT_TASK_BOARD_LANDS_END, new WorldPoint(1511, 34005, 0)),
-	HOSIDIUS("Hosidius", 5, ObjectID.SAILING_GANGPLANK_HOSIDIUS, -1, new WorldPoint(1724, 3461, 0)),
+	LANDS_END("Land's End", 5, ObjectID.SAILING_GANGPLANK_LANDS_END, ObjectID.PORT_TASK_BOARD_LANDS_END, new WorldPoint(1511, 3405, 0)),
+	HOSIDIUS("Hosidius", 5, ObjectID.SAILING_GANGPLANK_HOSIDIUS, -1, new WorldPoint(1726, 3447, 0)),
 	CIVITAS_ILLA_FORTIS("Civitas illa Fortis", 38, ObjectID.SAILING_GANGPLANK_CIVITAS_ILLA_FORTIS, ObjectID.PORT_TASK_BOARD_CIVITAS_ILLA_FORTIS, new WorldPoint(1769, 3144, 0)),
 	PORT_PISCARILIUS("Port Piscarilius", 15, ObjectID.SAILING_GANGPLANK_PORT_PISCARILIUS, ObjectID.PORT_TASK_BOARD_PORT_PISCARILIUS, new WorldPoint(1845, 3681, 0)),
 	CAIRN_ISLE("Cairn Isle", 42, ObjectID.SAILING_GANGPLANK_CAIRN_ISLE, -1, new WorldPoint(2745, 2952, 0)),
@@ -64,7 +63,7 @@ public enum PortLocation
 	JATIZO("Jatizo", 68, ObjectID.SAILING_GANGPLANK_JATIZSO, -1, new WorldPoint(2412, 3776, 0)),
 	ETCETERIA("Etceteria", 65, ObjectID.SAILING_GANGPLANK_ETCETERIA, ObjectID.PORT_TASK_BOARD_ETCETERIA, new WorldPoint(2612, 3836, 0)),
 	NEITIZNOT("Neitiznot", 68, ObjectID.SAILING_GANGPLANK_NEITIZNOT, -1, new WorldPoint(2302, 3782, 0)),
-	EMPTY("Default", null, -1, -1, new WorldPoint(0,0 ,0)),
+	EMPTY("Default", null, -1, -1, new WorldPoint(0, 0, 0)),
 	;
 
 	private final String name;

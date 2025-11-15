@@ -578,8 +578,20 @@ public enum PortPaths
 	),
 	ARDOUGNE_PORT_PISCARILIUS(
 		PortLocation.ARDOUGNE,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 28, used in 2 tasks
+		new RelativeMove(8, 0),
+		new RelativeMove(10, -10),
+		new RelativeMove(0, -106),
+		new RelativeMove(31, -31),
+		new RelativeMove(0, -223),
+		new RelativeMove(-72, -72),
+		new RelativeMove(0, -70),
+		new RelativeMove(-130, -130),
+		new RelativeMove(-222, 0),
+		new RelativeMove(-306, 306),
+		new RelativeMove(0, 584),
+		new RelativeMove(-142, 142)
 	),
 	ARDOUGNE_RED_ROCK(
 		PortLocation.ARDOUGNE,
@@ -623,13 +635,23 @@ public enum PortPaths
 	),
 	CORSAIR_COVE_PORT_PISCARILIUS(
 		PortLocation.CORSAIR_COVE,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 40, used in 2 tasks
+		new RelativeMove(0, -99),
+		new RelativeMove(-66, -66),
+		new RelativeMove(-152, 0),
+		new RelativeMove(-18, 18),
+		new RelativeMove(-134, 0),
+		new RelativeMove(-229, 229),
+		new RelativeMove(0, 579),
+		new RelativeMove(-142, 142)
 	),
 	CAIRN_ISLE_CORSAIR_COVE(
 		PortLocation.CAIRN_ISLE,
-		PortLocation.CORSAIR_COVE
+		PortLocation.CORSAIR_COVE,
 		// Sailing >= 42, used in 2 tasks
+		new RelativeMove(-13, 0),
+		new RelativeMove(-108, -108)
 	),
 	RED_ROCK_RUINS_OF_UNKAH(
 		PortLocation.RED_ROCK,
@@ -638,8 +660,15 @@ public enum PortPaths
 	),
 	RUINS_OF_UNKAH_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RUINS_OF_UNKAH,
-		PortLocation.VOID_KNIGHT
+		PortLocation.VOID_KNIGHT,
 		// Sailing >= 50, used in 2 tasks
+		new RelativeMove(-12, -12),
+		new RelativeMove(0, -23),
+		new RelativeMove(-33, -33),
+		new RelativeMove(-217, 0),
+		new RelativeMove(-40, -40),
+		new RelativeMove(0, -24),
+		new RelativeMove(-10, -10)
 	),
 	RED_ROCK_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RED_ROCK,
@@ -648,13 +677,21 @@ public enum PortPaths
 	),
 	SUMMER_SHORE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.SUMMER_SHORE,
-		PortLocation.VOID_KNIGHT
+		PortLocation.VOID_KNIGHT,
 		// Sailing >= 50, used in 2 tasks
+		new RelativeMove(-160, 0),
+		new RelativeMove(-316, 316)
 	),
 	DEEPFIN_POINT_VOID_KNIGHTS_OUTPOST(
 		PortLocation.DEEPFIN_POINT,
-		PortLocation.VOID_KNIGHT
+		PortLocation.VOID_KNIGHT,
 		// Sailing >= 67, used in 2 tasks
+		new RelativeMove(0, -7),
+		new RelativeMove(9, -9),
+		new RelativeMove(49, 0),
+		new RelativeMove(23, 23),
+		new RelativeMove(287, 0),
+		new RelativeMove(76, -76)
 	),
 	LANDS_END_PRIFDDINAS(
 		PortLocation.LANDS_END,
@@ -663,13 +700,29 @@ public enum PortPaths
 	),
 	LANDS_END_PISCATORIS(
 		PortLocation.LANDS_END,
-		PortLocation.PISCATORIS
+		PortLocation.PISCATORIS,
 		// Sailing >= 75, used in 2 tasks
+		new RelativeMove(0, -9),
+		new RelativeMove(15, -15),
+		new RelativeMove(267, 0),
+		new RelativeMove(18, 18),
+		new RelativeMove(93, 0),
+		new RelativeMove(254, 254),
+		new RelativeMove(99, 0),
+		new RelativeMove(36, 36)
 	),
 	CORSAIR_COVE_LANDS_END(
 		PortLocation.CORSAIR_COVE,
-		PortLocation.LANDS_END
+		PortLocation.LANDS_END,
 		// Sailing >= 40, used in 1 task
+		new RelativeMove(0, -78),
+		new RelativeMove(-81, -81),
+		new RelativeMove(-324, 0),
+		new RelativeMove(-185, 185),
+		new RelativeMove(0, 449),
+		new RelativeMove(-72, 72),
+		new RelativeMove(-406, 0),
+		new RelativeMove(-7, 7)
 	),
 	LANDS_END_PORT_PISCARILIUS(
 		PortLocation.LANDS_END,
@@ -691,13 +744,25 @@ public enum PortPaths
 	),
 	PISCATORIS_PORT_PISCARILIUS(
 		PortLocation.PISCATORIS,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 75, used in 3 tasks
+		new RelativeMove(-10, 0),
+		new RelativeMove(-13, -13),
+		new RelativeMove(-84, 0),
+		new RelativeMove(-45, 45),
+		new RelativeMove(-172, 0),
+		new RelativeMove(-40, -40)
 	),
 	HOSIDIUS_PORT_PISCARILIUS(
 		PortLocation.HOSIDIUS,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 15, used in 2 tasks
+		new RelativeMove(0, -25),
+		new RelativeMove(21, -21),
+		new RelativeMove(131, 0),
+		new RelativeMove(38, 38),
+		new RelativeMove(0, 141),
+		new RelativeMove(-71, 71)
 	),
 	LUNAR_ISLE_PORT_PISCARILIUS(
 		PortLocation.LUNAR_ISLE,
@@ -732,8 +797,12 @@ public enum PortPaths
 	),
 	PORT_PISCARILIUS_PRIFDDINAS(
 		PortLocation.PORT_PISCARILIUS,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 2 tasks
+		new RelativeMove(113, 0),
+		new RelativeMove(100, -100),
+		new RelativeMove(0, -202),
+		new RelativeMove(60, -60)
 	),
 	ALDARIN_CIVITAS_ILLA_FORTIS(
 		PortLocation.ALDARIN,
@@ -772,8 +841,17 @@ public enum PortPaths
 	),
 	CIVITAS_ILLA_FORTIS_DEEPFIN_POINT(
 		PortLocation.CIVITAS_ILLA_FORTIS,
-		PortLocation.DEEPFIN_POINT
+		PortLocation.DEEPFIN_POINT,
 		// Sailing >= 67, used in 2 tasks
+		new RelativeMove(-8, 8),
+		new RelativeMove(0, 41),
+		new RelativeMove(9, 9),
+		new RelativeMove(63, 0),
+		new RelativeMove(83, -83),
+		new RelativeMove(0, -179),
+		new RelativeMove(-20, -20),
+		new RelativeMove(0, -143),
+		new RelativeMove(25, -25)
 	),
 	CIVITAS_ILLA_FORTIS_PRIFDDINAS(
 		PortLocation.CIVITAS_ILLA_FORTIS,
@@ -792,13 +870,28 @@ public enum PortPaths
 	),
 	CIVITAS_ILLA_FORTIS_SUNSET_COAST(
 		PortLocation.CIVITAS_ILLA_FORTIS,
-		PortLocation.SUNSET_COAST
+		PortLocation.SUNSET_COAST,
 		// Sailing >= 44, used in 2 tasks
+		new RelativeMove(-8, 8),
+		new RelativeMove(0, 41),
+		new RelativeMove(10, 10),
+		new RelativeMove(62, 0),
+		new RelativeMove(59, -59),
+		new RelativeMove(0, -62),
+		new RelativeMove(-78, -78),
+		new RelativeMove(0, -53),
+		new RelativeMove(-74, -74),
+		new RelativeMove(-175, 0),
+		new RelativeMove(-59, 59)
 	),
 	PORT_ROBERTS_PORT_TYRAS(
 		PortLocation.PORT_ROBERTS,
-		PortLocation.PORT_TYRAS
+		PortLocation.PORT_TYRAS,
 		// Sailing >= 66, used in 2 tasks
+		new RelativeMove(0, -27),
+		new RelativeMove(11, -11),
+		new RelativeMove(111, 0),
+		new RelativeMove(154, -154)
 	),
 	DEEPFIN_POINT_PORT_TYRAS(
 		PortLocation.DEEPFIN_POINT,
@@ -823,8 +916,14 @@ public enum PortPaths
 	),
 	LANDS_END_PORT_TYRAS(
 		PortLocation.LANDS_END,
-		PortLocation.PORT_TYRAS
+		PortLocation.PORT_TYRAS,
 		// Sailing >= 66, used in 2 tasks
+		new RelativeMove(0, -14),
+		new RelativeMove(25, -25),
+		new RelativeMove(157, 0),
+		new RelativeMove(99, -99),
+		new RelativeMove(186, 0),
+		new RelativeMove(152, -152)
 	),
 	ALDARIN_PORT_TYRAS(
 		PortLocation.ALDARIN,
@@ -833,23 +932,58 @@ public enum PortPaths
 	),
 	PORT_ROBERTS_PRIFDDINAS(
 		PortLocation.PORT_ROBERTS,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 3 tasks
+		new RelativeMove(0, 16),
+		new RelativeMove(53, 53),
+		new RelativeMove(154, 0),
+		new RelativeMove(58, -58)
 	),
 	ARDOUGNE_PRIFDDINAS(
 		PortLocation.ARDOUGNE,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 3 tasks
+		new RelativeMove(8, 0),
+		new RelativeMove(10, -10),
+		new RelativeMove(0, -106),
+		new RelativeMove(31, -31),
+		new RelativeMove(0, -236),
+		new RelativeMove(-69, -69),
+		new RelativeMove(0, -75),
+		new RelativeMove(-49, -49),
+		new RelativeMove(-239, 0),
+		new RelativeMove(-12, 12),
+		new RelativeMove(-98, 0),
+		new RelativeMove(-14, -14),
+		new RelativeMove(-58, 0),
+		new RelativeMove(-105, 105),
+		new RelativeMove(0, 196),
+		new RelativeMove(-38, 38),
+		new RelativeMove(0, 187),
+		new RelativeMove(113, 113)
 	),
 	DEEPFIN_POINT_PRIFDDINAS(
 		PortLocation.DEEPFIN_POINT,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 2 tasks
+		new RelativeMove(-37, 37),
+		new RelativeMove(0, 115),
+		new RelativeMove(148, 148),
+		new RelativeMove(0, 158),
+		new RelativeMove(109, 109)
 	),
 	ALDARIN_PRIFDDINAS(
 		PortLocation.ALDARIN,
-		PortLocation.PRIFDDINAS
+		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 2 tasks
+		new RelativeMove(17, 0),
+		new RelativeMove(100, -100),
+		new RelativeMove(166, 0),
+		new RelativeMove(46, 46),
+		new RelativeMove(119, 0),
+		new RelativeMove(126, 126),
+		new RelativeMove(0, 158),
+		new RelativeMove(112, 112)
 	),
 	LUNAR_ISLE_PRIFDDINAS(
 		PortLocation.LUNAR_ISLE,
@@ -875,8 +1009,14 @@ public enum PortPaths
 	),
 	NEITIZNOT_RELLEKKA(
 		PortLocation.NEITIZNOT,
-		PortLocation.RELLEKKA
+		PortLocation.RELLEKKA,
 		// Sailing >= 68, used in 3 tasks
+		new RelativeMove(0, -15),
+		new RelativeMove(50, -50),
+		new RelativeMove(131, 0),
+		new RelativeMove(12, -12),
+		new RelativeMove(109, 0),
+		new RelativeMove(6, 6)
 	),
 	RELLEKKA_SUNSET_COAST(
 		PortLocation.RELLEKKA,
@@ -895,18 +1035,29 @@ public enum PortPaths
 	),
 	PORT_ROBERTS_RELLEKKA(
 		PortLocation.PORT_ROBERTS,
-		PortLocation.RELLEKKA
+		PortLocation.RELLEKKA,
 		// Sailing >= 62, used in 2 tasks
+		new RelativeMove(0, 19),
+		new RelativeMove(193, 193),
+		new RelativeMove(0, 37),
+		new RelativeMove(200, 200),
+		new RelativeMove(197, 0),
+		new RelativeMove(47, -47)
 	),
 	PISCATORIS_RELLEKKA(
 		PortLocation.PISCATORIS,
-		PortLocation.RELLEKKA
+		PortLocation.RELLEKKA,
 		// Sailing >= 75, used in 2 tasks
+		new RelativeMove(0, 15),
+		new RelativeMove(12, 12),
+		new RelativeMove(168, 0),
+		new RelativeMove(6, -6)
 	),
 	JATIZO_RELLEKKA(
 		PortLocation.JATIZO,
-		PortLocation.RELLEKKA
+		PortLocation.RELLEKKA,
 		// Sailing >= 68, used in 2 tasks
+		new RelativeMove(67, -67)
 	),
 	PORT_TYRAS_RELLEKKA(
 		PortLocation.PORT_TYRAS,
@@ -937,23 +1088,53 @@ public enum PortPaths
 	),
 	ETCETERIA_PORT_PISCARILIUS(
 		PortLocation.ETCETERIA,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 65, used in 2 tasks
+		new RelativeMove(0, -18),
+		new RelativeMove(-26, -26),
+		new RelativeMove(-101, 0),
+		new RelativeMove(-34, -34),
+		new RelativeMove(-514, 0),
+		new RelativeMove(-77, -77)
 	),
 	ETCETERIA_NEITIZNOT(
 		PortLocation.ETCETERIA,
-		PortLocation.NEITIZNOT
+		PortLocation.NEITIZNOT,
 		// Sailing >= 68, used in 2 tasks
+		new RelativeMove(0, -22),
+		new RelativeMove(-22, -22),
+		new RelativeMove(-122, 0),
+		new RelativeMove(-27, -27),
+		new RelativeMove(-133, 0),
+		new RelativeMove(-6, 6)
 	),
 	ETCETERIA_SUNSET_COAST(
 		PortLocation.ETCETERIA,
-		PortLocation.SUNSET_COAST
+		PortLocation.SUNSET_COAST,
 		// Sailing >= 65, used in 2 tasks
+		new RelativeMove(0, -26),
+		new RelativeMove(-18, -18),
+		new RelativeMove(-115, 0),
+		new RelativeMove(-33, -33),
+		new RelativeMove(-393, 0),
+		new RelativeMove(-107, -107),
+		new RelativeMove(0, -507),
+		new RelativeMove(-131, -131),
+		new RelativeMove(0, -59),
+		new RelativeMove(-79, -79),
+		new RelativeMove(-168, 0),
+		new RelativeMove(-62, 62)
 	),
 	ETCETERIA_PISCATORIS(
 		PortLocation.ETCETERIA,
-		PortLocation.PISCATORIS
+		PortLocation.PISCATORIS,
 		// Sailing >= 75, used in 2 tasks
+		new RelativeMove(0, -20),
+		new RelativeMove(-26, -26),
+		new RelativeMove(-100, 0),
+		new RelativeMove(-51, -51),
+		new RelativeMove(-103, 0),
+		new RelativeMove(-32, -32)
 	),
 	ETCETERIA_HOSIDIUS(
 		PortLocation.ETCETERIA,
@@ -962,23 +1143,45 @@ public enum PortPaths
 	),
 	LUNAR_ISLE_PISCATORIS(
 		PortLocation.LUNAR_ISLE,
-		PortLocation.PISCATORIS
+		PortLocation.PISCATORIS,
 		// Sailing >= 76, used in 3 tasks
+		new RelativeMove(30, 0),
+		new RelativeMove(116, -116)
 	),
 	DEEPFIN_POINT_LUNAR_ISLE(
 		PortLocation.DEEPFIN_POINT,
-		PortLocation.LUNAR_ISLE
+		PortLocation.LUNAR_ISLE,
 		// Sailing >= 76, used in 2 tasks
+		new RelativeMove(-31, 31),
+		new RelativeMove(0, 134),
+		new RelativeMove(122, 122),
+		new RelativeMove(0, 473),
+		new RelativeMove(159, 159),
+		new RelativeMove(0, 197),
+		new RelativeMove(-13, 13)
 	),
 	LUNAR_ISLE_PORT_ROBERTS(
 		PortLocation.LUNAR_ISLE,
-		PortLocation.PORT_ROBERTS
+		PortLocation.PORT_ROBERTS,
 		// Sailing >= 76, used in 2 tasks
+		new RelativeMove(3, 0),
+		new RelativeMove(14, -14),
+		new RelativeMove(0, -187),
+		new RelativeMove(-124, -124),
+		new RelativeMove(0, -45),
+		new RelativeMove(-192, -192)
 	),
 	CIVITAS_ILLA_FORTIS_LUNAR_ISLE(
 		PortLocation.CIVITAS_ILLA_FORTIS,
-		PortLocation.LUNAR_ISLE
+		PortLocation.LUNAR_ISLE,
 		// Sailing >= 76, used in 2 tasks
+		new RelativeMove(-9, 9),
+		new RelativeMove(0, 73),
+		new RelativeMove(285, 285),
+		new RelativeMove(0, 32),
+		new RelativeMove(127, 127),
+		new RelativeMove(0, 200),
+		new RelativeMove(-11, 11)
 	),
 	LUNAR_ISLE_RED_ROCK(
 		PortLocation.LUNAR_ISLE,
@@ -1017,13 +1220,46 @@ public enum PortPaths
 	),
 	CATHERBY_PORT_PISCARILIUS(
 		PortLocation.CATHERBY,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 20, used in 1 task
+		new RelativeMove(0, -16),
+		new RelativeMove(-41, -41),
+		new RelativeMove(0, -60),
+		new RelativeMove(-66, -66),
+		new RelativeMove(0, -90),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -212),
+		new RelativeMove(-212, -212),
+		new RelativeMove(-125, 0),
+		new RelativeMove(-16, 16),
+		new RelativeMove(-153, 0),
+		new RelativeMove(-18, -18),
+		new RelativeMove(-13, 0),
+		new RelativeMove(-187, 187),
+		new RelativeMove(0, 638),
+		new RelativeMove(-152, 152)
 	),
 	BRIMHAVEN_CIVITAS_ILLA_FORTIS(
 		PortLocation.BRIMHAVEN,
-		PortLocation.CIVITAS_ILLA_FORTIS
+		PortLocation.CIVITAS_ILLA_FORTIS,
 		// Sailing >= 38, used in 1 task
+		new RelativeMove(0, 18),
+		new RelativeMove(-5, 5),
+		new RelativeMove(-34, 0),
+		new RelativeMove(-27, -27),
+		new RelativeMove(0, -83),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -283),
+		new RelativeMove(-148, -148),
+		new RelativeMove(-202, 0),
+		new RelativeMove(-17, 17),
+		new RelativeMove(-141, 0),
+		new RelativeMove(-332, 332),
+		new RelativeMove(0, 124),
+		new RelativeMove(-49, 49),
+		new RelativeMove(-60, 0),
+		new RelativeMove(-11, -11),
+		new RelativeMove(0, -39)
 	),
 	ARDOUGNE_SUMMER_SHORE(
 		PortLocation.ARDOUGNE,
@@ -1032,8 +1268,25 @@ public enum PortPaths
 	),
 	ARDOUGNE_CIVITAS_ILLA_FORTIS(
 		PortLocation.ARDOUGNE,
-		PortLocation.CIVITAS_ILLA_FORTIS
+		PortLocation.CIVITAS_ILLA_FORTIS,
 		// Sailing >= 38, used in 1 task
+		new RelativeMove(7, 0),
+		new RelativeMove(12, -12),
+		new RelativeMove(0, -101),
+		new RelativeMove(33, -33),
+		new RelativeMove(0, -290),
+		new RelativeMove(-141, -141),
+		new RelativeMove(-218, 0),
+		new RelativeMove(-14, 14),
+		new RelativeMove(-139, 0),
+		new RelativeMove(-14, -14),
+		new RelativeMove(-16, 0),
+		new RelativeMove(-275, 275),
+		new RelativeMove(0, 172),
+		new RelativeMove(-76, 76),
+		new RelativeMove(-56, 0),
+		new RelativeMove(-12, -12),
+		new RelativeMove(0, -41)
 	),
 	ARDOUGNE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.ARDOUGNE,
@@ -1047,13 +1300,35 @@ public enum PortPaths
 	),
 	PORT_KHAZARD_PORT_PISCARILIUS(
 		PortLocation.PORT_KHAZARD,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 30, used in 1 task
+		new RelativeMove(0, -18),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -287),
+		new RelativeMove(-142, -142),
+		new RelativeMove(-225, 0),
+		new RelativeMove(-12, 12),
+		new RelativeMove(-102, 0),
+		new RelativeMove(-24, -24),
+		new RelativeMove(-26, 0),
+		new RelativeMove(-199, 199),
+		new RelativeMove(0, 647),
+		new RelativeMove(-145, 145)
 	),
 	CORSAIR_COVE_CIVITAS_ILLA_FOTRIS(
 		PortLocation.CORSAIR_COVE,
-		PortLocation.CIVITAS_ILLA_FORTIS
+		PortLocation.CIVITAS_ILLA_FORTIS,
 		// Sailing >= 40, used in 1 task
+		new RelativeMove(0, -101),
+		new RelativeMove(-57, -57),
+		new RelativeMove(-348, 0),
+		new RelativeMove(-277, 277),
+		new RelativeMove(0, 170),
+		new RelativeMove(-69, 69),
+		new RelativeMove(-63, 0),
+		new RelativeMove(-11, -11),
+		new RelativeMove(0, -41),
+		new RelativeMove(6, -6)
 	),
 	CORSAIR_COVE_ALDARIN(
 		PortLocation.CORSAIR_COVE,
@@ -1072,23 +1347,82 @@ public enum PortPaths
 	),
 	LANDS_END_PORT_KHAZARD(
 		PortLocation.LANDS_END,
-		PortLocation.PORT_KHAZARD
+		PortLocation.PORT_KHAZARD,
 		// Sailing >= 30, used in 1 task
+		new RelativeMove(0, -10),
+		new RelativeMove(12, -12),
+		new RelativeMove(134, 0),
+		new RelativeMove(116, -116),
+		new RelativeMove(150, 0),
+		new RelativeMove(95, -95),
+		new RelativeMove(0, -335),
+		new RelativeMove(163, -163),
+		new RelativeMove(99, 0),
+		new RelativeMove(11, 11),
+		new RelativeMove(288, 0),
+		new RelativeMove(135, 135),
+		new RelativeMove(0, 289),
+		new RelativeMove(-26, 26)
 	),
 	LANDS_END_LUNAR_ISLE(
 		PortLocation.LANDS_END,
-		PortLocation.LUNAR_ISLE
+		PortLocation.LUNAR_ISLE,
 		// Sailing >= 76, used in 2 tasks
+		new RelativeMove(0, -9),
+		new RelativeMove(17, -17),
+		new RelativeMove(267, 0),
+		new RelativeMove(118, 118),
+		new RelativeMove(87, 0),
+		new RelativeMove(173, 173),
+		new RelativeMove(0, 196),
+		new RelativeMove(-15, 15)
 	),
 	MUSA_POINT_PORT_PISCARILIUS(
 		PortLocation.MUSA_POINT,
-		PortLocation.PORT_PISCARILIUS
+		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 15, used in 1 task
+		new RelativeMove(0, 11),
+		new RelativeMove(-54, 54),
+		new RelativeMove(-87, 0),
+		new RelativeMove(-44, 44),
+		new RelativeMove(-58, 0),
+		new RelativeMove(-34, -34),
+		new RelativeMove(0, -81),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -218),
+		new RelativeMove(-214, -214),
+		new RelativeMove(-65, 0),
+		new RelativeMove(-60, -60),
+		new RelativeMove(-133, 0),
+		new RelativeMove(-258, 258),
+		new RelativeMove(0, 628),
+		new RelativeMove(-145, 145)
 	),
 	CIVITAS_ILLA_FORTIS_PORT_SARIM(
 		PortLocation.CIVITAS_ILLA_FORTIS,
-		PortLocation.PORT_SARIM
+		PortLocation.PORT_SARIM,
 		// Sailing >= 38, used in 1 task
+		new RelativeMove(-8, 8),
+		new RelativeMove(0, 39),
+		new RelativeMove(15, 15),
+		new RelativeMove(51, 0),
+		new RelativeMove(92, -92),
+		new RelativeMove(0, -177),
+		new RelativeMove(252, -252),
+		new RelativeMove(410, 0),
+		new RelativeMove(142, 142),
+		new RelativeMove(0, 278),
+		new RelativeMove(-34, 34),
+		new RelativeMove(0, 82),
+		new RelativeMove(34, 34),
+		new RelativeMove(54, 0),
+		new RelativeMove(34, -34),
+		new RelativeMove(90, 0),
+		new RelativeMove(69, -69),
+		new RelativeMove(0, -44),
+		new RelativeMove(10, -10),
+		new RelativeMove(34, 0),
+		new RelativeMove(42, 42)
 	),
 	BRIMHAVEN_PORT_TYRAS(
 		PortLocation.BRIMHAVEN,

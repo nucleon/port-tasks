@@ -1,6 +1,5 @@
 package com.nucleon.porttasks.overlay;
 
-import com.google.inject.Provides;
 import com.nucleon.porttasks.PortTasksConfig;
 import lombok.Getter;
 import net.runelite.api.events.BeforeRender;

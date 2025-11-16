@@ -73,6 +73,10 @@ public class PortTaskModelRenderer extends Overlay
 			Tile[][][] tiles = scene.getTiles();
 			Tile tile = tiles[0][object.getLocalLocation().getSceneX()][object.getLocalLocation().getSceneY()];
 			GroundObject groundObject = tile.getGroundObject();
+			if (groundObject == null)
+			{
+				continue;
+			}
 			final Shape polygon = groundObject.getConvexHull();
 			if (polygon == null)
 			{

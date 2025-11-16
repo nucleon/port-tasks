@@ -202,6 +202,15 @@ public class PortTasksPlugin extends Plugin
 			case "highlightNoticeboardsColor":
 				highlightNoticeboardsColor = config.highlightNoticeboardsColor();
 				return;
+			case "enableTracer":
+				tracerConfig.setTracerEnabled(config.enableTracer());
+				return;
+			case "tracerSpeed":
+				tracerConfig.setTracerSpeed(config.tracerSpeed());
+				return;
+			case "tracerIntensity":
+				tracerConfig.setTracerIntensity(config.tracerIntensity());
+				return;
 		}
 	}
 

@@ -2,6 +2,7 @@ package com.nucleon.porttasks.overlay;
 
 import com.nucleon.porttasks.PortTasksConfig;
 import lombok.Getter;
+import lombok.Setter;
 import net.runelite.api.events.BeforeRender;
 import net.runelite.client.eventbus.Subscribe;
 import javax.inject.Inject;
@@ -12,10 +13,13 @@ public class TracerConfig
 	@Getter
 	private int frameTick = 0;
 	@Getter
+	@Setter
 	private int tracerSpeed = 30;
 	@Getter
+	@Setter
 	private float tracerIntensity = 0.6f;
 	@Getter
+	@Setter
 	private boolean tracerEnabled;
 	private long lastUpdateNanos = 0;
 	private final PortTasksConfig config;
@@ -27,18 +31,10 @@ public class TracerConfig
 		this.config = config;
 	}
 
-	public void updateFromConfig()
-	{
-		this.tracerEnabled = config.enableTracer();
-		this.tracerSpeed = config.tracerSpeed();
-		this.tracerIntensity = 1f - (config.tracerIntensity() / 100f);
-	}
-
+	@SuppressWarnings("unused")
 	@Subscribe
 	public void onBeforeRender(BeforeRender event)
 	{
-		updateFromConfig();
-
 		if (!tracerEnabled)
 		{
 			return;

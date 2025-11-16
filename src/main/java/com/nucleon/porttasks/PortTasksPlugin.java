@@ -28,6 +28,10 @@ package com.nucleon.porttasks;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import com.nucleon.porttasks.enums.PortLocation;
+import java.awt.Color;
+import java.util.HashSet;
+import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.awt.image.BufferedImage;
@@ -41,7 +45,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.GameObject;
+import net.runelite.api.events.GameObjectDespawned;
+import net.runelite.api.events.GameObjectSpawned;
+import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.gameval.ObjectID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
@@ -87,8 +96,22 @@ public class PortTasksPlugin extends Plugin
 	private PortTasksMiniMapOverlay sailingHelperMiniMapOverlay;
 	@Inject
 	private PortTasksLedgerOverlay portTasksLedgerOverlay;
+	@Inject
+	private PortTaskModelRenderer portTaskModelRenderer;
 	@Getter
 	List<PortTask> currentTasks = new ArrayList<>();
+	@Getter
+	Set<GameObject> gangplanks = new HashSet<>();
+	@Getter
+	Set<GameObject> noticeboards = new HashSet<>();
+	@Getter
+	private boolean highlightGangplanks;
+	@Getter
+	private Color highlightGangplanksColor;
+	@Getter
+	private boolean highlightNoticeboards;
+	@Getter
+	private Color highlightNoticeboardsColor;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -129,6 +152,12 @@ public class PortTasksPlugin extends Plugin
 		registerOverlays();
 		pluginPanel.rebuild();
 		eventBus.register(tracerConfig);
+
+		highlightGangplanks = config.highlightGangplanks();
+		highlightGangplanksColor = config.highlightGangplanksColor();
+
+		highlightNoticeboards = config.highlightNoticeboards();
+		highlightNoticeboardsColor = config.highlightNoticeboardsColor();
 	}
 
 	@Override
@@ -138,35 +167,102 @@ public class PortTasksPlugin extends Plugin
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
+		gangplanks.clear();
+		noticeboards.clear();
+
 		overlayManager.remove(sailingHelperWorldOverlay);
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(portTasksLedgerOverlay);
+		overlayManager.remove(portTaskModelRenderer);
 	}
 
 	@SuppressWarnings("unused")
 	@Subscribe
-	public void onConfigChanged(final ConfigChanged event)
+	private void onConfigChanged(final ConfigChanged event)
 	{
 		if (!event.getGroup().equals(PortTasksConfig.CONFIG_GROUP))
 			return;
-		if (event.getKey().equals("drawOverlay"))
+		switch (event.getKey())
 		{
-			overlayManager.remove(sailingHelperWorldOverlay);
-			overlayManager.remove(sailingHelperMapOverlay);
-			overlayManager.remove(portTasksLedgerOverlay);
-			registerOverlays();
+			case "drawOverlay":
+				overlayManager.remove(sailingHelperWorldOverlay);
+				overlayManager.remove(sailingHelperMapOverlay);
+				overlayManager.remove(portTasksLedgerOverlay);
+				registerOverlays();
+				return;
+			case "highlightGangplanks":
+				highlightGangplanks = config.highlightGangplanks();
+				return;
+			case "highlightGangplanksColor":
+				highlightGangplanksColor = config.highlightGangplanksColor();
+				return;
+			case "highlightNoticeboards":
+				highlightNoticeboards = config.highlightNoticeboards();
+				return;
+			case "highlightNoticeboardsColor":
+				highlightNoticeboardsColor = config.highlightNoticeboardsColor();
+				return;
 		}
 	}
 
 	@SuppressWarnings("unused")
 	@Subscribe
-	public void onVarbitChanged(VarbitChanged event)
+	private void onVarbitChanged(final VarbitChanged event)
 	{
 		if (PortTaskTrigger.contains(event.getVarbitId()))
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
 			int value = client.getVarbitValue(varbit.getId());
 			handlePortTaskTrigger(varbit, value);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onGameObjectSpawned(final GameObjectSpawned event)
+	{
+		final GameObject gameObject = event.getGameObject();
+		final int id = gameObject.getId();
+
+		if (id == ObjectID.SAILING_GANGPLANK_PROXY || PortLocation.isGangplank(id))
+		{
+			gangplanks.add(gameObject);
+		}
+		else if (PortLocation.isNoticeboard(id))
+		{
+			noticeboards.add(gameObject);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	public void onGameObjectDespawned(final GameObjectDespawned event)
+	{
+		final GameObject gameObject = event.getGameObject();
+		final int id = gameObject.getId();
+
+		if (id == ObjectID.SAILING_GANGPLANK_PROXY || PortLocation.isGangplank(id))
+		{
+			gangplanks.remove(gameObject);
+		}
+		else if (PortLocation.isNoticeboard(id))
+		{
+			noticeboards.remove(gameObject);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	public void onGameStateChanged(final GameStateChanged event)
+	{
+		switch (event.getGameState())
+		{
+			case HOPPING:
+			case LOADING:
+			case LOGGING_IN:
+				gangplanks.clear();
+				noticeboards.clear();
+				break;
 		}
 	}
 
@@ -263,6 +359,7 @@ public class PortTasksPlugin extends Plugin
 			overlayManager.add(sailingHelperWorldOverlay);
 		}
 		overlayManager.add(portTasksLedgerOverlay);
+		overlayManager.add(portTaskModelRenderer);
 	}
 
 	public void saveSlotSettings()

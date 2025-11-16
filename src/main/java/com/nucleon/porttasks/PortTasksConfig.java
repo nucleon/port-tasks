@@ -118,6 +118,61 @@ public interface PortTasksConfig extends Config
 		return 50;
 	}
 
+	@ConfigSection(
+		name = "Overlay Settings",
+		description = "Configuration for overlays",
+		position = 2
+	)
+	String overlaySection = "overlaySection";
+
+	@ConfigItem(
+		keyName = "highlightGangplanks",
+		name = "Highlight Gangplanks",
+		description = "Outline gangplanks in the world",
+		position = 1,
+		section = overlaySection
+	)
+	default boolean highlightGangplanks()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "highlightGangplanksColor",
+		name = "Highlight Gangplanks Color",
+		description = "Color used to outline gangplanks in the world",
+		position = 2,
+		section = overlaySection
+	)
+	default Color highlightGangplanksColor()
+	{
+		return Color.YELLOW;
+	}
+
+	@ConfigItem(
+		keyName = "highlightNoticeboards",
+		name = "Highlight Noticeboards",
+		description = "Outline noticeboards in the world",
+		position = 3,
+		section = overlaySection
+	)
+	default boolean highlightNoticeboards()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "highlightNoticeboardsColor",
+		name = "Highlight Noticeboards Color",
+		description = "Color used to outline noticeboards in the world",
+		position = 4,
+		section = overlaySection
+	)
+	default Color highlightNoticeboardsColor()
+	{
+		return Color.RED;
+	}
+
 	enum Overlay
 	{
 		NONE,

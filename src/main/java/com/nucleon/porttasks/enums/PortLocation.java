@@ -26,6 +26,9 @@
  */
 package com.nucleon.porttasks.enums;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.api.gameval.ObjectID;
@@ -72,6 +75,9 @@ public enum PortLocation
 	private final int noticeboardObject;
 	private final WorldPoint navigationLocation;
 
+	private static final Set<Integer> GANGPLANK_IDS;
+	private static final Set<Integer> NOTICEBOARD_IDS;
+
 
 	PortLocation(String name, Integer sailingLevelRequired, int gangplankObject, int noticeboardObject, WorldPoint navigationLocation)
 	{
@@ -80,6 +86,32 @@ public enum PortLocation
 		this.gangplankObject = gangplankObject;
 		this.noticeboardObject = noticeboardObject;
 		this.navigationLocation = navigationLocation;
+	}
+
+	static
+	{
+		Set<Integer> gangplanks = new HashSet<>();
+		Set<Integer> noticeboards = new HashSet<>();
+		for (PortLocation p : values())
+		{
+			gangplanks.add(p.gangplankObject);
+			if (p.noticeboardObject != -1)
+			{
+				noticeboards.add(p.noticeboardObject);
+			}
+		}
+		GANGPLANK_IDS = Collections.unmodifiableSet(gangplanks);
+		NOTICEBOARD_IDS = Collections.unmodifiableSet(noticeboards);
+	}
+
+	public static boolean isGangplank(int objectId)
+	{
+		return GANGPLANK_IDS.contains(objectId);
+	}
+
+	public static boolean isNoticeboard(int objectId)
+	{
+		return NOTICEBOARD_IDS.contains(objectId);
 	}
 
 }

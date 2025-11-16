@@ -41,7 +41,7 @@ public class TracerConfig
 
 		if (!tracerEnabled)
 		{
-			return; //
+			return;
 		}
 
 		long FRAME_INTERVAL_NANOS = 1_000_000_000L / tracerSpeed;

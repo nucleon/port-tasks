@@ -10,7 +10,9 @@ import java.util.Set;
 import javax.inject.Inject;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
-import net.runelite.api.Perspective;
+import net.runelite.api.GroundObject;
+import net.runelite.api.Scene;
+import net.runelite.api.Tile;
 import net.runelite.api.WorldView;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
@@ -67,7 +69,11 @@ public class PortTaskModelRenderer extends Overlay
 			{
 				continue;
 			}
-			final Shape polygon = Perspective.getCanvasTilePoly(client, object.getLocalLocation());
+			Scene scene = wv.getScene();
+			Tile[][][] tiles = scene.getTiles();
+			Tile tile = tiles[0][object.getLocalLocation().getSceneX()][object.getLocalLocation().getSceneY()];
+			GroundObject groundObject = tile.getGroundObject();
+			final Shape polygon = groundObject.getConvexHull();
 			if (polygon == null)
 			{
 				continue;

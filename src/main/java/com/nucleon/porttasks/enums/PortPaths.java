@@ -17,6 +17,7 @@ public enum PortPaths
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,
 		// Sailing >= 25, used in 4 tasks
+		new RelativeMove(0, -22),
 		new RelativeMove(-42, -42)
 	),
 	BRIMHAVEN_MUSA_POINT(
@@ -66,9 +67,10 @@ public enum PortPaths
 		PortLocation.CATHERBY,
 		PortLocation.ARDOUGNE,
 		// Sailing >= 28, used in 6 tasks
-		new RelativeMove(-42, -42),
-		new RelativeMove(0, -91),
-		new RelativeMove(-16, -16)
+		new RelativeMove(0, -27),
+		new RelativeMove(-41, -41),
+		new RelativeMove(0, -62),
+		new RelativeMove(-19, -19)
 	),
 
 	CATHERBY_MUSA_POINT(
@@ -107,11 +109,10 @@ public enum PortPaths
 		PortLocation.CATHERBY,
 		PortLocation.PORT_KHAZARD,
 		// Sailing >= 30, used in 5 tasks
-		new RelativeMove(-42, -42),
-		new RelativeMove(0, -91),
-		new RelativeMove(-50, -50),
-		new RelativeMove(-13, 0),
-		new RelativeMove(-3, -3)
+		new RelativeMove(0, -28),
+		new RelativeMove(-40, -40),
+		new RelativeMove(0, -53),
+		new RelativeMove(-68, -68)
 	),
 
 	CATHERBY_PORT_SARIM(
@@ -186,17 +187,12 @@ public enum PortPaths
 		PortLocation.MUSA_POINT,
 		PortLocation.PORT_KHAZARD,
 		// Sailing >= 30, used in 1 task
-		new RelativeMove(5, 0),
-		new RelativeMove(0, 10),
-		new RelativeMove(-35, 35),
-		new RelativeMove(-20, 0),
-		new RelativeMove(-25, 25),
-		new RelativeMove(-85, 0),
-		new RelativeMove(-41, 41),
-		new RelativeMove(-40, 0),
-		new RelativeMove(-40, -40),
-		new RelativeMove(0, -15),
-		new RelativeMove(5, -5)
+		new RelativeMove(0, 11),
+		new RelativeMove(-57, 57),
+		new RelativeMove(-93, 0),
+		new RelativeMove(-36, 36),
+		new RelativeMove(-62, 0),
+		new RelativeMove(-29, -29)
 	),
 
 	MUSA_POINT_PORT_SARIM(
@@ -240,9 +236,7 @@ public enum PortPaths
 		new RelativeMove(-85, 0),
 		new RelativeMove(-41, 41),
 		new RelativeMove(-40, 0),
-		new RelativeMove(-40, -40),
-		new RelativeMove(0, -15),
-		new RelativeMove(5, -5)
+		new RelativeMove(-36, -36)
 	),
 
 	PANDEMONIUM_RUINS_OF_UNKAH(
@@ -451,7 +445,7 @@ public enum PortPaths
 		new RelativeMove(-23, 0),
 		new RelativeMove(-27, 27),
 		new RelativeMove(-76, 0),
-		new RelativeMove(-48, 48)
+		new RelativeMove(-42, 42)
 	),
 	BRIMHAVEN_PORT_SARIM(
 		PortLocation.BRIMHAVEN,
@@ -466,7 +460,7 @@ public enum PortPaths
 		new RelativeMove(0, -40),
 		new RelativeMove(18, -18),
 		new RelativeMove(39, 0),
-		new RelativeMove(41, 41)
+		new RelativeMove(34, 34)
 	),
 	PORT_SARIM_RUINS_OF_UNKAH(
 		PortLocation.PORT_SARIM,
@@ -637,7 +631,7 @@ public enum PortPaths
 		new RelativeMove(-222, 0),
 		new RelativeMove(-306, 306),
 		new RelativeMove(0, 584),
-		new RelativeMove(-142, 142)
+		new RelativeMove(-144, 144)
 	),
 	ARDOUGNE_RED_ROCK(
 		PortLocation.ARDOUGNE,
@@ -657,12 +651,17 @@ public enum PortPaths
 		PortLocation.CIVITAS_ILLA_FORTIS,
 		PortLocation.PORT_KHAZARD,
 		// Sailing >= 38, used in 2 tasks
-		new RelativeMove(-4, 0),
-		new RelativeMove(-6, 6),
-		new RelativeMove(0, 192),
-		new RelativeMove(137, 137),
-		new RelativeMove(0, 118),
-		new RelativeMove(-54, 54)
+		new RelativeMove(-8, 8),
+		new RelativeMove(0, 39),
+		new RelativeMove(10, 10),
+		new RelativeMove(150, 0),
+		new RelativeMove(66, -66),
+		new RelativeMove(0, -268),
+		new RelativeMove(179, -179),
+		new RelativeMove(348, 0),
+		new RelativeMove(206, 206),
+		new RelativeMove(0, 191),
+		new RelativeMove(-32, 32)
 	),
 	CORSAIR_COVE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CORSAIR_COVE,
@@ -799,10 +798,11 @@ public enum PortPaths
 		PortLocation.LANDS_END,
 		PortLocation.PORT_PISCARILIUS,
 		// Sailing >= 15, used in 3 tasks
-		new RelativeMove(310, 0),
-		new RelativeMove(73, 73),
-		new RelativeMove(0, 130),
-		new RelativeMove(-50, 50)
+		new RelativeMove(9, -9),
+		new RelativeMove(294, 0),
+		new RelativeMove(74, 74),
+		new RelativeMove(0, 139),
+		new RelativeMove(-43, 43)
 	),
 	PORT_PISCARILIUS_PORT_ROBERTS(
 		PortLocation.PORT_PISCARILIUS,
@@ -1009,23 +1009,23 @@ public enum PortPaths
 		PortLocation.ALDARIN,
 		PortLocation.PORT_TYRAS,
 		// Sailing >= 66, used in 1 task
-		new RelativeMove(0, 6),
-		new RelativeMove(3, 3),
-		new RelativeMove(3, 0),
-		new RelativeMove(117, -117),
-		new RelativeMove(135, 0),
-		new RelativeMove(47, 47),
-		new RelativeMove(250, 0),
-		new RelativeMove(100, 100)
+		new RelativeMove(11, 0),
+		new RelativeMove(98, -98),
+		new RelativeMove(161, 0),
+		new RelativeMove(67, 67),
+		new RelativeMove(241, 0),
+		new RelativeMove(90, 90),
+		new RelativeMove(0, 70),
+		new RelativeMove(9, 9)
 	),
 	PORT_ROBERTS_PRIFDDINAS(
 		PortLocation.PORT_ROBERTS,
 		PortLocation.PRIFDDINAS,
 		// Sailing >= 70, used in 3 tasks
 		new RelativeMove(0, 16),
-		new RelativeMove(53, 53),
-		new RelativeMove(154, 0),
-		new RelativeMove(58, -58)
+		new RelativeMove(38, 38),
+		new RelativeMove(161, 0),
+		new RelativeMove(42, -42)
 	),
 	ARDOUGNE_PRIFDDINAS(
 		PortLocation.ARDOUGNE,
@@ -1086,7 +1086,7 @@ public enum PortPaths
 		new RelativeMove(0, -54),
 		new RelativeMove(-97, -97),
 		new RelativeMove(0, -164),
-		new RelativeMove(70, -70)
+		new RelativeMove(66, -66)
 	),
 	ETCETERIA_RELLEKKA(
 		PortLocation.ETCETERIA,
@@ -1102,9 +1102,7 @@ public enum PortPaths
 		new RelativeMove(0, -15),
 		new RelativeMove(50, -50),
 		new RelativeMove(131, 0),
-		new RelativeMove(12, -12),
-		new RelativeMove(109, 0),
-		new RelativeMove(6, 6)
+		new RelativeMove(8, -8)
 	),
 	RELLEKKA_SUNSET_COAST(
 		PortLocation.RELLEKKA,
@@ -1250,7 +1248,7 @@ public enum PortPaths
 		PortLocation.PISCATORIS,
 		// Sailing >= 76, used in 3 tasks
 		new RelativeMove(30, 0),
-		new RelativeMove(116, -116)
+		new RelativeMove(113, -113)
 	),
 	DEEPFIN_POINT_LUNAR_ISLE(
 		PortLocation.DEEPFIN_POINT,
@@ -1313,17 +1311,17 @@ public enum PortPaths
 		PortLocation.LUNAR_ISLE,
 		// Sailing >= 76, used in 1 task
 		new RelativeMove(0, 6),
-		new RelativeMove(3, 3),
-		new RelativeMove(3, 0),
-		new RelativeMove(117, -117),
-		new RelativeMove(135, 0),
-		new RelativeMove(47, 47),
-		new RelativeMove(250, 0),
-		new RelativeMove(39, 39),
-		new RelativeMove(0, 599),
-		new RelativeMove(126, 126),
-		new RelativeMove(0, 187),
-		new RelativeMove(-14, 14)
+		new RelativeMove(4, 4),
+		new RelativeMove(4, 0),
+		new RelativeMove(109, -109),
+		new RelativeMove(172, 0),
+		new RelativeMove(65, 65),
+		new RelativeMove(72, 0),
+		new RelativeMove(113, 113),
+		new RelativeMove(0, 437),
+		new RelativeMove(182, 182),
+		new RelativeMove(0, 189),
+		new RelativeMove(-17, 17)
 	),
 	PORT_SARIM_RELLEKKA(
 		PortLocation.PORT_SARIM,
@@ -1433,20 +1431,16 @@ public enum PortPaths
 		// Sailing >= 20, used in 1 task
 		new RelativeMove(0, -16),
 		new RelativeMove(-41, -41),
-		new RelativeMove(0, -60),
-		new RelativeMove(-66, -66),
-		new RelativeMove(0, -90),
-		new RelativeMove(32, -32),
-		new RelativeMove(0, -212),
-		new RelativeMove(-212, -212),
-		new RelativeMove(-125, 0),
-		new RelativeMove(-16, 16),
-		new RelativeMove(-153, 0),
-		new RelativeMove(-18, -18),
-		new RelativeMove(-13, 0),
-		new RelativeMove(-187, 187),
-		new RelativeMove(0, 638),
-		new RelativeMove(-152, 152)
+		new RelativeMove(0, -64),
+		new RelativeMove(-67, -67),
+		new RelativeMove(0, -82),
+		new RelativeMove(31, -31),
+		new RelativeMove(0, -280),
+		new RelativeMove(-140, -140),
+		new RelativeMove(-399, 0),
+		new RelativeMove(-191, 191),
+		new RelativeMove(0, 628),
+		new RelativeMove(-144, 144)
 	),
 	BRIMHAVEN_CIVITAS_ILLA_FORTIS(
 		PortLocation.BRIMHAVEN,
@@ -1718,8 +1712,8 @@ public enum PortPaths
 		new RelativeMove(14, -14),
 		new RelativeMove(0, -187),
 		new RelativeMove(-126, -126),
-		new RelativeMove(0, -194),
-		new RelativeMove(10, -192)
+		new RelativeMove(0, -380),
+		new RelativeMove(59, -59)
 	),
 	PORT_TYRAS_RED_ROCK(
 		PortLocation.PORT_TYRAS,
@@ -1837,15 +1831,27 @@ public enum PortPaths
 			return List.of(delta);
 
 		List<RelativeMove> result = new ArrayList<>(steps);
-		int stepDx = dx / steps;
-		int stepDy = dy / steps;
-		int remDx = dx % steps;
-		int remDy = dy % steps;
+
+		int baseDx = dx / steps;
+		int baseDy = dy / steps;
+
+		int usedAbsDx = Math.abs(baseDx) * steps;
+		int usedAbsDy = Math.abs(baseDy) * steps;
+
+		int remDx = Math.abs(dx) - usedAbsDx;
+		int remDy = Math.abs(dy) - usedAbsDy;
+
+		int signDx = Integer.signum(dx);
+		int signDy = Integer.signum(dy);
 
 		for (int i = 0; i < steps; i++)
 		{
-			int addX = stepDx + (i < remDx ? Integer.signum(remDx) : 0);
-			int addY = stepDy + (i < remDy ? Integer.signum(remDy) : 0);
+			int extraDx = i < remDx ? signDx : 0;
+			int extraDy = i < remDy ? signDy : 0;
+
+			int addX = baseDx + extraDx;
+			int addY = baseDy + extraDy;
+
 			result.add(new RelativeMove(addX, addY));
 		}
 		return result;

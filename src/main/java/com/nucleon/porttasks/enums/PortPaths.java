@@ -494,7 +494,7 @@ public enum PortPaths
 		new RelativeMove(0, -44),
 		new RelativeMove(11, -11),
 		new RelativeMove(32, 0),
-		new RelativeMove(56, 56)
+		new RelativeMove(46, 46)
 	),
 	PORT_SARIM_VOID_KNIGHTS_OUTPOST(
 		PortLocation.PORT_SARIM,

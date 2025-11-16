@@ -48,4 +48,10 @@ public class TracerConfig
 			lastUpdateNanos = now;
 		}
 	}
+	public void loadConfigs(PortTasksConfig config)
+	{
+		this.tracerEnabled = config.enableTracer();
+		this.tracerIntensity = 1f - (config.tracerIntensity() / 100f);
+		this.tracerSpeed = config.tracerSpeed();
+	}
 }

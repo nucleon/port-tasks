@@ -153,6 +153,7 @@ public class PortTasksPlugin extends Plugin
 		pluginPanel.rebuild();
 		eventBus.register(tracerConfig);
 
+		tracerConfig.loadConfigs(config);
 		highlightGangplanks = config.highlightGangplanks();
 		highlightGangplanksColor = config.highlightGangplanksColor();
 
@@ -209,7 +210,7 @@ public class PortTasksPlugin extends Plugin
 				tracerConfig.setTracerSpeed(config.tracerSpeed());
 				return;
 			case "tracerIntensity":
-				tracerConfig.setTracerIntensity(config.tracerIntensity());
+				tracerConfig.setTracerIntensity(1f - (config.tracerIntensity() / 100f));
 				return;
 		}
 	}

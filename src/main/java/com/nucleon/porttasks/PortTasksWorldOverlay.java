@@ -80,7 +80,8 @@ class PortTasksWorldOverlay extends Overlay
 			}
 			if (tasks.isTracking())
 			{
-				WorldLines.drawLinesOnWorld(g, client, journey, overlayColor);
+				int zOffset = config.enableHeightOffset() ? (tasks.getSlot() * 100) : 0;
+				WorldLines.drawPortTaskLinesOnWorld(g, client, journey, overlayColor, plugin.tracerConfig, zOffset);
 			}
 		}
 	}

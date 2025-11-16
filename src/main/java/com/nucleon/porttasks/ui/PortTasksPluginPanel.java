@@ -34,8 +34,11 @@ import java.awt.FlowLayout;
 import com.nucleon.porttasks.PortTask;
 import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.ui.adapters.ReloadPortTasks;
 
+import net.runelite.client.callback.ClientThread;
+import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
@@ -44,12 +47,15 @@ import net.runelite.client.util.ImageUtil;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -60,6 +66,8 @@ public class PortTasksPluginPanel extends PluginPanel
 		public final PortTasksPlugin plugin;
 		private final PortTasksConfig config;
 		private final JPanel markerView = new JPanel();
+		private ClientThread clientThread;
+		private ItemManager itemManager;
 
 		static
 		{
@@ -67,11 +75,12 @@ public class PortTasksPluginPanel extends PluginPanel
 			RELOAD_ICON = new ImageIcon(addIcon);
 		}
 
-		public PortTasksPluginPanel(PortTasksPlugin plugin, PortTasksConfig config)
+		public PortTasksPluginPanel(PortTasksPlugin plugin, ClientThread clientThread, ItemManager itemManager, PortTasksConfig config)
 		{
 			this.plugin = plugin;
 			this.config = config;
-
+			this.clientThread = clientThread;
+			this.itemManager = itemManager;
 			setLayout(new BorderLayout());
 			setBorder(new EmptyBorder(10, 10, 10, 10));
 			setupErrorPanel(true);
@@ -111,6 +120,11 @@ public class PortTasksPluginPanel extends PluginPanel
 			// setup panels border layout
 			add(northPanel, BorderLayout.NORTH);
 			add(centerPanel, BorderLayout.CENTER);
+
+			if (plugin.developerMode)
+			{
+				addDeveloperPanel();
+			}
 		}
 
 		public void rebuild()
@@ -119,7 +133,7 @@ public class PortTasksPluginPanel extends PluginPanel
 			List<PortTask> currentTasks = plugin.getCurrentTasks();
 			for (PortTask task : currentTasks)
 			{
-				markerView.add(new PortTaskPanel(plugin, task, task.getSlot()));
+				markerView.add(new PortTaskPanel(plugin, task, clientThread, itemManager, task.getSlot()));
 				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
 			}
 			if (currentTasks.isEmpty())
@@ -147,5 +161,32 @@ public class PortTasksPluginPanel extends PluginPanel
 				markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
 				markerView.add(errorPanel);
 			}
+		}
+
+		private void addDeveloperPanel()
+		{
+			JPanel developerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			developerPanel.setBackground(ColorScheme.DARK_GRAY_HOVER_COLOR);
+			developerPanel.setBorder(new EmptyBorder(2, 2, 2, 2));
+
+			JComboBox<String> portPathDropdown = new JComboBox<>();
+			PortPaths[] paths = PortPaths.values();
+			Arrays.sort(paths, Comparator.comparing(Enum::name));
+
+			for (PortPaths path : paths)
+			{
+				portPathDropdown.addItem(path.name());
+			}
+			portPathDropdown.setFocusable(false);
+			portPathDropdown.setToolTipText("Developer actions");
+
+			portPathDropdown.addActionListener(e ->
+			{
+				String selected = (String) portPathDropdown.getSelectedItem();
+				plugin.setDeveloperPathSelected(PortPaths.valueOf(selected));
+			});
+
+			developerPanel.add(portPathDropdown);
+			add(developerPanel, BorderLayout.SOUTH);
 		}
 }

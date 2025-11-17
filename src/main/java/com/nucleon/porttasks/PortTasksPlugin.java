@@ -171,6 +171,8 @@ public class PortTasksPlugin extends Plugin
 		gangplanks.clear();
 		noticeboards.clear();
 
+		eventBus.unregister(tracerConfig);
+
 		overlayManager.remove(sailingHelperWorldOverlay);
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(portTasksLedgerOverlay);

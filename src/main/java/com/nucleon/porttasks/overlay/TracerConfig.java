@@ -40,7 +40,7 @@ public class TracerConfig
 			return;
 		}
 
-		long FRAME_INTERVAL_NANOS = 1_000_000_000L / tracerSpeed;
+		long FRAME_INTERVAL_NANOS = tracerSpeed == 0 ? Long.MAX_VALUE : 1_000_000_000L / tracerSpeed;
 		long now = System.nanoTime();
 		if (now - lastUpdateNanos >= FRAME_INTERVAL_NANOS)
 		{

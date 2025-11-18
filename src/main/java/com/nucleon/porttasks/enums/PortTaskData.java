@@ -26,6 +26,9 @@
  */
 package com.nucleon.porttasks.enums;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import net.runelite.api.gameval.ItemID;
 
 public enum PortTaskData
@@ -352,6 +355,8 @@ public enum PortTaskData
 	public final int cargo;
 	public final int cargoAmount;
 
+	private static final Set<Integer> VARBIT_VALUES;
+
 	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)
 	{
 		this.id = id;
@@ -365,7 +370,20 @@ public enum PortTaskData
 		this.cargoAmount = cargoAmount;
 	}
 
+	static
+	{
+		Set<Integer> varbitValues = new HashSet<>();
+		for (PortTaskData p : values())
+		{
+			varbitValues.add(p.id);
+		}
+		VARBIT_VALUES = Collections.unmodifiableSet(varbitValues);
+	}
 
+	public static boolean isCargoTask(int varbitValue)
+	{
+		return VARBIT_VALUES.contains(varbitValue);
+	}
 
 	public PortLocation getCargoLocation()
 	{

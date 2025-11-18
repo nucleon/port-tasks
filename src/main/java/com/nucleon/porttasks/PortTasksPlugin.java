@@ -69,7 +69,9 @@ import java.util.List;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Port Tasks"
+	name = "Port Tasks",
+	description = "Provides navigation and overlays for sailing cargo and bounty tasks",
+	tags = {"sailing", "port", "bounty", "cargo", "tasks"}
 )
 public class PortTasksPlugin extends Plugin
 {

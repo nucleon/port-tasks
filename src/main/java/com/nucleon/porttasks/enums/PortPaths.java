@@ -2329,27 +2329,27 @@ public enum PortPaths
 		new RelativeMove(-137, 137)
 	),
 	RED_ROCK_CATHERBY(
-			PortLocation.RED_ROCK,
-			PortLocation.CATHERBY,
-			new RelativeMove(5, 5),
-			new RelativeMove(0, 42),
-			new RelativeMove(-2, 2),
-			new RelativeMove(0, 50),
-			new RelativeMove(0, 210),
-			new RelativeMove(-90, 90),
-			new RelativeMove(0, 182),
-			new RelativeMove(-40, 40),
-			new RelativeMove(0, 87),
-			new RelativeMove(67, 67),
-			new RelativeMove(0, 64),
-			new RelativeMove(42, 42),
-			new RelativeMove(0, 16)
+		PortLocation.RED_ROCK,
+		PortLocation.CATHERBY,
+		new RelativeMove(5, 5),
+		new RelativeMove(0, 42),
+		new RelativeMove(-2, 2),
+		new RelativeMove(0, 50),
+		new RelativeMove(0, 210),
+		new RelativeMove(-90, 90),
+		new RelativeMove(0, 182),
+		new RelativeMove(-40, 40),
+		new RelativeMove(0, 87),
+		new RelativeMove(67, 67),
+		new RelativeMove(0, 64),
+		new RelativeMove(42, 42),
+		new RelativeMove(0, 16)
 	),
 	LANDS_END_HOSIDIUS(
-			PortLocation.LANDS_END,
-			PortLocation.HOSIDIUS,
-			new RelativeMove(10, -10),
-			new RelativeMove(120, 0)
+		PortLocation.LANDS_END,
+		PortLocation.HOSIDIUS,
+		new RelativeMove(10, -10),
+		new RelativeMove(120, 0)
 	);
 
 	private final PortLocation start;

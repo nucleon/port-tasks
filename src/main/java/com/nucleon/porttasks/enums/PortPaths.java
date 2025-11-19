@@ -1816,15 +1816,15 @@ public enum PortPaths
 		new RelativeMove(-23, 0),
 		new RelativeMove(-14, 14)
 	),
-	PORT_PISCARILIUS_DEEPFIN_POINT
-		(PortLocation.PORT_PISCARILIUS,
-			PortLocation.DEEPFIN_POINT,
-			new RelativeMove(0, -23),
-			new RelativeMove(84, -84),
-			new RelativeMove(0, -615),
-			new RelativeMove(-36, -36),
-			new RelativeMove(0, -143),
-			new RelativeMove(28, -28)
+	PORT_PISCARILIUS_DEEPFIN_POINT(
+		PortLocation.PORT_PISCARILIUS,
+		PortLocation.DEEPFIN_POINT,
+		new RelativeMove(0, -23),
+		new RelativeMove(84, -84),
+		new RelativeMove(0, -615),
+		new RelativeMove(-36, -36),
+		new RelativeMove(0, -143),
+		new RelativeMove(28, -28)
 		),
 	DEEPFIN_POINT_ALDARIN(
 		PortLocation.DEEPFIN_POINT,

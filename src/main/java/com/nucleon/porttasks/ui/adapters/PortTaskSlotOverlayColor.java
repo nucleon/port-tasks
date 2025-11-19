@@ -34,14 +34,14 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.ui.PortTaskPanel;
+import com.nucleon.porttasks.ui.CourierTaskPanel;
 
 import net.runelite.client.util.ImageUtil;
 
 public class PortTaskSlotOverlayColor extends MouseAdapter
 {
 private final JLabel portSlotOverlay;
-private final PortTaskPanel panel;
+private final CourierTaskPanel panel;
 private static final ImageIcon BORDER_COLOR_ICON;
 private static final ImageIcon BORDER_COLOR_HOVER_ICON;
 
@@ -53,7 +53,7 @@ static
 	BORDER_COLOR_ICON = new ImageIcon(borderImg);
 	BORDER_COLOR_HOVER_ICON = new ImageIcon(borderImgHover);
 }
-public PortTaskSlotOverlayColor(JLabel prayerMarkerColorLabel, PortTaskPanel panel)
+public PortTaskSlotOverlayColor(JLabel prayerMarkerColorLabel, CourierTaskPanel panel)
 {
 	this.portSlotOverlay = prayerMarkerColorLabel;
 	this.panel = panel;

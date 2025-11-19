@@ -101,7 +101,7 @@ public class PortTasksPlugin extends Plugin
 	@Inject
 	private PortTaskModelRenderer portTaskModelRenderer;
 	@Getter
-	List<PortTask> currentTasks = new ArrayList<>();
+	List<CourierTask> currentTasks = new ArrayList<>();
 	@Getter
 	Set<GameObject> gangplanks = new HashSet<>();
 	@Getter
@@ -295,7 +295,7 @@ public class PortTasksPlugin extends Plugin
 			CourierTaskData data = CourierTaskData.fromId(value);
 			if (data != null && value != 0)
 			{
-				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+				currentTasks.add(new CourierTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
 				pluginPanel.rebuild();
 			}
 			if (value == 0)
@@ -309,7 +309,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			int slot = trigger.getSlot();
 
-			for (PortTask task : currentTasks)
+			for (CourierTask task : currentTasks)
 			{
 				if (task.getSlot() == slot)
 				{
@@ -324,7 +324,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			int slot = trigger.getSlot();
 
-			for (PortTask task : currentTasks)
+			for (CourierTask task : currentTasks)
 			{
 				if (task.getSlot() == slot)
 				{
@@ -349,7 +349,7 @@ public class PortTasksPlugin extends Plugin
 				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
 					CourierTaskData data = CourierTaskData.fromId(value);
-					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
+					currentTasks.add(new CourierTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
 					pluginPanel.rebuild();
 				}
 				else

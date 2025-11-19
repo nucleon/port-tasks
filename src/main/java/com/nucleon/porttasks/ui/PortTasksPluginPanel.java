@@ -31,7 +31,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
-import com.nucleon.porttasks.PortTask;
+import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.PortPaths;
@@ -130,10 +130,10 @@ public class PortTasksPluginPanel extends PluginPanel
 		public void rebuild()
 		{
 			markerView.removeAll();
-			List<PortTask> currentTasks = plugin.getCurrentTasks();
-			for (PortTask task : currentTasks)
+			List<CourierTask> currentTasks = plugin.getCurrentTasks();
+			for (CourierTask task : currentTasks)
 			{
-				markerView.add(new PortTaskPanel(plugin, task, clientThread, itemManager, task.getSlot()));
+				markerView.add(new CourierTaskPanel(plugin, task, clientThread, itemManager, task.getSlot()));
 				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
 			}
 			if (currentTasks.isEmpty())

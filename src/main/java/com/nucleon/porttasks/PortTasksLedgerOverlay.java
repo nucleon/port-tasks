@@ -81,12 +81,12 @@ class PortTasksLedgerOverlay extends Overlay
 	private void renderOverlay(Graphics2D g)
 	{
 		// we need to track if a port courier task is sharing a ledger for delivery or cargo
-		Map<Integer, List<PortTask>> ledgerUsageMap = new HashMap<>();
+		Map<Integer, List<CourierTask>> ledgerUsageMap = new HashMap<>();
 		// we need to store a reference to an objectid and an overlay
 		Map<Integer, Integer> overlayCount = new HashMap<>();
 
 		//  looping through all the port tasks currently assigned
-		for (PortTask task : plugin.currentTasks)
+		for (CourierTask task : plugin.currentTasks)
 		{	// get the port locations and check them against the ledger port locations in our LedgerID enum
 			String cargoPickupLocation = task.getData().getCargoLocation().getName();
 			String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
@@ -131,7 +131,7 @@ class PortTasksLedgerOverlay extends Overlay
 						}
 						// if the ledger in this scene isn't a ledger with a port task, escape
 						int objectId = object.getId();
-						List<PortTask> tasksAtLedger = ledgerUsageMap.get(objectId);
+						List<CourierTask> tasksAtLedger = ledgerUsageMap.get(objectId);
 						if (tasksAtLedger == null || tasksAtLedger.isEmpty())
 						{
 							continue;
@@ -144,7 +144,7 @@ class PortTasksLedgerOverlay extends Overlay
 						if (poly != null)
 						{	// we stored the tasks that are using this ledger,
 							// so we can draw a dynamic tile
-							List<PortTask> pendingTasksAtLedger = tasksAtLedger.stream()
+							List<CourierTask> pendingTasksAtLedger = tasksAtLedger.stream()
 									.filter(t -> t.getCargoTaken() != t.getData().getCargoAmount())
 									.collect(Collectors.toList());
 							Color[] colors = getOverlayColors(pendingTasksAtLedger);
@@ -153,7 +153,7 @@ class PortTasksLedgerOverlay extends Overlay
 						// loop through the tasks at this ledger object, get the cargo information and render a text overlay
 						// for more than one task, store them in a overlayCount map and stack the text
 						int offsetIndex = overlayCount.getOrDefault(objectId, 0);
-						for (PortTask task : tasksAtLedger)
+						for (CourierTask task : tasksAtLedger)
 						{
 							String cargoPickupLocation = task.getData().getCargoLocation().getName();
 							String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
@@ -228,7 +228,7 @@ class PortTasksLedgerOverlay extends Overlay
 		}
 	}
 
-	private Color[] getOverlayColors(List<PortTask> tasks)
+	private Color[] getOverlayColors(List<CourierTask> tasks)
 	{
 		Color[] colors = new Color[tasks.size()];
 		for (int i = 0; i < tasks.size(); i++)

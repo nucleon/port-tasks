@@ -26,9 +26,9 @@
  */
 package com.nucleon.porttasks.ui;
 
+import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
-import com.nucleon.porttasks.PortTask;
 import com.nucleon.porttasks.PortTasksPlugin;
 
 import net.runelite.api.ItemComposition;
@@ -54,7 +54,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 
-public class PortTaskPanel extends JPanel
+public class CourierTaskPanel extends JPanel
 {
 	public final PortTasksPlugin plugin;
 	private final ClientThread clientThread;
@@ -91,7 +91,7 @@ public class PortTaskPanel extends JPanel
 			rename = new JLabel("Rename");
 
 	public final JPanel PortTaskSlotContainer = new JPanel(new BorderLayout());
-	private final PortTask portTask;
+	private final CourierTask courierTask;
 
 	static
 	{
@@ -120,10 +120,10 @@ public class PortTaskPanel extends JPanel
 		PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
 	}
 
-	public PortTaskPanel(PortTasksPlugin plugin, PortTask portTask, ClientThread clientThread, ItemManager itemManager, int slot)
+	public CourierTaskPanel(PortTasksPlugin plugin, CourierTask courierTask, ClientThread clientThread, ItemManager itemManager, int slot)
 	{
 		this.plugin = plugin;
-		this.portTask = portTask;
+		this.courierTask = courierTask;
 		this.clientThread = clientThread;
 		this.itemManager = itemManager;
 		setLayout(new BorderLayout());
@@ -156,14 +156,14 @@ public class PortTaskPanel extends JPanel
 		PortTaskInformationCenter.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 
-		PortTaskOverlayColor.setToolTipText("edit portTask color");
-		PortTaskOverlayColor.setForeground(portTask.getOverlayColor() == null ? Color.red : portTask.getOverlayColor());
+		PortTaskOverlayColor.setToolTipText("edit courierTask color");
+		PortTaskOverlayColor.setForeground(courierTask.getOverlayColor() == null ? Color.red : courierTask.getOverlayColor());
 		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColor(PortTaskOverlayColor, this));
 		PortTaskActionsLeftSide.add(PortTaskOverlayColor);
 
-		int cargoTaken = portTask.getCargoTaken();
-		int delivered = portTask.getDelivered();
-		int required = portTask.getData().getCargoAmount();
+		int cargoTaken = courierTask.getCargoTaken();
+		int delivered = courierTask.getDelivered();
+		int required = courierTask.getData().getCargoAmount();
 
 		cargoRemainingText.setText("Cargo: " + cargoTaken + "/" + required);
 		cargoRemainingText.setToolTipText("Remaining cargo");
@@ -184,11 +184,11 @@ public class PortTaskPanel extends JPanel
 
 		PortTaskInformationCenter.add(cargoRemainingText);
 
-		hidePortTaskSlotOverlay.setToolTipText((portTask.isTracking() ? "Hide" : "Show") + " portTask");
-		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, portTask, this, plugin));
+		hidePortTaskSlotOverlay.setToolTipText((courierTask.isTracking() ? "Hide" : "Show") + " courierTask");
+		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, courierTask, this, plugin));
 
 		hideOverlay.add(hidePortTaskSlotOverlay);
-		taskName.setText(portTask.getData().taskName);
+		taskName.setText(courierTask.getData().taskName);
 		taskName.setHorizontalAlignment(SwingConstants.CENTER);
 
 
@@ -222,18 +222,18 @@ public class PortTaskPanel extends JPanel
 
 		updateVisibility();
 		updateColorIndicators();
-		updateImages(portTask);
+		updateImages(courierTask);
 
 	}
 
 	public void openPortTaskColorPicker()
 	{
-		Color color = portTask.getOverlayColor() == null ? Color.red : portTask.getOverlayColor();
+		Color color = courierTask.getOverlayColor() == null ? Color.red : courierTask.getOverlayColor();
 		RuneliteColorPicker colourPicker = getColorPicker(color);
 		colourPicker.setOnColorChange(c ->
 		{
-			portTask.setOverlayColor(c);
-			PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, portTask.getOverlayColor()));
+			courierTask.setOverlayColor(c);
+			PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, courierTask.getOverlayColor()));
 			PortTaskOverlayColor.setIcon(BORDER_COLOR_ICON);
 			updateColorIndicators();
 		});
@@ -245,7 +245,7 @@ public class PortTaskPanel extends JPanel
 		RuneliteColorPicker colorPicker = plugin.getColorPickerManager().create(
 				SwingUtilities.windowForComponent(this),
 				color,
-				portTask.getData().taskName + " - overlay color",
+				courierTask.getData().taskName + " - overlay color",
 				false);
 		colorPicker.setLocationRelativeTo(this);
 		colorPicker.setOnClose(c -> plugin.saveSlotSettings());
@@ -255,16 +255,16 @@ public class PortTaskPanel extends JPanel
 
 	private void updateColorIndicators()
 	{
-		PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, portTask.getOverlayColor()));
+		PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, courierTask.getOverlayColor()));
 		PortTaskOverlayColor.setIcon(BORDER_COLOR_ICON);
 	}
 
 	public void updateVisibility()
 	{
-		hidePortTaskSlotOverlay.setIcon(portTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
+		hidePortTaskSlotOverlay.setIcon(courierTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
 	}
 
-	private void updateImages(PortTask portTask)
+	private void updateImages(CourierTask courierTask)
 	{
 		cargoLabel.setIcon(PACKAGE);
 		destinationLabel.setIcon(DESTINATION);
@@ -272,15 +272,15 @@ public class PortTaskPanel extends JPanel
 		anchorLabel.setIcon(ANCHOR);
 		boatLabel.setIcon(BOAT);
 
-		cargoLabel.setText(portTask.getData().getCargoLocation().getName());
-		destinationLabel.setText(portTask.getData().getDeliveryLocation().getName());
+		cargoLabel.setText(courierTask.getData().getCargoLocation().getName());
+		destinationLabel.setText(courierTask.getData().getDeliveryLocation().getName());
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");
 		noticeLabel.setToolTipText("Cargo Item Needed");
 		clientThread.invokeLater(() ->
 		{
-			final ItemComposition cargoComposition = itemManager.getItemComposition(portTask.getData().cargo);
-			noticeLabel.setText(portTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
+			final ItemComposition cargoComposition = itemManager.getItemComposition(courierTask.getData().cargo);
+			noticeLabel.setText(courierTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
 		});
 	}
 

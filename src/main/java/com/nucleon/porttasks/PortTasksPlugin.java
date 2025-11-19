@@ -295,7 +295,7 @@ public class PortTasksPlugin extends Plugin
 			PortTaskData data = PortTaskData.fromId(value);
 			if (data != null && value != 0)
 			{
-				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, config.getNavColor(), 0));
+				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
 				pluginPanel.rebuild();
 			}
 			if (value == 0)
@@ -385,5 +385,18 @@ public class PortTasksPlugin extends Plugin
 		}
 		String json = gson.toJson(currentTasks);
 		configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY, json);
+	}
+
+	private Color getNavColorForSlot(int slot)
+	{
+		switch (slot)
+		{
+			case 0: return config.getNavColor();
+			case 1: return config.getNavColor2();
+			case 2: return config.getNavColor3();
+			case 3: return config.getNavColor4();
+			case 4: return config.getNavColor5();
+			default: return Color.GREEN;
+		}
 	}
 }

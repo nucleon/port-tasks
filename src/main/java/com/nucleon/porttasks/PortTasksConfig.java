@@ -46,13 +46,53 @@ public interface PortTasksConfig extends Config
 	String pathSection = "pathSection";
 	@ConfigItem(
 			keyName = "navColor",
-			name = "Default Line Color",
+			name = "Task 1 Color",
 			description = "The color of the navigation line",
 			section = pathSection
 	)
 	default Color getNavColor()
 	{
-		return Color.GREEN;
+		return new Color(201, 51, 255);
+	}
+	@ConfigItem(
+			keyName = "navColor2",
+			name = "Task 2 Color",
+			description = "The color of the navigation line",
+			section = pathSection
+	)
+	default Color getNavColor2()
+	{
+		return new Color(255, 51, 105);
+	}
+	@ConfigItem(
+			keyName = "navColor3",
+			name = "Task 3 Color",
+			description = "The color of the navigation line",
+			section = pathSection
+	)
+	default Color getNavColor3()
+	{
+		return new Color(255, 201, 51);
+	}
+	@ConfigItem(
+			keyName = "navColor4",
+			name = "Task 4 Color",
+			description = "The color of the navigation line",
+			section = pathSection
+	)
+	default Color getNavColor4()
+	{
+		return new Color(105, 255, 51);
+	}
+	@ConfigItem(
+			keyName = "navColor5",
+			name = "Task 5 Color",
+			description = "The color of the navigation line",
+			section = pathSection
+	)
+	default Color getNavColor5()
+	{
+		return new Color(51, 255, 201);
 	}
 
 	@ConfigItem(
@@ -158,7 +198,7 @@ public interface PortTasksConfig extends Config
 	)
 	default boolean highlightNoticeboards()
 	{
-		return false;
+		return true;
 	}
 
 	@ConfigItem(

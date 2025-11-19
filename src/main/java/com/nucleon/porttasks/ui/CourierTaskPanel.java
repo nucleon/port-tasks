@@ -37,7 +37,6 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
-import net.runelite.http.api.chat.Task;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -157,7 +156,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		PortTaskInformationCenter.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 
-		PortTaskOverlayColor.setToolTipText("edit courierTask color");
+		PortTaskOverlayColor.setToolTipText("edit Courier Task color");
 		PortTaskOverlayColor.setForeground(courierTask.getOverlayColor() == null ? Color.red : courierTask.getOverlayColor());
 		PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColor(PortTaskOverlayColor, this));
 		PortTaskActionsLeftSide.add(PortTaskOverlayColor);
@@ -185,7 +184,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 
 		PortTaskInformationCenter.add(cargoRemainingText);
 
-		hidePortTaskSlotOverlay.setToolTipText((courierTask.isTracking() ? "Hide" : "Show") + " courierTask");
+		hidePortTaskSlotOverlay.setToolTipText((courierTask.isTracking() ? "Hide" : "Show") + " Courier Task");
 		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, courierTask, this, plugin));
 
 		hideOverlay.add(hidePortTaskSlotOverlay);

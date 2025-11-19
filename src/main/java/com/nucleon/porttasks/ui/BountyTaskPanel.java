@@ -159,13 +159,12 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 	PortTaskInformationCenter.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 
-	PortTaskOverlayColor.setToolTipText("edit courierTask color");
+	PortTaskOverlayColor.setToolTipText("edit Bounty Task color");
 	PortTaskOverlayColor.setForeground(bountyTask.getOverlayColor() == null ? Color.red : bountyTask.getOverlayColor());
 	PortTaskOverlayColor.addMouseListener(new PortTaskSlotOverlayColor(PortTaskOverlayColor, this));
 	PortTaskActionsLeftSide.add(PortTaskOverlayColor);
 
 	int itemsLooted = bountyTask.getItemsCollected();
-	int delivered = bountyTask.getDelivered();
 	int lootRequirement = bountyTask.getData().itemQuantity;
 
 	cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
@@ -178,16 +177,12 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 
 	if (itemsLooted == lootRequirement)
 	{
-		cargoRemainingText.setText("Delivered: " + delivered + "/" + lootRequirement);
-	}
-	if (delivered == lootRequirement)
-	{
-		cargoRemainingText.setText("Claim Rewards!");
+		cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
 	}
 
 	PortTaskInformationCenter.add(cargoRemainingText);
 
-	hidePortTaskSlotOverlay.setToolTipText((bountyTask.isTracking() ? "Hide" : "Show") + " courierTask");
+	hidePortTaskSlotOverlay.setToolTipText((bountyTask.isTracking() ? "Hide" : "Show") + " Bounty Task");
 	hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, bountyTask, this, plugin));
 
 	hideOverlay.add(hidePortTaskSlotOverlay);
@@ -229,62 +224,81 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 
 }
 
-public void openPortTaskColorPicker()
-{
-	Color color = bountyTask.getOverlayColor() == null ? Color.red : bountyTask.getOverlayColor();
-	RuneliteColorPicker colourPicker = getColorPicker(color);
-	colourPicker.setOnColorChange(c ->
+	public void openPortTaskColorPicker()
 	{
-		bountyTask.setOverlayColor(c);
+		Color color = bountyTask.getOverlayColor() == null ? Color.red : bountyTask.getOverlayColor();
+		RuneliteColorPicker colourPicker = getColorPicker(color);
+		colourPicker.setOnColorChange(c ->
+		{
+			bountyTask.setOverlayColor(c);
+			PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, bountyTask.getOverlayColor()));
+			PortTaskOverlayColor.setIcon(BORDER_COLOR_ICON);
+			updateColorIndicators();
+		});
+		colourPicker.setVisible(true);
+	}
+
+	private RuneliteColorPicker getColorPicker(Color color)
+	{
+		RuneliteColorPicker colorPicker = plugin.getColorPickerManager().create(
+				SwingUtilities.windowForComponent(this),
+				color,
+				bountyTask.getData().taskName + " - overlay color",
+				false);
+		colorPicker.setLocationRelativeTo(this);
+		colorPicker.setOnClose(c -> plugin.saveSlotSettings());
+		return colorPicker;
+	}
+
+	private void updateColorIndicators()
+	{
 		PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, bountyTask.getOverlayColor()));
 		PortTaskOverlayColor.setIcon(BORDER_COLOR_ICON);
-		updateColorIndicators();
-	});
-	colourPicker.setVisible(true);
 }
 
-private RuneliteColorPicker getColorPicker(Color color)
-{
-	RuneliteColorPicker colorPicker = plugin.getColorPickerManager().create(
-			SwingUtilities.windowForComponent(this),
-			color,
-			bountyTask.getData().taskName + " - overlay color",
-			false);
-	colorPicker.setLocationRelativeTo(this);
-	colorPicker.setOnClose(c -> plugin.saveSlotSettings());
-	return colorPicker;
-}
-
-
-private void updateColorIndicators()
-{
-	PortTaskOverlayColor.setBorder(new MatteBorder(0, 0, 3, 0, bountyTask.getOverlayColor()));
-	PortTaskOverlayColor.setIcon(BORDER_COLOR_ICON);
-}
-
-public void updateVisibility()
-{
-	hidePortTaskSlotOverlay.setIcon(bountyTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
-}
-
-private void updateImages(BountyTask bountyTask)
-{
-	npcLabel.setIcon(PACKAGE);
-	destinationLabel.setIcon(DESTINATION);
-	noticeLabel.setIcon(NOTICE);
-	anchorLabel.setIcon(ANCHOR);
-	boatLabel.setIcon(BOAT);
-	destinationLabel.setText("coming soon!");
-	npcLabel.setToolTipText("Bounty Target");
-	destinationLabel.setToolTipText("Bounty Location");
-	noticeLabel.setToolTipText("Bounty Item Needed");
-	clientThread.invokeLater(() ->
+	public void updateVisibility()
 	{
-		final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().itemId);
-		final NPCComposition npcComposition = client.getNpcDefinition(bountyTask.getData().npcId);
-		noticeLabel.setText(bountyTask.getData().itemQuantity + "x " + itemComposition.getMembersName());
-		npcLabel.setText(npcComposition.getName());
-	});
-}
+		hidePortTaskSlotOverlay.setIcon(bountyTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
+	}
 
+	private void updateImages(BountyTask bountyTask)
+	{
+		npcLabel.setIcon(PACKAGE);
+		destinationLabel.setIcon(DESTINATION);
+		noticeLabel.setIcon(NOTICE);
+		anchorLabel.setIcon(ANCHOR);
+		boatLabel.setIcon(BOAT);
+		destinationLabel.setText("overlays coming soon!");
+		npcLabel.setToolTipText("Bounty Item");
+		destinationLabel.setToolTipText("Bounty Location");
+		noticeLabel.setToolTipText("Bounty Target");
+		clientThread.invokeLater(() ->
+		{
+			final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().itemId);
+			final NPCComposition npcComposition = client.getNpcDefinition(bountyTask.getData().npcId);
+			npcLabel.setText(bountyTask.getData().itemQuantity + "x " + itemComposition.getMembersName());
+			noticeLabel.setText(npcComposition.getName());
+		});
+	}
+
+	public void refresh()
+	{
+		int itemsLooted = bountyTask.getItemsCollected();
+		int lootRequirement = bountyTask.getData().itemQuantity;
+
+		cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
+		cargoRemainingText.setToolTipText("Remaining items");
+
+		if (itemsLooted < lootRequirement)
+		{
+			cargoRemainingText.setForeground(Color.RED);
+		}
+
+		if (itemsLooted == lootRequirement)
+		{
+			cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
+		}
+		revalidate();
+		repaint();
+	}
 }

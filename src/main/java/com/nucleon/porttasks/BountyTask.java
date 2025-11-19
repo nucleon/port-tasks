@@ -46,5 +46,5 @@ private int delivered;
 private boolean tracking;
 private boolean active;
 private Color overlayColor;
-private int itemsCollected;
+public int itemsCollected;
 }

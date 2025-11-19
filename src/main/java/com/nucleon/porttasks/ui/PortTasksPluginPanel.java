@@ -187,6 +187,15 @@ public class PortTasksPluginPanel extends PluginPanel
 			revalidate();
 		}
 
+		public void updateBountyPanel(BountyTask task) // avoid rebuilding the entire JPanel lol
+		{
+			BountyTaskPanel panel = (BountyTaskPanel) markerView.getComponent(task.getSlot());
+			if (panel != null)
+			{
+				panel.refresh();
+			}
+		}
+
 
 
 	private void addMarker()

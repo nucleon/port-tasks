@@ -31,6 +31,7 @@ import com.google.inject.Provides;
 import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.PortLocation;
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javax.inject.Inject;
@@ -47,10 +48,14 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
+import net.runelite.api.Item;
+import net.runelite.api.ItemContainer;
 import net.runelite.api.events.GameObjectDespawned;
 import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.VarbitChanged;
+import net.runelite.api.events.ItemContainerChanged;
+import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ObjectID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
@@ -65,7 +70,6 @@ import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.ui.components.colorpicker.ColorPickerManager;
 import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ImageUtil;
-
 import java.util.List;
 
 @Slf4j
@@ -131,6 +135,7 @@ public class PortTasksPlugin extends Plugin
 	private int[] varPlayers;
 	private PortTasksPluginPanel pluginPanel;
 	private NavigationButton navigationButton;
+	private Item[] previousInventory;
 	private static final String PLUGIN_NAME = "Port Tasks";
 	private static final String ICON_FILE = "icon.png";
 	public static final String CONFIG_GROUP = "porttasks";
@@ -282,6 +287,48 @@ public class PortTasksPlugin extends Plugin
 				break;
 		}
 	}
+	@Subscribe
+	@SuppressWarnings("unused")
+	public void onItemContainerChanged(ItemContainerChanged event)
+	{
+		if (bountyTasks.size() > 0)
+		{
+			if (event.getContainerId() != InventoryID.INV)
+			{
+				return;
+			}
+
+			ItemContainer inv = event.getItemContainer();
+			Item[] current = inv.getItems();
+			if (previousInventory == null)
+			{
+				previousInventory = Arrays.copyOf(current, current.length);
+				for (BountyTask task : bountyTasks)
+				{
+					int itemId = task.getData().itemId;
+					int count = getCount(current, itemId);
+					task.setItemsCollected(Math.max(0, count));
+					pluginPanel.updateBountyPanel(task);
+				}
+				return;
+			}
+
+			for (BountyTask task : bountyTasks)
+			{
+				int itemId = task.getData().itemId;
+				int before = getCount(previousInventory, itemId);
+				int after = getCount(current, itemId);
+				if (after != before)
+				{
+					int newValue = Math.max(0, task.getItemsCollected() + (after - before));
+					task.setItemsCollected(newValue);
+					pluginPanel.updateBountyPanel(task);
+				}
+			}
+
+			previousInventory = Arrays.copyOf(current, current.length);
+		}
+	}
 
 	@SuppressWarnings("unused")
 	@Provides
@@ -424,4 +471,36 @@ public class PortTasksPlugin extends Plugin
 			default: return Color.GREEN;
 		}
 	}
+	int getInventoryItemCount(int itemId)
+	{
+		ItemContainer inv = client.getItemContainer(InventoryID.INV);
+		if (inv == null)
+		{
+			return 0;
+		}
+		int total = 0;
+		for (Item item : inv.getItems())
+		{
+			if (item.getId() == itemId)
+			{
+				total += item.getQuantity();
+			}
+		}
+		return total;
+	}
+
+	private int getCount(Item[] items, int itemId)
+	{
+		int amt = 0;
+		for (Item item : items)
+		{
+			if (item.getId() == itemId)
+			{
+				amt += item.getQuantity();
+			}
+		}
+		return amt;
+	}
+
+
 }

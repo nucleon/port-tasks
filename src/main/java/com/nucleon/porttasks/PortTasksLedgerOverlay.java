@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -143,7 +144,10 @@ class PortTasksLedgerOverlay extends Overlay
 						if (poly != null)
 						{	// we stored the tasks that are using this ledger,
 							// so we can draw a dynamic tile
-							Color[] colors = getOverlayColors(tasksAtLedger);
+							List<PortTask> pendingTasksAtLedger = tasksAtLedger.stream()
+									.filter(t -> t.getCargoTaken() != t.getData().getCargoAmount())
+									.collect(Collectors.toList());
+							Color[] colors = getOverlayColors(pendingTasksAtLedger);
 							renderMultiColoredSquare(g, poly, colors);
 						}
 						// loop through the tasks at this ledger object, get the cargo information and render a text overlay

@@ -8,6 +8,11 @@ import net.runelite.api.coords.WorldPoint;
 
 public enum PortPaths
 {
+	DEFAULT(
+		PortLocation.EMPTY,
+		PortLocation.EMPTY
+		// Sailing >= 0, used in 0 tasks
+	),
 	CATHERBY_BRIMHAVEN(
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,

@@ -28,7 +28,7 @@ dependencies {
 }
 
 group = 'com.nucleon.porttasks'
-version = '1.1.1'
+version = '1.2.0'
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = 'UTF-8'

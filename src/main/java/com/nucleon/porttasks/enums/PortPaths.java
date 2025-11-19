@@ -8,11 +8,6 @@ import net.runelite.api.coords.WorldPoint;
 
 public enum PortPaths
 {
-	DEFAULT(
-		PortLocation.EMPTY,
-		PortLocation.EMPTY
-		// Sailing >= 0, used in 0 tasks
-	),
 	CATHERBY_BRIMHAVEN(
 		PortLocation.CATHERBY,
 		PortLocation.BRIMHAVEN,
@@ -498,7 +493,7 @@ public enum PortPaths
 	),
 	PORT_SARIM_VOID_KNIGHTS_OUTPOST(
 		PortLocation.PORT_SARIM,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 1 task
 		new RelativeMove(0, -43),
 		new RelativeMove(-51, -51),
@@ -538,7 +533,7 @@ public enum PortPaths
 	),
 	CATHERBY_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CATHERBY,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 1 task
 		new RelativeMove(0, -29),
 		new RelativeMove(-44, -44),
@@ -665,7 +660,7 @@ public enum PortPaths
 	),
 	CORSAIR_COVE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.CORSAIR_COVE,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 3 tasks
 		new RelativeMove(32, 0),
 		new RelativeMove(33, -33)
@@ -721,7 +716,7 @@ public enum PortPaths
 	),
 	RUINS_OF_UNKAH_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RUINS_OF_UNKAH,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 2 tasks
 		new RelativeMove(-12, -12),
 		new RelativeMove(0, -23),
@@ -733,7 +728,7 @@ public enum PortPaths
 	),
 	RED_ROCK_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RED_ROCK,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 2 tasks
 		new RelativeMove(14, 14),
 		new RelativeMove(0, 69),
@@ -741,14 +736,14 @@ public enum PortPaths
 	),
 	SUMMER_SHORE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.SUMMER_SHORE,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 2 tasks
 		new RelativeMove(-160, 0),
 		new RelativeMove(-316, 316)
 	),
 	DEEPFIN_POINT_VOID_KNIGHTS_OUTPOST(
 		PortLocation.DEEPFIN_POINT,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 67, used in 2 tasks
 		new RelativeMove(0, -7),
 		new RelativeMove(9, -9),
@@ -1503,7 +1498,7 @@ public enum PortPaths
 	),
 	ARDOUGNE_VOID_KNIGHTS_OUTPOST(
 		PortLocation.ARDOUGNE,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 1 task
 		new RelativeMove(7, 0),
 		new RelativeMove(11, -11),
@@ -1742,7 +1737,7 @@ public enum PortPaths
 	),
 	PRIFDDINAS_VOID_KNIGHTS_OUTPOST(
 		PortLocation.PRIFDDINAS,
-		PortLocation.VOID_KNIGHT,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 70, used in 1 task
 		new RelativeMove(-97, 0),
 		new RelativeMove(-65, -65),
@@ -1778,7 +1773,287 @@ public enum PortPaths
 		new RelativeMove(92, 0),
 		new RelativeMove(30, 30)
 	),
-	;
+	DEEPFIN_POINT_SUMMER_SHORE(
+		PortLocation.DEEPFIN_POINT,
+		PortLocation.SUMMER_SHORE,
+		new RelativeMove(71, -71),
+		new RelativeMove(0, -150),
+		new RelativeMove(71, -71),
+		new RelativeMove(346, 0),
+		new RelativeMove(41, 41),
+		new RelativeMove(42, 0),
+		new RelativeMove(25, -25),
+		new RelativeMove(376, 0),
+		new RelativeMove(109, -109),
+	),
+	DEEPFIN_POINT_HOSIDIUS(
+		PortLocation.DEEPFIN_POINT,
+		PortLocation.HOSIDIUS,
+		new RelativeMove(-32, 32),
+		new RelativeMove(0, 152),
+		new RelativeMove(33, 33),
+		new RelativeMove(0, 380),
+		new RelativeMove(-50, 50),
+		new RelativeMove(-124, 0),
+		new RelativeMove(-24, 24)
+	),
+	RED_ROCK_DEEPFIN_POINT(
+		PortLocation.RED_ROCK,
+		PortLocation.DEEPFIN_POINT,
+		new RelativeMove(0, -16),
+		new RelativeMove(-9, -9),
+		new RelativeMove(-330, 0),
+		new RelativeMove(-122, 122),
+		new RelativeMove(-49, 0),
+		new RelativeMove(-156, 156),
+		new RelativeMove(-149, 0),
+		new RelativeMove(-39, -39),
+		new RelativeMove(-23, 0),
+		new RelativeMove(-14, 14)
+	),
+	PORT_PISCARILIUS_DEEPFIN_POINT
+		(PortLocation.PORT_PISCARILIUS,
+			PortLocation.DEEPFIN_POINT,
+			new RelativeMove(0, -23),
+			new RelativeMove(84, -84),
+			new RelativeMove(0, -615),
+			new RelativeMove(-36, -36),
+			new RelativeMove(0, -143),
+			new RelativeMove(28, -28)
+		),
+	DEEPFIN_POINT_ALDARIN(
+		PortLocation.DEEPFIN_POINT,
+		PortLocation.ALDARIN,
+		new RelativeMove(-276, 0),
+		new RelativeMove(-141, 141),
+		new RelativeMove(0, 57),
+		new RelativeMove(-27, 27)
+	),
+	DEEPFIN_POINT_PORT_ROBERTS(
+		PortLocation.DEEPFIN_POINT,
+		PortLocation.PORT_ROBERTS,
+		new RelativeMove(-44, 44),
+		new RelativeMove(0, 103),
+		new RelativeMove(42, 42),
+		new RelativeMove(0, 314),
+		new RelativeMove(-10, 10),
+		new RelativeMove(-44, 0),
+		new RelativeMove(-12, 12),
+		new RelativeMove(0, 27)
+	),
+	ARDOUGNE_PORT_ROBERTS(
+		PortLocation.ARDOUGNE,
+		PortLocation.PORT_ROBERTS,
+		new RelativeMove(19, -19),
+		new RelativeMove(0, -104),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -231),
+		new RelativeMove(-73, -73),
+		new RelativeMove(0, -71),
+		new RelativeMove(-45, -45),
+		new RelativeMove(-266, 0),
+		new RelativeMove(-13, 13),
+		new RelativeMove(-110, 0),
+		new RelativeMove(-224, 224),
+		new RelativeMove(0, 326),
+		new RelativeMove(-22, 22),
+		new RelativeMove(-107, 0),
+		new RelativeMove(-9, 9),
+		new RelativeMove(0, 23)
+	),
+	PORT_ROBERTS_RED_ROCK(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.RED_ROCK,
+		new RelativeMove(0, -25),
+		new RelativeMove(13, -13),
+		new RelativeMove(48, 0),
+		new RelativeMove(91, -91),
+		new RelativeMove(0, -296),
+		new RelativeMove(171, -171),
+		new RelativeMove(59, 0),
+		new RelativeMove(26, -26),
+		new RelativeMove(412, 0),
+		new RelativeMove(145, -145),
+		new RelativeMove(0, -13),
+		new RelativeMove(-9, -9)
+	),
+	PORT_ROBERTS_PORT_SARIM(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.PORT_SARIM,
+		new RelativeMove(0, -22),
+		new RelativeMove(17, -17),
+		new RelativeMove(84, 0),
+		new RelativeMove(62, -62),
+		new RelativeMove(0, -351),
+		new RelativeMove(93, -93),
+		new RelativeMove(184, 0),
+		new RelativeMove(77, -77),
+		new RelativeMove(223, 0),
+		new RelativeMove(51, 51),
+		new RelativeMove(0, 161),
+		new RelativeMove(73, 73),
+		new RelativeMove(0, 138),
+		new RelativeMove(-34, 34),
+		new RelativeMove(0, 78),
+		new RelativeMove(34, 34),
+		new RelativeMove(59, 0),
+		new RelativeMove(30, -30),
+		new RelativeMove(85, 0),
+		new RelativeMove(77, -77),
+		new RelativeMove(0, -35),
+		new RelativeMove(11, -11),
+		new RelativeMove(25, 0),
+		new RelativeMove(47, 47)
+	),
+	PORT_ROBERTS_CATHERBY(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.CATHERBY,
+		new RelativeMove(0, -22),
+		new RelativeMove(17, -17),
+		new RelativeMove(84, 0),
+		new RelativeMove(62, -62),
+		new RelativeMove(0, -351),
+		new RelativeMove(93, -93),
+		new RelativeMove(184, 0),
+		new RelativeMove(77, -77),
+		new RelativeMove(223, 0),
+		new RelativeMove(51, 51),
+		new RelativeMove(0, 161),
+		new RelativeMove(73, 73),
+		new RelativeMove(0, 138),
+		new RelativeMove(-34, 34),
+		new RelativeMove(0, 78),
+		new RelativeMove(34, 34),
+		new RelativeMove(31, 31),
+		new RelativeMove(0, 73),
+		new RelativeMove(43, 43)
+	),
+	PORT_ROBERTS_DEEPFIN_POINT(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.DEEPFIN_POINT,
+		new RelativeMove(0, -22),
+		new RelativeMove(17, -17),
+		new RelativeMove(84, 0),
+		new RelativeMove(32, -32),
+		new RelativeMove(0, -322),
+		new RelativeMove(-84, -84),
+		new RelativeMove(0, -69),
+		new RelativeMove(9, -9),
+	),
+	PORT_ROBERTS_LANDS_END(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.LANDS_END,
+		new RelativeMove(-93, 0),
+		new RelativeMove(-98, 98),
+	),
+	ALDARIN_PISCATORIS(
+		PortLocation.ALDARIN,
+		PortLocation.PISCATORIS
+	),
+	ALDARIN_RELLEKKA(
+		PortLocation.ALDARIN,
+		PortLocation.RELLEKKA
+	),
+	ALDARIN_BRIMHAVEN(
+		PortLocation.ALDARIN,
+		PortLocation.BRIMHAVEN
+	),
+	ALDARIN_VOID_KNIGHTS_OUTPOST(
+		PortLocation.ALDARIN,
+		PortLocation.VOID_KNIGHTS_OUTPOST
+	),
+	ALDARIN_PORT_ROBERTS(
+		PortLocation.ALDARIN,
+		PortLocation.PORT_ROBERTS
+	),
+	ALDARIN_SUNSET_COAST(
+		PortLocation.ALDARIN,
+		PortLocation.SUNSET_COAST
+	),
+	ALDARIN_DEEPFIN_POINT(
+		PortLocation.ALDARIN,
+		PortLocation.DEEPFIN_POINT
+	),
+	RED_ROCK_CIVITAS_ILLA_FORTIS(
+		PortLocation.RED_ROCK,
+		PortLocation.CIVITAS_ILLA_FORTIS
+	),
+	CIVITAS_ILLA_FORTIS_SUMMER_SHORE(
+		PortLocation.CIVITAS_ILLA_FORTIS,
+		PortLocation.SUMMER_SHORE
+	),
+	CIVITAS_ILLA_FORTIS_VOID_KNIGHTS_OUTPOST(
+		PortLocation.CIVITAS_ILLA_FORTIS,
+		PortLocation.VOID_KNIGHTS_OUTPOST
+	),
+	PORT_ROBERTS_VOID_KNIGHTS_OUTPOST(
+		PortLocation.PORT_ROBERTS,
+		PortLocation.VOID_KNIGHTS_OUTPOST
+	),
+	VOID_KNIGHTS_OUTPOST_PORT_KHAZARD(
+		PortLocation.VOID_KNIGHTS_OUTPOST,
+		PortLocation.PORT_KHAZARD
+	),
+	VOID_KNIGHTS_OUTPOST_PORT_TYRAS(
+		PortLocation.VOID_KNIGHTS_OUTPOST,
+		PortLocation.PORT_KHAZARD
+	),
+	SUMMER_SHORE_PANDEMONIUM(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.PANDEMONIUM
+	),
+	SUMMER_SHORE_PORT_SARIM(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.PANDEMONIUM
+	),
+	SUMMER_SHORE_ALDARIN(
+		PortLocation.SUMMER_SHORE
+		, PortLocation.ALDARIN
+	),
+	SUMMER_SHORE_PORT_ROBERTS(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.PORT_ROBERTS
+	),
+	SUMMER_SHORE_DEEPFIN_POINT(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.DEEPFIN_POINT
+	),
+	SUMMER_SHORE_PORT_KHAZARD(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.PORT_KHAZARD
+	),
+	SUMMER_SHORE_CIVITAS_ILLA_FORTIS(
+		PortLocation.SUMMER_SHORE,
+		PortLocation.CIVITAS_ILLA_FORTIS
+	),
+	RED_ROCK_PORT_KHAZARD(
+		PortLocation.RED_ROCK,
+		PortLocation.PORT_KHAZARD
+	),
+	RED_ROCK_PORT_SARIM(
+		PortLocation.RED_ROCK,
+		PortLocation.PORT_SARIM
+	),
+	RED_ROCK_PORT_ROBERTS(
+		PortLocation.RED_ROCK,
+		PortLocation.PORT_ROBERTS
+	),
+	RED_ROCK_PORT_PISCARILIUS(
+		PortLocation.RED_ROCK,
+		PortLocation.PORT_PISCARILIUS
+	),
+	RED_ROCK_LANDS_END(
+		PortLocation.RED_ROCK,
+		PortLocation.LANDS_END
+	),
+	RED_ROCK_CATHERBY(
+		PortLocation.RED_ROCK,
+		PortLocation.CATHERBY
+	),
+	LANDS_END_HOSIDIUS(
+		PortLocation.LANDS_END,
+		PortLocation.HOSIDIUS
+	);
 
 	private final PortLocation start;
 	private final PortLocation end;

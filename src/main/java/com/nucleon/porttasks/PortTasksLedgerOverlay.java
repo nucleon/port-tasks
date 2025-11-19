@@ -86,7 +86,7 @@ class PortTasksLedgerOverlay extends Overlay
 		Map<Integer, Integer> overlayCount = new HashMap<>();
 
 		//  looping through all the port tasks currently assigned
-		for (CourierTask task : plugin.currentTasks)
+		for (CourierTask task : plugin.courierTasks)
 		{	// get the port locations and check them against the ledger port locations in our LedgerID enum
 			String cargoPickupLocation = task.getData().getCargoLocation().getName();
 			String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();

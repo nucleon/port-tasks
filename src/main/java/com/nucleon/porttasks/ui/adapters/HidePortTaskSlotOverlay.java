@@ -32,16 +32,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.ui.CourierTaskPanel;
+import com.nucleon.porttasks.Task;
+import com.nucleon.porttasks.ui.TaskPanel;
 import net.runelite.client.util.ImageUtil;
 
 public class HidePortTaskSlotOverlay extends MouseAdapter
 {
 private final JLabel hideMarker;
-private final CourierTask courierTask;
-private final CourierTaskPanel panel;
+private final Task task;
+private final TaskPanel panel;
 private final PortTasksPlugin plugin;
 private static final ImageIcon VISIBLE_HOVER_ICON;
 private static final ImageIcon INVISIBLE_HOVER_ICON;
@@ -55,10 +55,10 @@ static
 	INVISIBLE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(invisibleImg, -100));
 }
 
-public HidePortTaskSlotOverlay(JLabel hideMarker, CourierTask courierTask, CourierTaskPanel panel, PortTasksPlugin plugin)
+public HidePortTaskSlotOverlay(JLabel hideMarker, Task task, TaskPanel panel, PortTasksPlugin plugin)
 {
 	this.hideMarker = hideMarker;
-	this.courierTask = courierTask;
+	this.task = task;
 	this.panel = panel;
 	this.plugin = plugin;
 }
@@ -66,7 +66,7 @@ public HidePortTaskSlotOverlay(JLabel hideMarker, CourierTask courierTask, Couri
 @Override
 public void mousePressed(MouseEvent mouseEvent)
 {
-	courierTask.setTracking(!courierTask.isTracking());
+	task.setTracking(!task.isTracking());
 	panel.updateVisibility();
 	plugin.saveSlotSettings();
 }
@@ -74,7 +74,7 @@ public void mousePressed(MouseEvent mouseEvent)
 @Override
 public void mouseEntered(MouseEvent mouseEvent)
 {
-	hideMarker.setIcon(courierTask.isTracking() ? VISIBLE_HOVER_ICON : INVISIBLE_HOVER_ICON);
+	hideMarker.setIcon(task.isTracking() ? VISIBLE_HOVER_ICON : INVISIBLE_HOVER_ICON);
 }
 
 @Override

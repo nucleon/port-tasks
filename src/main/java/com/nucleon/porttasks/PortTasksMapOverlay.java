@@ -70,7 +70,7 @@ class PortTasksMapOverlay extends Overlay
 
 	private void renderOverlayLines(Graphics2D g)
 	{
-		for (CourierTask tasks : plugin.currentTasks)
+		for (CourierTask tasks : plugin.courierTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
 			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();

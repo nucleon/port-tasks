@@ -28,6 +28,7 @@ package com.nucleon.porttasks;
 
 import com.google.gson.Gson;
 import com.google.inject.Provides;
+import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.PortLocation;
 import java.awt.Color;
 import java.util.HashSet;
@@ -101,7 +102,9 @@ public class PortTasksPlugin extends Plugin
 	@Inject
 	private PortTaskModelRenderer portTaskModelRenderer;
 	@Getter
-	List<CourierTask> currentTasks = new ArrayList<>();
+	List<CourierTask> courierTasks = new ArrayList<>();
+	@Getter
+	List<BountyTask> bountyTasks = new ArrayList<>();
 	@Getter
 	Set<GameObject> gangplanks = new HashSet<>();
 	@Getter
@@ -140,7 +143,7 @@ public class PortTasksPlugin extends Plugin
 	protected void startUp()
 	{
 		log.info("Starting plugin Port Tasks");
-		pluginPanel = new PortTasksPluginPanel(this, clientThread, itemManager, config);
+		pluginPanel = new PortTasksPluginPanel(this, clientThread, itemManager, client, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 		navigationButton = NavigationButton.builder()
@@ -289,53 +292,75 @@ public class PortTasksPlugin extends Plugin
 
 	private void handlePortTaskTrigger(PortTaskTrigger trigger, int value)
 	{
-		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
+		if (!BountyTaskData.isBountyTask(value))
 		{
-			log.debug("Changed: {} (value {})", trigger, value);
-			CourierTaskData data = CourierTaskData.fromId(value);
-			if (data != null && value != 0)
+			if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 			{
-				currentTasks.add(new CourierTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+				log.debug("Changed: {} (value {})", trigger, value);
+				CourierTaskData data = CourierTaskData.fromId(value);
+				if (data != null && value != 0)
+				{
+					courierTasks.add(new CourierTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+					pluginPanel.rebuild();
+				}
+			}
+
+			if (trigger.getType() == PortTaskTrigger.TaskType.TAKEN)
+			{
+				int slot = trigger.getSlot();
+
+				for (CourierTask task : courierTasks)
+				{
+					if (task.getSlot() == slot)
+					{
+						task.setCargoTaken(value);
+						break;
+					}
+				}
 				pluginPanel.rebuild();
 			}
-			if (value == 0)
+
+			if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
 			{
-				currentTasks.removeIf(task -> task.getSlot() == trigger.getSlot());
+				int slot = trigger.getSlot();
+
+				for (CourierTask task : courierTasks)
+				{
+					if (task.getSlot() == slot)
+					{
+						task.setDelivered(value);
+						break;
+					}
+				}
 				pluginPanel.rebuild();
 			}
 		}
-
-		if (trigger.getType() == PortTaskTrigger.TaskType.TAKEN)
+		else
 		{
-			int slot = trigger.getSlot();
-
-			for (CourierTask task : currentTasks)
+			if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 			{
-				if (task.getSlot() == slot)
+				log.debug("Changed: {} (value {})", trigger, value);
+				BountyTaskData data = BountyTaskData.fromId(value);
+				if (data != null && value != 0)
 				{
-					task.setCargoTaken(value);
-					break;
+					bountyTasks.add(new BountyTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+					pluginPanel.rebuild();
 				}
 			}
-			pluginPanel.rebuild();
 		}
 
-		if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
+		if (value == 0)
 		{
-			int slot = trigger.getSlot();
-
-			for (CourierTask task : currentTasks)
-			{
-				if (task.getSlot() == slot)
-				{
-					task.setDelivered(value);
-					break;
-				}
-			}
+			removeTasksForSlot(trigger.getSlot());
 			pluginPanel.rebuild();
 		}
 	}
 
+	private void removeTasksForSlot(int slot)
+	{
+		courierTasks.removeIf(t -> t.getSlot() == slot);
+		bountyTasks.removeIf(t -> t.getSlot() == slot);
+	}
 	public void readPortDataFromClientVarps()
 	{
 		assert client.getVarps() != null : "client.getVarps() is null";
@@ -346,15 +371,15 @@ public class PortTasksPlugin extends Plugin
 			if (varbit.getType() == PortTaskTrigger.TaskType.ID)
 			{
 				int value = client.getVarbitValue(varPlayers, varbit.getId());
-				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
+				if (value != 0 && courierTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
 					CourierTaskData data = CourierTaskData.fromId(value);
-					currentTasks.add(new CourierTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
+					courierTasks.add(new CourierTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
 					pluginPanel.rebuild();
 				}
 				else
 				{
-					currentTasks.removeIf(task -> task.getSlot() == varbit.getSlot());
+					courierTasks.removeIf(task -> task.getSlot() == varbit.getSlot());
 					pluginPanel.rebuild();
 				}
 			}
@@ -378,12 +403,12 @@ public class PortTasksPlugin extends Plugin
 
 	public void saveSlotSettings()
 	{
-		if (currentTasks == null || currentTasks.isEmpty())
+		if (courierTasks == null || courierTasks.isEmpty())
 		{
 			configManager.unsetConfiguration(CONFIG_GROUP, CONFIG_KEY);
 			return;
 		}
-		String json = gson.toJson(currentTasks);
+		String json = gson.toJson(courierTasks);
 		configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY, json);
 	}
 

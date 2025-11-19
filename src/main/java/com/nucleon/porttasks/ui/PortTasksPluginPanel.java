@@ -31,12 +31,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import com.nucleon.porttasks.BountyTask;
 import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.Task;
 import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.ui.adapters.ReloadPortTasks;
 
+import net.runelite.api.Client;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
@@ -54,6 +57,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -68,6 +72,7 @@ public class PortTasksPluginPanel extends PluginPanel
 		private final JPanel markerView = new JPanel();
 		private ClientThread clientThread;
 		private ItemManager itemManager;
+		private Client client;
 
 		static
 		{
@@ -75,12 +80,13 @@ public class PortTasksPluginPanel extends PluginPanel
 			RELOAD_ICON = new ImageIcon(addIcon);
 		}
 
-		public PortTasksPluginPanel(PortTasksPlugin plugin, ClientThread clientThread, ItemManager itemManager, PortTasksConfig config)
+		public PortTasksPluginPanel(PortTasksPlugin plugin, ClientThread clientThread, ItemManager itemManager, Client client, PortTasksConfig config)
 		{
 			this.plugin = plugin;
 			this.config = config;
 			this.clientThread = clientThread;
 			this.itemManager = itemManager;
+			this.client = client;
 			setLayout(new BorderLayout());
 			setBorder(new EmptyBorder(10, 10, 10, 10));
 			setupErrorPanel(true);
@@ -127,16 +133,53 @@ public class PortTasksPluginPanel extends PluginPanel
 			}
 		}
 
+//		public void rebuild()
+//		{
+//			markerView.removeAll();
+//			List<CourierTask> courierTasks = plugin.getCourierTasks();
+//			for (CourierTask courierTask : courierTasks)
+//			{
+//				markerView.add(new CourierTaskPanel(plugin, courierTask, clientThread, itemManager, courierTask.getSlot()));
+//				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
+//			}
+//			List<BountyTask> bountyTasks = plugin.getBountyTasks();
+//
+//			for (BountyTask bountyTask : bountyTasks)
+//			{
+//				markerView.add(new BountyTaskPanel(plugin, bountyTask, clientThread, itemManager, bountyTask.getSlot()));
+//				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
+//			}
+//
+//			if (courierTasks.isEmpty() || bountyTasks.isEmpty())
+//			{
+//				setupErrorPanel(true);
+//			}
+//			repaint();
+//			revalidate();
+//		}
+
 		public void rebuild()
 		{
 			markerView.removeAll();
-			List<CourierTask> currentTasks = plugin.getCurrentTasks();
-			for (CourierTask task : currentTasks)
+			List<Task> allTasks = new ArrayList<>();
+			allTasks.addAll(plugin.getCourierTasks());
+			allTasks.addAll(plugin.getBountyTasks());
+			allTasks.sort(Comparator.comparingInt(Task::getSlot));
+			for (Task task : allTasks)
 			{
-				markerView.add(new CourierTaskPanel(plugin, task, clientThread, itemManager, task.getSlot()));
+				if (task instanceof CourierTask)
+				{
+					CourierTask courier = (CourierTask) task;
+					markerView.add(new CourierTaskPanel(plugin, courier, clientThread, itemManager, courier.getSlot()));
+				}
+				else if (task instanceof BountyTask)
+				{
+					BountyTask bounty = (BountyTask) task;
+					markerView.add(new BountyTaskPanel(plugin, bounty, clientThread, itemManager, client, bounty.getSlot()));
+				}
 				markerView.add(Box.createRigidArea(new Dimension(0, 10)));
 			}
-			if (currentTasks.isEmpty())
+			if (allTasks.isEmpty())
 			{
 				setupErrorPanel(true);
 			}
@@ -144,7 +187,9 @@ public class PortTasksPluginPanel extends PluginPanel
 			revalidate();
 		}
 
-		private void addMarker()
+
+
+	private void addMarker()
 		{
 			setupErrorPanel(false);
 		}

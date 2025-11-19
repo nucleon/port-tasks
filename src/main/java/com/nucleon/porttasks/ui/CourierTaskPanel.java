@@ -37,6 +37,7 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.util.ImageUtil;
+import net.runelite.http.api.chat.Task;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -54,7 +55,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.image.BufferedImage;
 
-public class CourierTaskPanel extends JPanel
+public class CourierTaskPanel extends JPanel implements TaskPanel
 {
 	public final PortTasksPlugin plugin;
 	private final ClientThread clientThread;

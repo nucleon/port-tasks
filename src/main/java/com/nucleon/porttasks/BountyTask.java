@@ -24,58 +24,27 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.nucleon.porttasks.ui.adapters;
+package com.nucleon.porttasks;
 
+import com.nucleon.porttasks.enums.BountyTaskData;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
 
-import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.ui.CourierTaskPanel;
+import java.awt.Color;
 
-import com.nucleon.porttasks.ui.TaskPanel;
-import net.runelite.client.util.ImageUtil;
-
-public class PortTaskSlotOverlayColor extends MouseAdapter
+@Getter
+@Setter
+@AllArgsConstructor
+public class BountyTask implements Task
 {
-private final JLabel portSlotOverlay;
-private final TaskPanel panel;
-private static final ImageIcon BORDER_COLOR_ICON;
-private static final ImageIcon BORDER_COLOR_HOVER_ICON;
-
-static
-{
-	BufferedImage borderImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "border_color_icon.png");
-	BufferedImage borderImgHover = ImageUtil.luminanceOffset(borderImg, -150);
-
-	BORDER_COLOR_ICON = new ImageIcon(borderImg);
-	BORDER_COLOR_HOVER_ICON = new ImageIcon(borderImgHover);
-}
-public PortTaskSlotOverlayColor(JLabel prayerMarkerColorLabel, TaskPanel panel)
-{
-	this.portSlotOverlay = prayerMarkerColorLabel;
-	this.panel = panel;
-}
-
-
-@Override
-public void mousePressed(MouseEvent mouseEvent)
-{
-	panel.openPortTaskColorPicker();
-}
-
-@Override
-public void mouseEntered(MouseEvent mouseEvent)
-{
-	portSlotOverlay.setIcon(BORDER_COLOR_HOVER_ICON);
-}
-
-@Override
-public void mouseExited(MouseEvent mouseEvent)
-{
-	portSlotOverlay.setIcon(BORDER_COLOR_ICON);
-}
+private BountyTaskData data;
+private int slot;
+private boolean taken; // accepted?
+private int delivered;
+private boolean tracking;
+private boolean active;
+private Color overlayColor;
+private int itemsCollected;
 }

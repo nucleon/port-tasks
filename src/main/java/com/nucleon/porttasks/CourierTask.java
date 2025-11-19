@@ -37,7 +37,7 @@ import java.awt.Color;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CourierTask
+public class CourierTask implements Task
 {
 	private CourierTaskData data;
 	private int slot;

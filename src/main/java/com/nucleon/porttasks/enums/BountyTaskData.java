@@ -198,12 +198,12 @@ public enum BountyTaskData
 	;
 	private final int id;
 	private final PortLocation bountyLocation;
-	private final String taskName;
-	private final int itemId;
-	private final int npcId;
+	public final String taskName;
+	public final int itemId;
+	public final int npcId;
 	private final int deadNpcId;
-	private final int itemQuantity;
-	private final int itemRarity;
+	public final int itemQuantity;
+	public final int itemRarity;
 
 	private static final Set<Integer> VARBIT_VALUES;
 
@@ -227,6 +227,16 @@ public enum BountyTaskData
 			varbitValues.add(b.id);
 		}
 		VARBIT_VALUES = Collections.unmodifiableSet(varbitValues);
+	}
+
+	public static BountyTaskData fromId(int id)
+	{
+		for (BountyTaskData task : values())
+		{
+			if (task.id == id)
+				return task;
+		}
+		return null;
 	}
 
 	public static boolean isBountyTask(int id)

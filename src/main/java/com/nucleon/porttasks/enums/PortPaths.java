@@ -1784,7 +1784,7 @@ public enum PortPaths
 		new RelativeMove(42, 0),
 		new RelativeMove(25, -25),
 		new RelativeMove(376, 0),
-		new RelativeMove(109, -109),
+		new RelativeMove(109, -109)
 	),
 	DEEPFIN_POINT_HOSIDIUS(
 		PortLocation.DEEPFIN_POINT,
@@ -1938,13 +1938,13 @@ public enum PortPaths
 		new RelativeMove(0, -322),
 		new RelativeMove(-84, -84),
 		new RelativeMove(0, -69),
-		new RelativeMove(9, -9),
+		new RelativeMove(9, -9)
 	),
 	PORT_ROBERTS_LANDS_END(
 		PortLocation.PORT_ROBERTS,
 		PortLocation.LANDS_END,
 		new RelativeMove(-93, 0),
-		new RelativeMove(-98, 98),
+		new RelativeMove(-98, 98)
 	),
 	ALDARIN_PISCATORIS(
 		PortLocation.ALDARIN,

@@ -202,12 +202,12 @@ public enum BountyTaskData
 	private final int itemId;
 	private final int npcId;
 	private final int deadNpcId;
-	private final int unknown1;
-	private final int unknown2;
+	private final int itemQuantity;
+	private final int itemRarity;
 
 	private static final Set<Integer> VARBIT_VALUES;
 
-	BountyTaskData(int id, PortLocation bountyLocation, String taskName, int itemId, int npcId, int deadNpcId, int unknown1, int unknown2)
+	BountyTaskData(int id, PortLocation bountyLocation, String taskName, int itemId, int npcId, int deadNpcId, int itemQuantity, int itemRarity)
 	{
 		this.id = id;
 		this.bountyLocation = bountyLocation;
@@ -215,8 +215,8 @@ public enum BountyTaskData
 		this.itemId = itemId;
 		this.npcId = npcId;
 		this.deadNpcId = deadNpcId;
-		this.unknown1 = unknown1;
-		this.unknown2 = unknown2;
+		this.itemQuantity = itemQuantity;
+		this.itemRarity = itemRarity; //
 	}
 
 	static

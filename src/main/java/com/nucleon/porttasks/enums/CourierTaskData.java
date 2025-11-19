@@ -31,7 +31,7 @@ import java.util.HashSet;
 import java.util.Set;
 import net.runelite.api.gameval.ItemID;
 
-public enum PortTaskData
+public enum CourierTaskData
 {
 	PANDEMONIUM_PLATEBODY_DELIVERY_1(1, PortLocation.PORT_SARIM, PortLocation.PORT_SARIM, PortLocation.PANDEMONIUM, PortPaths.PORT_SARIM_PANDEMONIUM, false, "Pandemonium platebody delivery", ItemID.CARGO_CRATE_PLATEBODIES_THE_PANDEMONIUM, 1),
 	PORT_SARIM_SPICE_DELIVERY_2(2, PortLocation.PORT_SARIM, PortLocation.PANDEMONIUM, PortLocation.PORT_SARIM, PortPaths.PORT_SARIM_PANDEMONIUM, true, "Port sarim spice delivery", ItemID.CARGO_CRATE_SPICES_PORT_SARIM, 1),
@@ -483,7 +483,7 @@ public enum PortTaskData
 
 	private static final Set<Integer> VARBIT_VALUES;
 
-	PortTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)
+	CourierTaskData(Integer id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)
 	{
 		this.id = id;
 		this.noticeBoard = noticeBoard;
@@ -499,7 +499,7 @@ public enum PortTaskData
 	static
 	{
 		Set<Integer> varbitValues = new HashSet<>();
-		for (PortTaskData p : values())
+		for (CourierTaskData p : values())
 		{
 			varbitValues.add(p.id);
 		}
@@ -526,9 +526,9 @@ public enum PortTaskData
 		return noticeBoard;
 	}
 
-	public static PortTaskData fromId(int id)
+	public static CourierTaskData fromId(int id)
 	{
-		for (PortTaskData task : values())
+		for (CourierTaskData task : values())
 		{
 			if (task.id == id)
 				return task;

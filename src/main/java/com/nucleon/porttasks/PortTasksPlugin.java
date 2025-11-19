@@ -37,7 +37,7 @@ import javax.inject.Named;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import com.nucleon.porttasks.enums.PortPaths;
-import com.nucleon.porttasks.enums.PortTaskData;
+import com.nucleon.porttasks.enums.CourierTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
 import com.nucleon.porttasks.overlay.TracerConfig;
 import com.nucleon.porttasks.ui.PortTasksPluginPanel;
@@ -292,7 +292,7 @@ public class PortTasksPlugin extends Plugin
 		if (trigger.getType() == PortTaskTrigger.TaskType.ID)
 		{
 			log.debug("Changed: {} (value {})", trigger, value);
-			PortTaskData data = PortTaskData.fromId(value);
+			CourierTaskData data = CourierTaskData.fromId(value);
 			if (data != null && value != 0)
 			{
 				currentTasks.add(new PortTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
@@ -348,7 +348,7 @@ public class PortTasksPlugin extends Plugin
 				int value = client.getVarbitValue(varPlayers, varbit.getId());
 				if (value != 0 && currentTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
 				{
-					PortTaskData data = PortTaskData.fromId(value);
+					CourierTaskData data = CourierTaskData.fromId(value);
 					currentTasks.add(new PortTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
 					pluginPanel.rebuild();
 				}

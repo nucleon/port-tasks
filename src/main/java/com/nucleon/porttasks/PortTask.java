@@ -26,7 +26,7 @@
  */
 package com.nucleon.porttasks;
 
-import com.nucleon.porttasks.enums.PortTaskData;
+import com.nucleon.porttasks.enums.CourierTaskData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +39,7 @@ import java.awt.Color;
 @AllArgsConstructor
 public class PortTask
 {
-	private PortTaskData data;
+	private CourierTaskData data;
 	private int slot;
 	private boolean taken;
 	private int delivered;

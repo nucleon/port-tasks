@@ -136,31 +136,7 @@ class PortTaskCargoOverlay extends Overlay
 		{
 			return;
 		}
-		fillItemShape(g, icon, p, overlayColor);
 		drawItemOutline(g, outline, p, overlayColor);
-	}
-
-	private void fillItemShape(Graphics2D g, BufferedImage icon, Point p, Color overlayColor)
-	{
-		if (icon == null)
-		{
-			return;
-		}
-
-		Color fillColor = new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(), 30);
-
-		for (int x = 0; x < icon.getWidth(); x++)
-		{
-			for (int y = 0; y < icon.getHeight(); y++)
-			{
-				int argb = icon.getRGB(x, y);
-				if ((argb >>> 24) > 0)
-				{
-					g.setColor(fillColor);
-					g.fillRect(p.getX() + x, p.getY() + y, 1, 1);
-				}
-			}
-		}
 	}
 
 	private void drawItemOutline(Graphics2D g, BufferedImage outline, Point p, Color overlayColor)

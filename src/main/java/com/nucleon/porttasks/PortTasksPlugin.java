@@ -396,7 +396,7 @@ public class PortTasksPlugin extends Plugin
 			}
 		}
 
-		if (value == 0)
+		if (trigger.getType() == PortTaskTrigger.TaskType.ID && value == 0)
 		{
 			removeTasksForSlot(trigger.getSlot());
 			pluginPanel.rebuild();
@@ -412,27 +412,18 @@ public class PortTasksPlugin extends Plugin
 	{
 		assert client.getVarps() != null : "client.getVarps() is null";
 		varPlayers = client.getVarps().clone();
-
+		clearTasksForReload();
 		for (PortTaskTrigger varbit : PortTaskTrigger.values())
 		{
-			if (varbit.getType() == PortTaskTrigger.TaskType.ID)
-			{
-				int value = client.getVarbitValue(varPlayers, varbit.getId());
-				if (value != 0 && courierTasks.stream().noneMatch(task -> task.getSlot() == varbit.getSlot()))
-				{
-					CourierTaskData data = CourierTaskData.fromId(value);
-					courierTasks.add(new CourierTask(data, varbit.getSlot(), false, 0, true, true, config.getNavColor(), 0));
-					pluginPanel.rebuild();
-				}
-				else
-				{
-					courierTasks.removeIf(task -> task.getSlot() == varbit.getSlot());
-					pluginPanel.rebuild();
-				}
-			}
+			int value = client.getVarbitValue(varPlayers, varbit.getId());
+			handlePortTaskTrigger(varbit, value);
 		}
 	}
-
+	private void clearTasksForReload()
+	{
+		courierTasks.clear();
+		bountyTasks.clear();
+	}
 	private void registerOverlays()
 	{
 		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)

@@ -104,7 +104,7 @@ public class PortTasksPluginPanel extends PluginPanel
 
 			JLabel markerAdd = new JLabel(RELOAD_ICON);
 			markerAdd.setToolTipText("reload");
-			markerAdd.addMouseListener(new ReloadPortTasks(markerAdd, plugin, this::addMarker));
+			markerAdd.addMouseListener(new ReloadPortTasks(markerAdd, plugin, clientThread, this::addMarker));
 
 			JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));
 			markerButtons.add(markerAdd);

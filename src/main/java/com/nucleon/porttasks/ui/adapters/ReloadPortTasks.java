@@ -28,6 +28,7 @@ package com.nucleon.porttasks.ui.adapters;
 
 import com.nucleon.porttasks.PortTasksPlugin;
 
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.util.ImageUtil;
 
 import javax.swing.*;
@@ -41,20 +42,22 @@ public class ReloadPortTasks extends MouseAdapter
 	private static final ImageIcon RELOAD = new ImageIcon(RELOAD_ICON);
 	private static final ImageIcon ADD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(RELOAD_ICON, 0.53f));
 	private final PortTasksPlugin plugin;
+	private final ClientThread clientThread;
 	private final JLabel markerAdd;
 	private final Runnable onClick;
 
-	public ReloadPortTasks(JLabel markerAdd, PortTasksPlugin plugin, Runnable onClick)
+	public ReloadPortTasks(JLabel markerAdd, PortTasksPlugin plugin, ClientThread clientThread, Runnable onClick)
 	{
 		this.markerAdd = markerAdd;
 		this.plugin = plugin;
+		this.clientThread = clientThread;
 		this.onClick = onClick;
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		//clientThread.invoke(plugin::readPortDataFromClientVarps); //todo:actually call from ct thats passed in
+		clientThread.invoke(plugin::readPortDataFromClientVarps);
 		onClick.run();
 	}
 

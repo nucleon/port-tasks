@@ -112,6 +112,13 @@ class PortTaskCargoOverlay extends Overlay
 				return task.getOverlayColor();
 			}
 		}
+		for (BountyTask task : plugin.bountyTasks)
+		{
+			if (task.getData().itemId == itemId)
+			{
+				return task.getOverlayColor();
+			}
+		}
 		return null;
 	}
 

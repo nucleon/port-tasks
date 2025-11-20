@@ -120,6 +120,12 @@ public class PortTasksPlugin extends Plugin
 	@Getter
 	private boolean highlightNoticeboards;
 	@Getter
+	private boolean highlightCargoHolds;
+	@Getter
+	private Color highlightCargoHoldsColor;
+	@Getter
+	private boolean highlightHelmMissingCargo;
+	@Getter
 	private Color highlightNoticeboardsColor;
 	@Inject
 	private ClientThread clientThread;
@@ -166,9 +172,11 @@ public class PortTasksPlugin extends Plugin
 		tracerConfig.loadConfigs(config);
 		highlightGangplanks = config.highlightGangplanks();
 		highlightGangplanksColor = config.highlightGangplanksColor();
-
+		highlightCargoHolds = config.highlightCargoHolds();
+		highlightCargoHoldsColor = config.highlightCargoHoldsColor();
 		highlightNoticeboards = config.highlightNoticeboards();
 		highlightNoticeboardsColor = config.highlightNoticeboardsColor();
+		highlightHelmMissingCargo = config.highlightHelmMissingCargo();
 	}
 
 	@Override
@@ -214,6 +222,15 @@ public class PortTasksPlugin extends Plugin
 				return;
 			case "highlightNoticeboardsColor":
 				highlightNoticeboardsColor = config.highlightNoticeboardsColor();
+				return;
+			case "highlightHelmMissingCargo":
+				highlightHelmMissingCargo = config.highlightHelmMissingCargo();
+				return;
+			case "highlightCargoHolds":
+				highlightCargoHolds = config.highlightCargoHolds();
+				return;
+			case "highlightCargoHoldsColor":
+				highlightCargoHoldsColor = config.highlightCargoHoldsColor();
 				return;
 			case "enableTracer":
 				tracerConfig.setTracerEnabled(config.enableTracer());

@@ -8,18 +8,25 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.util.Set;
 import javax.inject.Inject;
+
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.GroundObject;
+import net.runelite.api.ObjectComposition;
+import net.runelite.api.Player;
+import net.runelite.api.Point;
 import net.runelite.api.Scene;
 import net.runelite.api.Tile;
+import net.runelite.api.TileObject;
 import net.runelite.api.WorldView;
+import net.runelite.api.gameval.ObjectID;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.outline.ModelOutlineRenderer;
-
+@Slf4j
 public class PortTaskModelRenderer extends Overlay
 {
 	private final Client client;
@@ -48,6 +55,20 @@ public class PortTaskModelRenderer extends Overlay
 		if (plugin.isHighlightNoticeboards())
 		{
 			highlightNoticeboards(graphics);
+		}
+		if (plugin.isHighlightHelmMissingCargo())
+		{
+			for (CourierTask courierTask : plugin.courierTasks)
+			{
+				if (courierTask.getCargoTaken() > 0 && courierTask.getCargoTaken() < courierTask.getData().cargoAmount)
+				{
+					highlightLocalPlayerBoatHelm(graphics, (courierTask.getData().cargoAmount - courierTask.getCargoTaken()), courierTask.getOverlayColor());
+				}
+			}
+		}
+		if (plugin.isHighlightCargoHolds())
+		{
+			highlightLocalPlayerCargoHold(graphics, plugin.getHighlightCargoHoldsColor());
 		}
 		return null;
 	}
@@ -83,6 +104,97 @@ public class PortTaskModelRenderer extends Overlay
 				continue;
 			}
 			OverlayUtil.renderPolygon(graphics, polygon, color, stroke);
+		}
+	}
+
+	public void highlightLocalPlayerBoatHelm(Graphics2D graphics, int cargoMissing, Color color)
+	{
+		Player local = client.getLocalPlayer();
+		WorldView worldview = local.getWorldView();
+		Scene s = worldview.getScene();
+		Tile[][][] sceneTiles = s.getTiles();
+
+		for (Tile[][] sceneTile : sceneTiles)
+		{
+			for (Tile[] value : sceneTile)
+			{
+				for (Tile tile : value)
+				{
+					if (tile == null)
+					{
+						continue;
+					}
+					for (GameObject gameObject : tile.getGameObjects())
+					{
+						if (gameObject == null)
+						{
+							continue;
+						}
+
+						if (isInHelmRange(gameObject.getId()))
+						{
+							modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
+							drawObjectLabel(graphics, gameObject, cargoMissing);
+						}
+					}
+				}
+			}
+		}
+	}
+	public void highlightLocalPlayerCargoHold(Graphics2D graphics, Color color)
+	{
+		Player local = client.getLocalPlayer();
+		WorldView worldview = local.getWorldView();
+		Scene s = worldview.getScene();
+		Tile[][][] sceneTiles = s.getTiles();
+
+		for (Tile[][] sceneTile : sceneTiles)
+		{
+			for (Tile[] value : sceneTile)
+			{
+				for (Tile tile : value)
+				{
+					if (tile == null)
+					{
+						continue;
+					}
+					for (GameObject gameObject : tile.getGameObjects())
+					{
+						if (gameObject == null)
+						{
+							continue;
+						}
+
+						if (isInCargoHoldRange(gameObject.getId()))
+						{
+							modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
+						}
+					}
+				}
+			}
+		}
+	}
+	private boolean isInHelmRange(int id)
+	{
+		return id >= ObjectID.SAILING_BOAT_SAIL_KANDARIN_3X8_WOOD && id <= ObjectID.SAILING_INTRO_HELM_NOT_IN_USE;
+	}
+	private boolean isInCargoHoldRange(int id)
+	{
+		return id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE_OPEN;
+	}
+
+	private void drawObjectLabel(Graphics2D g, TileObject obj, int cargoMissing)
+	{
+		if (obj != null)
+		{
+			ObjectComposition composition = client.getObjectDefinition(obj.getId());
+			Point loc = obj.getCanvasTextLocation(g, composition.getName(), 0);
+			if (loc == null)
+			{
+				return;
+			}
+			String text = "missing " + cargoMissing + " cargo";
+			OverlayUtil.renderTextLocation(g, loc, text, Color.WHITE);
 		}
 	}
 

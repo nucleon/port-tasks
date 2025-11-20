@@ -179,7 +179,7 @@ public interface PortTasksConfig extends Config
 
 	@ConfigItem(
 		keyName = "highlightGangplanksColor",
-		name = "Highlight Gangplanks Color",
+		name = "Color",
 		description = "Color used to outline gangplanks in the world",
 		position = 2,
 		section = overlaySection
@@ -203,7 +203,7 @@ public interface PortTasksConfig extends Config
 
 	@ConfigItem(
 		keyName = "highlightNoticeboardsColor",
-		name = "Highlight Noticeboards Color",
+		name = "Color",
 		description = "Color used to outline noticeboards in the world",
 		position = 4,
 		section = overlaySection
@@ -212,7 +212,41 @@ public interface PortTasksConfig extends Config
 	{
 		return Color.RED;
 	}
+	@ConfigItem(
+			keyName = "highlightCargoHolds",
+			name = "Highlight Cargo Holds",
+			description = "Outline cargo holds in your boat",
+			position = 5,
+			section = overlaySection
+	)
+	default boolean highlightCargoHolds()
+	{
+		return true;
+	}
 
+	@ConfigItem(
+			keyName = "highlightCargoHoldsColor",
+			name = "Color",
+			description = "Color used to outline cargo holds in your boat",
+			position = 6,
+			section = overlaySection
+	)
+	default Color highlightCargoHoldsColor()
+	{
+		return Color.green;
+	}
+
+	@ConfigItem(
+			keyName = "highlightHelmMissingCargo",
+			name = "Highlight Helm Missing Cargo",
+			description = "Outline helm on your boat",
+			position = 7,
+			section = overlaySection
+	)
+	default boolean highlightHelmMissingCargo()
+	{
+		return true;
+	}
 	enum Overlay
 	{
 		NONE,

@@ -34,7 +34,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.ui.CourierTaskPanel;
 
 import com.nucleon.porttasks.ui.TaskPanel;
 import net.runelite.client.util.ImageUtil;

@@ -330,6 +330,47 @@ public class PortTasksPlugin extends Plugin
 		}
 	}
 
+	private void checkInventoryForBountyItems()
+	{
+		if (bountyTasks.size() > 0)
+		{
+			ItemContainer inv = client.getItemContainer(InventoryID.INV);
+			assert inv != null;
+			Item[] current = inv.getItems();
+			if (previousInventory == null)
+			{
+				previousInventory = Arrays.copyOf(current, current.length);
+				for (BountyTask task : bountyTasks)
+				{
+					int itemId = task.getData().itemId;
+					int count = getCount(current, itemId);
+					task.setItemsCollected(Math.max(0, count));
+					pluginPanel.updateBountyPanel(task);
+				}
+				return;
+			}
+
+			for (BountyTask task : bountyTasks)
+			{
+				int itemId = task.getData().itemId;
+				int before = getCount(previousInventory, itemId);
+				int after = getCount(current, itemId);
+				if (after != before)
+				{
+					int newValue = Math.max(0, task.getItemsCollected() + (after - before));
+					task.setItemsCollected(newValue);
+					pluginPanel.updateBountyPanel(task);
+				}
+				else // satisfies reloading data
+				{
+					task.setItemsCollected(before);
+					pluginPanel.updateBountyPanel(task);
+				}
+			}
+			previousInventory = Arrays.copyOf(current, current.length);
+		}
+	}
+
 	@SuppressWarnings("unused")
 	@Provides
 	PortTasksConfig provideConfig(ConfigManager configManager)
@@ -361,10 +402,10 @@ public class PortTasksPlugin extends Plugin
 					if (task.getSlot() == slot)
 					{
 						task.setCargoTaken(value);
+						pluginPanel.rebuild();
 						break;
 					}
 				}
-				pluginPanel.rebuild();
 			}
 
 			if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
@@ -376,10 +417,10 @@ public class PortTasksPlugin extends Plugin
 					if (task.getSlot() == slot)
 					{
 						task.setDelivered(value);
+						pluginPanel.rebuild();
 						break;
 					}
 				}
-				pluginPanel.rebuild();
 			}
 		}
 		else
@@ -418,6 +459,7 @@ public class PortTasksPlugin extends Plugin
 			int value = client.getVarbitValue(varPlayers, varbit.getId());
 			handlePortTaskTrigger(varbit, value);
 		}
+		checkInventoryForBountyItems();
 	}
 	private void clearTasksForReload()
 	{

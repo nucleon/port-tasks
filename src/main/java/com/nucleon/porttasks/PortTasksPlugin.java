@@ -105,6 +105,8 @@ public class PortTasksPlugin extends Plugin
 	private PortTasksLedgerOverlay portTasksLedgerOverlay;
 	@Inject
 	private PortTaskModelRenderer portTaskModelRenderer;
+	@Inject
+	private PortTaskCargoOverlay portTaskCargoOverlay;
 	@Getter
 	List<CourierTask> courierTasks = new ArrayList<>();
 	@Getter
@@ -195,6 +197,7 @@ public class PortTasksPlugin extends Plugin
 		overlayManager.remove(sailingHelperMapOverlay);
 		overlayManager.remove(portTasksLedgerOverlay);
 		overlayManager.remove(portTaskModelRenderer);
+		overlayManager.remove(portTaskCargoOverlay);
 	}
 
 	@SuppressWarnings("unused")
@@ -496,6 +499,7 @@ public class PortTasksPlugin extends Plugin
 		}
 		overlayManager.add(portTasksLedgerOverlay);
 		overlayManager.add(portTaskModelRenderer);
+		overlayManager.add(portTaskCargoOverlay);
 	}
 
 	public void saveSlotSettings()

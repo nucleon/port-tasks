@@ -57,6 +57,7 @@ import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ObjectID;
+import net.runelite.api.gameval.VarbitID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
@@ -115,6 +116,8 @@ public class PortTasksPlugin extends Plugin
 	Set<GameObject> gangplanks = new HashSet<>();
 	@Getter
 	Set<GameObject> noticeboards = new HashSet<>();
+	@Getter
+	private boolean lockedIn = false;
 	@Getter
 	private boolean highlightGangplanks;
 	@Getter
@@ -251,11 +254,16 @@ public class PortTasksPlugin extends Plugin
 	@Subscribe
 	private void onVarbitChanged(final VarbitChanged event)
 	{
-		if (PortTaskTrigger.contains(event.getVarbitId()))
+		final int varbitId = event.getVarbitId();
+		if (PortTaskTrigger.contains(varbitId))
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
 			int value = client.getVarbitValue(varbit.getId());
 			handlePortTaskTrigger(varbit, value);
+		}
+		else if (varbitId == VarbitID.SAILING_BOAT_FACILITY_LOCKEDIN)
+		{
+			lockedIn = event.getValue() != 0;
 		}
 	}
 

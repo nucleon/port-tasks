@@ -66,7 +66,7 @@ public class PortTaskModelRenderer extends Overlay
 				}
 			}
 		}
-		if (plugin.isHighlightCargoHolds())
+		if (plugin.isHighlightCargoHolds() && !plugin.isLockedIn())
 		{
 			highlightLocalPlayerCargoHold(graphics, plugin.getHighlightCargoHoldsColor());
 		}

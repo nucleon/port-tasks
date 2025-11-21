@@ -26,9 +26,7 @@
  */
 package com.nucleon.porttasks;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -36,15 +34,13 @@ import java.awt.image.BufferedImage;
 import javax.inject.Inject;
 
 import net.runelite.api.Client;
-import net.runelite.api.Point;
-import net.runelite.api.widgets.Widget;
+import net.runelite.api.gameval.InterfaceID;
+import net.runelite.api.widgets.WidgetItem;
 import net.runelite.client.game.ItemManager;
-import net.runelite.client.ui.overlay.Overlay;
 
-import net.runelite.client.ui.overlay.OverlayLayer;
-import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.ui.overlay.WidgetItemOverlay;
 
-class PortTaskCargoOverlay extends Overlay
+class PortTaskCargoOverlay extends WidgetItemOverlay
 {
 	private final Client client;
 	private final PortTasksPlugin plugin;
@@ -59,48 +55,20 @@ class PortTaskCargoOverlay extends Overlay
 		this.config = config;
 		this.itemManager = itemManager;
 
-		setPosition(OverlayPosition.DYNAMIC);
-		setPriority(Overlay.PRIORITY_HIGHEST);
-		setLayer(OverlayLayer.ABOVE_WIDGETS);
+		showOnInterfaces(InterfaceID.SAILING_BOAT_CARGOHOLD);
 	}
 
 	@Override
-	public Dimension render(Graphics2D graphics)
+	public void renderItemOverlay(Graphics2D graphics, int itemId, WidgetItem widgetItem)
 	{
-		renderOverlayLines(graphics);
-		return null;
-	}
-
-	private void renderOverlayLines(Graphics2D g)
-	{
-		Widget cargoHold = client.getWidget(61800458);
-		if (cargoHold == null)
+		final Color color = getMatchingTaskColor(itemId);
+		if (color == null)
 		{
 			return;
 		}
-		Widget[] children = cargoHold.getChildren();
-		if (children == null)
-		{
-			return;
-		}
-		for (Widget itemWidget : children)
-		{
-			if (itemWidget == null)
-			{
-				continue;
-			}
-			int itemId = itemWidget.getItemId();
-			if (itemId <= 0)
-			{
-				continue;
-			}
-			Color overlayColor = getMatchingTaskColor(itemId);
-			if (overlayColor == null)
-			{
-				continue;
-			}
-			drawItemHighlight(g, itemWidget, itemId, overlayColor);
-		}
+		Rectangle bounds = widgetItem.getCanvasBounds();
+		final BufferedImage outline = itemManager.getItemOutline(itemId, widgetItem.getQuantity(), color);
+		graphics.drawImage(outline, (int) bounds.getX(), (int) bounds.getY(), null);
 	}
 
 	private Color getMatchingTaskColor(int itemId)
@@ -120,68 +88,5 @@ class PortTaskCargoOverlay extends Overlay
 			}
 		}
 		return null;
-	}
-
-	private void drawItemHighlight(Graphics2D g, Widget itemWidget, int itemId, Color overlayColor)
-	{
-		Rectangle bounds = itemWidget.getBounds();
-		if (bounds == null)
-		{
-			return;
-		}
-		BufferedImage outline = itemManager.getItemOutline(itemId, itemWidget.getItemQuantity(), overlayColor);
-		BufferedImage icon = itemManager.getImage(itemId);
-		Point p = itemWidget.getCanvasLocation();
-		if (p == null)
-		{
-			return;
-		}
-		fillItemShape(g, icon, p, overlayColor);
-		drawItemOutline(g, outline, p, overlayColor);
-	}
-
-	private void fillItemShape(Graphics2D g, BufferedImage icon, Point p, Color overlayColor)
-	{
-		if (icon == null)
-		{
-			return;
-		}
-
-		Color fillColor = new Color(overlayColor.getRed(), overlayColor.getGreen(), overlayColor.getBlue(), 30);
-
-		for (int x = 0; x < icon.getWidth(); x++)
-		{
-			for (int y = 0; y < icon.getHeight(); y++)
-			{
-				int argb = icon.getRGB(x, y);
-				if ((argb >>> 24) > 0)
-				{
-					g.setColor(fillColor);
-					g.fillRect(p.getX() + x, p.getY() + y, 1, 1);
-				}
-			}
-		}
-	}
-
-	private void drawItemOutline(Graphics2D g, BufferedImage outline, Point p, Color overlayColor)
-	{
-		if (outline == null)
-		{
-			return;
-		}
-		g.drawImage(outline, p.getX(), p.getY(), null);
-		g.setColor(overlayColor);
-		g.setStroke(new BasicStroke(1));
-		for (int x = 0; x < outline.getWidth(); x++)
-		{
-			for (int y = 0; y < outline.getHeight(); y++)
-			{
-				int argb = outline.getRGB(x, y);
-				if ((argb >>> 24) > 0)
-				{
-					g.drawRect(p.getX() + x, p.getY() + y, 1, 1);
-				}
-			}
-		}
 	}
 }

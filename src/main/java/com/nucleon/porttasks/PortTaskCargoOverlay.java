@@ -56,6 +56,7 @@ class PortTaskCargoOverlay extends WidgetItemOverlay
 		this.itemManager = itemManager;
 
 		showOnInterfaces(InterfaceID.SAILING_BOAT_CARGOHOLD);
+		showOnInventory();
 	}
 
 	@Override

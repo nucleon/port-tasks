@@ -132,6 +132,10 @@ public class PortTasksPlugin extends Plugin
 	private boolean highlightHelmMissingCargo;
 	@Getter
 	private Color highlightNoticeboardsColor;
+	@Getter
+	private boolean taskHeightOffset;
+	@Getter
+	private int pathDrawDistance;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -182,6 +186,8 @@ public class PortTasksPlugin extends Plugin
 		highlightNoticeboards = config.highlightNoticeboards();
 		highlightNoticeboardsColor = config.highlightNoticeboardsColor();
 		highlightHelmMissingCargo = config.highlightHelmMissingCargo();
+		taskHeightOffset = config.enableHeightOffset();
+		pathDrawDistance = config.pathDrawDistance();
 	}
 
 	@Override
@@ -247,6 +253,11 @@ public class PortTasksPlugin extends Plugin
 			case "tracerIntensity":
 				tracerConfig.setTracerIntensity(1f - (config.tracerIntensity() / 100f));
 				return;
+			case "pathOffset":
+				taskHeightOffset = config.enableHeightOffset();
+				return;
+			case "pathDrawDistance":
+				pathDrawDistance = config.pathDrawDistance();
 		}
 	}
 

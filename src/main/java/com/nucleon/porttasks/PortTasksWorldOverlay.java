@@ -26,22 +26,17 @@
  */
 package com.nucleon.porttasks;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import com.nucleon.porttasks.overlay.WorldLines;
-
 import net.runelite.api.Client;
-import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
-
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
+
 
 class PortTasksWorldOverlay extends Overlay
 {
@@ -70,18 +65,11 @@ class PortTasksWorldOverlay extends Overlay
 
 	private void renderOverlayLines(Graphics2D g)
 	{
-		for (CourierTask tasks : plugin.courierTasks)
+		for (CourierTask task : plugin.courierTasks)
 		{
-			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-			if (tasks.getData().reversePath)
+			if (task.isTracking())
 			{
-				Collections.reverse(journey);
-			}
-			if (tasks.isTracking())
-			{
-				int zOffset = config.enableHeightOffset() ? (tasks.getSlot() * 100) : 0;
-				WorldLines.drawPortTaskLinesOnWorld(g, client, journey, overlayColor, plugin.tracerConfig, zOffset);
+				WorldLines.drawPortTaskLinesOnWorld(g, client, task, plugin.tracerConfig, plugin.isTaskHeightOffset(), plugin.getPathDrawDistance());
 			}
 		}
 	}

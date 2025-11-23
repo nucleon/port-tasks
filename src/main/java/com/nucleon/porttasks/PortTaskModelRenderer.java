@@ -113,28 +113,30 @@ public class PortTaskModelRenderer extends Overlay
 		WorldView worldview = local.getWorldView();
 		Scene s = worldview.getScene();
 		Tile[][][] sceneTiles = s.getTiles();
-
-		for (Tile[][] sceneTile : sceneTiles)
+		if (sceneTiles != null)
 		{
-			for (Tile[] value : sceneTile)
+			for (Tile[][] sceneTile : sceneTiles)
 			{
-				for (Tile tile : value)
+				for (Tile[] value : sceneTile)
 				{
-					if (tile == null)
+					for (Tile tile : value)
 					{
-						continue;
-					}
-					for (GameObject gameObject : tile.getGameObjects())
-					{
-						if (gameObject == null)
+						if (tile == null)
 						{
 							continue;
 						}
-
-						if (isInHelmRange(gameObject.getId()))
+						for (GameObject gameObject : tile.getGameObjects())
 						{
-							modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
-							drawObjectLabel(graphics, gameObject, cargoMissing);
+							if (gameObject == null)
+							{
+								continue;
+							}
+
+							if (isInHelmRange(gameObject.getId()))
+							{
+								modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
+								drawObjectLabel(graphics, gameObject, cargoMissing);
+							}
 						}
 					}
 				}

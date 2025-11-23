@@ -1139,8 +1139,8 @@ public enum PortPaths
 		new RelativeMove(168, 0),
 		new RelativeMove(6, -6)
 	),
-	JATIZO_RELLEKKA(
-		PortLocation.JATIZO,
+	JATIZSO_RELLEKKA(
+		PortLocation.JATIZSO,
 		PortLocation.RELLEKKA,
 		// Sailing >= 68, used in 2 tasks
 		new RelativeMove(67, -67)
@@ -1156,9 +1156,9 @@ public enum PortPaths
 		new RelativeMove(190, 0),
 		new RelativeMove(45, -45)
 	),
-	ETCETERIA_JATIZO(
+	ETCETERIA_JATIZSO(
 		PortLocation.ETCETERIA,
-		PortLocation.JATIZO,
+		PortLocation.JATIZSO,
 		// Sailing >= 68, used in 3 tasks
 		new RelativeMove(0, -12),
 		new RelativeMove(-29, -29),
@@ -2113,7 +2113,7 @@ public enum PortPaths
 	),
 	VOID_KNIGHTS_OUTPOST_PORT_TYRAS(
 		PortLocation.VOID_KNIGHTS_OUTPOST,
-		PortLocation.PORT_KHAZARD,
+		PortLocation.PORT_TYRAS,
 		new RelativeMove(-309, 0),
 		new RelativeMove(-12, 12),
 		new RelativeMove(-114, 0),

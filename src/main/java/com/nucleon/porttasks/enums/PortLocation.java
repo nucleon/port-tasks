@@ -63,7 +63,7 @@ public enum PortLocation
 	PISCATORIS("Piscatoris", 75, ObjectID.SAILING_GANGPLANK_PISCATORIS, -1, new WorldPoint(2300, 3689, 0)),
 	LUNAR_ISLE("Lunar Isle", 76, ObjectID.SAILING_GANGPLANK_LUNAR_ISLE, ObjectID.PORT_TASK_BOARD_LUNAR_ISLE, new WorldPoint(2157, 3881, 0)),
 	RELLEKKA("Rellekka", 62, ObjectID.SAILING_GANGPLANK_RELLEKKA, ObjectID.PORT_TASK_BOARD_RELLEKKA, new WorldPoint(2630, 3709, 0)),
-	JATIZO("Jatizo", 68, ObjectID.SAILING_GANGPLANK_JATIZSO, -1, new WorldPoint(2412, 3776, 0)),
+	JATIZSO("Jatizso", 68, ObjectID.SAILING_GANGPLANK_JATIZSO, -1, new WorldPoint(2412, 3776, 0)),
 	ETCETERIA("Etceteria", 65, ObjectID.SAILING_GANGPLANK_ETCETERIA, ObjectID.PORT_TASK_BOARD_ETCETERIA, new WorldPoint(2612, 3836, 0)),
 	NEITIZNOT("Neitiznot", 68, ObjectID.SAILING_GANGPLANK_NEITIZNOT, -1, new WorldPoint(2302, 3782, 0)),
 	EMPTY("Default", null, -1, -1, new WorldPoint(0, 0, 0)),

@@ -27,10 +27,14 @@
 package com.nucleon.porttasks.enums;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import lombok.Getter;
 import net.runelite.api.gameval.ItemID;
 
+@Getter
 public enum CourierTaskData
 {
 	PANDEMONIUM_PLATEBODY_DELIVERY_1(8664, 1, PortLocation.PORT_SARIM, PortLocation.PORT_SARIM, PortLocation.PANDEMONIUM, PortPaths.PORT_SARIM_PANDEMONIUM, false, "Pandemonium platebody delivery", ItemID.CARGO_CRATE_PLATEBODIES_THE_PANDEMONIUM, 1),
@@ -485,6 +489,7 @@ public enum CourierTaskData
 	public final int cargoAmount;
 
 	private static final Set<Integer> VARBIT_VALUES;
+	private static final Map<Integer, CourierTaskData> BY_DBROW = new HashMap<>();
 
 	CourierTaskData(int dbrow, int id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)
 	{
@@ -510,24 +515,22 @@ public enum CourierTaskData
 		VARBIT_VALUES = Collections.unmodifiableSet(varbitValues);
 	}
 
+	static
+	{
+		for (CourierTaskData task : values())
+		{
+			BY_DBROW.put(task.dbrow, task);
+		}
+	}
+
+	public static CourierTaskData getByDbrow(int dbrow)
+	{
+		return BY_DBROW.get(dbrow);
+	}
+
 	public static boolean isCargoTask(int varbitValue)
 	{
 		return VARBIT_VALUES.contains(varbitValue);
-	}
-
-	public PortLocation getCargoLocation()
-	{
-		return cargoLocation;
-	}
-
-	public PortLocation getDeliveryLocation()
-	{
-		return deliveryLocation;
-	}
-
-	public PortLocation getNoticeBoard()
-	{
-		return noticeBoard;
 	}
 
 	public static CourierTaskData fromId(int id)
@@ -538,11 +541,6 @@ public enum CourierTaskData
 				return task;
 		}
 		return null;
-	}
-
-	public int getCargoAmount()
-	{
-		return this.cargoAmount;
 	}
 
 }

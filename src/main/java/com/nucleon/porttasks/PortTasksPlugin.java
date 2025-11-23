@@ -30,9 +30,12 @@ import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.PortLocation;
+import com.nucleon.porttasks.overlay.NoticeBoardTooltip;
 import java.awt.Color;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -55,9 +58,12 @@ import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.ItemContainerChanged;
+import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ObjectID;
 import net.runelite.api.gameval.VarbitID;
+import net.runelite.api.widgets.Widget;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
@@ -108,6 +114,8 @@ public class PortTasksPlugin extends Plugin
 	private PortTaskModelRenderer portTaskModelRenderer;
 	@Inject
 	private PortTaskCargoOverlay portTaskCargoOverlay;
+	@Inject
+	NoticeBoardTooltip noticeBoardTooltip;
 	@Getter
 	List<CourierTask> courierTasks = new ArrayList<>();
 	@Getter
@@ -116,6 +124,8 @@ public class PortTasksPlugin extends Plugin
 	Set<GameObject> gangplanks = new HashSet<>();
 	@Getter
 	Set<GameObject> noticeboards = new HashSet<>();
+	@Getter
+	Map<Integer, Widget> offeredTasks = new HashMap<>();
 	@Getter
 	private boolean lockedIn = false;
 	@Getter
@@ -207,6 +217,7 @@ public class PortTasksPlugin extends Plugin
 		overlayManager.remove(portTasksLedgerOverlay);
 		overlayManager.remove(portTaskModelRenderer);
 		overlayManager.remove(portTaskCargoOverlay);
+		overlayManager.remove(noticeBoardTooltip);
 	}
 
 	@SuppressWarnings("unused")
@@ -222,6 +233,16 @@ public class PortTasksPlugin extends Plugin
 				overlayManager.remove(sailingHelperMapOverlay);
 				overlayManager.remove(portTasksLedgerOverlay);
 				registerOverlays();
+				return;
+			case "noticeBoardTooltip":
+				if (event.getNewValue().contains("true"))
+				{
+					overlayManager.add(noticeBoardTooltip);
+				}
+				if (event.getNewValue().contains("false"))
+				{
+					overlayManager.remove(noticeBoardTooltip);
+				}
 				return;
 			case "highlightGangplanks":
 				highlightGangplanks = config.highlightGangplanks();
@@ -366,6 +387,46 @@ public class PortTasksPlugin extends Plugin
 			}
 
 			previousInventory = Arrays.copyOf(current, current.length);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onWidgetLoaded(final WidgetLoaded event)
+	{
+		if (event.getGroupId() != InterfaceID.PORT_TASK_BOARD)
+		{
+			return;
+		}
+		offeredTasks.clear();
+		clientThread.invokeLater(this::scanPortTaskBoard);
+	}
+
+	private void scanPortTaskBoard()
+	{
+		final Widget widget = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
+		if (widget == null)
+		{
+			return;
+		}
+		List<Widget> kids = new ArrayList<>();
+		if (widget.getDynamicChildren() != null)
+		{
+			kids.addAll(Arrays.asList(widget.getDynamicChildren()));
+		}
+
+		for (Widget child : kids)
+		{
+			if (child == null)
+			{
+				continue;
+			}
+			Object[] ops = child.getOnOpListener();
+			if (ops == null || ops.length < 4)
+			{
+				continue;
+			}
+			offeredTasks.put((Integer) ops[3], child);
 		}
 	}
 
@@ -515,6 +576,10 @@ public class PortTasksPlugin extends Plugin
 		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.WORLD)
 		{
 			overlayManager.add(sailingHelperWorldOverlay);
+		}
+		if (config.noticeBoardTooltip())
+		{
+			overlayManager.add(noticeBoardTooltip);
 		}
 		overlayManager.add(portTasksLedgerOverlay);
 		overlayManager.add(portTaskModelRenderer);

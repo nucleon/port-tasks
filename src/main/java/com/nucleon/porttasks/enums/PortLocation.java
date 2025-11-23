@@ -114,4 +114,10 @@ public enum PortLocation
 		return NOTICEBOARD_IDS.contains(objectId);
 	}
 
+	@Override
+	public String toString()
+	{
+		return name;
+	}
+
 }

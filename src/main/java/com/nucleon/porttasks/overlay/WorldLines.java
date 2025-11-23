@@ -44,6 +44,7 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.util.Collections;
 import java.util.List;
 
 public class WorldLines
@@ -114,6 +115,11 @@ public class WorldLines
 				Color overlayColor = task.getOverlayColor();
 				LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
 
+				if (task.getData().reversePath)
+				{
+					Collections.reverse(journey);
+				}
+
 				for (int i = 0; i < journey.size() - 1; i++)
 				{
 					renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip);
@@ -146,6 +152,11 @@ public class WorldLines
 				List<WorldPoint> journey = task.getData().dockMarkers.getFullPath();
 				Color overlayColor = task.getOverlayColor();
 				LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
+
+				if (task.getData().reversePath)
+				{
+					Collections.reverse(journey);
+				}
 
 				for (int i = 0; i < journey.size() - 1; i++)
 				{

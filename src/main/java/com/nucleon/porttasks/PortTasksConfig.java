@@ -247,6 +247,18 @@ public interface PortTasksConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = "noticeBoardTooltip",
+		name = "Noticeboard tooltip",
+		description = "Task information in a tooltip",
+		position = 8,
+		section = overlaySection
+	)
+	default boolean noticeBoardTooltip()
+	{
+		return true;
+	}
 	enum Overlay
 	{
 		NONE,

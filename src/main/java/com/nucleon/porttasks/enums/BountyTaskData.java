@@ -27,11 +27,15 @@
 package com.nucleon.porttasks.enums;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import lombok.Getter;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.NpcID;
 
+@Getter
 public enum BountyTaskData
 {
 	PORT_SARIM_TERN_BOUNTY_438(9101, 438, PortLocation.PORT_SARIM, "Port Sarim tern bounty", ItemID.SAILING_TERN_FEATHER, NpcID.SAILING_TERN, NpcID.SAILING_TERN_DEAD, 3, 3),
@@ -208,6 +212,8 @@ public enum BountyTaskData
 
 	private static final Set<Integer> VARBIT_VALUES;
 
+	private static final Map<Integer, BountyTaskData> BY_DBROW = new HashMap<>();
+
 	BountyTaskData(int dbrow, int id, PortLocation bountyLocation, String taskName, int itemId, int npcId, int deadNpcId, int itemQuantity, int itemRarity)
 	{
 		this.dbrow = dbrow;
@@ -229,6 +235,19 @@ public enum BountyTaskData
 			varbitValues.add(b.id);
 		}
 		VARBIT_VALUES = Collections.unmodifiableSet(varbitValues);
+	}
+
+	static
+	{
+		for (BountyTaskData task : values())
+		{
+			BY_DBROW.put(task.dbrow, task);
+		}
+	}
+
+	public static BountyTaskData getByDbrow(int dbrow)
+	{
+		return BY_DBROW.get(dbrow);
 	}
 
 	public static BountyTaskData fromId(int id)

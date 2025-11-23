@@ -123,6 +123,31 @@ private final static int SE = 1;
 		return localPoints;
 	}
 
+	public static LocalPoint worldToLocal(Client client, WorldPoint worldPoint)
+	{
+		if (worldPoint == null)
+		{
+			return null;
+		}
+
+		Collection<WorldPoint> instances = WorldPerspective.toLocalInstanceFromReal(client, worldPoint);
+		for (WorldPoint wp : instances)
+		{
+			if (wp == null)
+			{
+				continue;
+			}
+
+			LocalPoint lp = LocalPoint.fromWorld(client.getTopLevelWorldView(), wp);
+			if (lp != null)
+			{
+				return lp;
+			}
+		}
+
+		return null;
+	}
+
 	public static WorldPoint getInstanceWorldPointFromReal(Client client, WorldPoint wp)
 	{
 		if (wp == null) return null;

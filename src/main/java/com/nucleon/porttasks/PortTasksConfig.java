@@ -116,6 +116,18 @@ public interface PortTasksConfig extends Config
 	{
 		return false;
 	}
+
+	@Range(min = 5, max = 25)
+	@ConfigItem(
+			keyName = "pathDrawDistance",
+			name = "Draw Distance",
+			description = "control how much of the route is shown",
+			section = pathSection
+	)
+	default int pathDrawDistance()
+	{
+		return 25;
+	}
 	@ConfigSection(
 			name = "Tracer Settings",
 			description = "Configure animation and visual settings for overlay direction tracers",

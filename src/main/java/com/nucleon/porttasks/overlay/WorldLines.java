@@ -234,14 +234,12 @@ private static void renderLineWorld(Graphics2D graphics, Client client, WorldPoi
 		boolean isPulse;
 		if (segmentsInChunk == CHUNK_SIZE)
 		{
-			int reversedIndex = CHUNK_SIZE - 1 - segmentInChunk;
-			isPulse = ((reversedIndex + 1) % CHUNK_SIZE) == pulse;
+			isPulse = segmentInChunk == pulse;
 		}
 		else
 		{
 			int scaledPulse = (pulse * segmentsInChunk) / CHUNK_SIZE;
-			int reversedIndex = segmentsInChunk - 1 - scaledPulse;
-			isPulse = segmentInChunk == reversedIndex;
+			isPulse = segmentInChunk == scaledPulse;
 		}
 
 		WorldPoint wp1 = fullInterp.get(i);

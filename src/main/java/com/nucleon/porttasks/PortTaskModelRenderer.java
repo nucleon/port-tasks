@@ -181,7 +181,7 @@ public class PortTaskModelRenderer extends Overlay
 	}
 	private boolean isInHelmRange(int id)
 	{
-		return id >= ObjectID.SAILING_BOAT_SAIL_KANDARIN_3X8_WOOD && id <= ObjectID.SAILING_INTRO_HELM_NOT_IN_USE;
+		return id >= ObjectID.SAILING_BOAT_STEERING_KANDARIN_1X3_WOOD && id <= ObjectID.SAILING_INTRO_HELM_NOT_IN_USE;
 	}
 	private boolean isInCargoHoldRange(int id)
 	{

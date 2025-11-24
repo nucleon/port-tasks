@@ -44,20 +44,12 @@ public class NoticeBoardTooltip extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		MenuEntry[] menuEntries = client.getMenuEntries();
-		int last = menuEntries.length - 1;
-
-		if (last < 0)
+		Widget widget = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
+		if (widget == null)
 		{
 			return null;
 		}
 
-		MenuEntry menuEntry = menuEntries[last];
-		String option = menuEntry.getOption();
-		if (!option.contains("Select"))
-		{
-			return null;
-		}
 		Integer dbrow = getHoveredTask();
 		if (dbrow == null)
 		{

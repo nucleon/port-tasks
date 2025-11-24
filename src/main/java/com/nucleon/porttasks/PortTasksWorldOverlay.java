@@ -69,7 +69,7 @@ class PortTasksWorldOverlay extends Overlay
 		{
 			if (task.isTracking())
 			{
-				WorldLines.drawPortTaskLinesOnWorld(g, client, task, plugin.tracerConfig, plugin.isTaskHeightOffset(), plugin.getPathDrawDistance());
+				WorldLines.drawPortTaskLinesOnWorld(g, client, task, plugin.tracerConfig, plugin.isTaskHeightOffset(), plugin.getPathDrawDistance(), plugin.getPathDrawDistance());
 			}
 		}
 	}

@@ -188,6 +188,7 @@ public class PortTasksPlugin extends Plugin
 		pluginPanel.rebuild();
 		eventBus.register(tracerConfig);
 
+		migrateConfiguration();
 		tracerConfig.loadConfigs(config);
 		highlightGangplanks = config.highlightGangplanks();
 		highlightGangplanksColor = config.highlightGangplanksColor();
@@ -641,4 +642,15 @@ public class PortTasksPlugin extends Plugin
 	}
 
 
+	private void migrateConfiguration()
+	{	// min 5 max 25 <- version 1.4.0 -> min 100 max 250
+		if (config.pathDrawDistance() < 100)
+		{
+			configManager.setConfiguration(
+					config.CONFIG_GROUP,
+					"pathDrawDistance",
+					150
+			);
+		}
+	}
 }

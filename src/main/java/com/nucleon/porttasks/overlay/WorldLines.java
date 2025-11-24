@@ -77,22 +77,22 @@ public class WorldLines
 		DirectionArrow.drawLine(graphics, line, color, WorldPerspective.getWorldMapClipArea(client));
 	}
 
-	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, CourierTask task, TracerConfig tracerConfig, boolean offset, int clip)
+	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, CourierTask task, TracerConfig tracerConfig, boolean offset, int clip, int drawDistance)
 	{
 		if (tracerConfig.isTracerEnabled())
 		{
-			renderTaskLinesTracer(graphics, client, task, clip, offset, tracerConfig);
+			renderTaskLinesTracer(graphics, client, task, clip, offset, tracerConfig, drawDistance);
 		}
 		else
 		{
-			renderTaskLines(graphics, client, task, clip, offset);
+			renderTaskLines(graphics, client, task, clip, offset, drawDistance);
 		}
 	}
 
-	private static void renderTaskLines(Graphics2D g, Client client, CourierTask task, int clip, boolean offset)
+	private static void renderTaskLines(Graphics2D g, Client client, CourierTask task, int clip, boolean offset, int drawDistance)
 	{
 		int heightOffset = offset ? (task.getSlot() * 100) : 0;
-		clip += (clip * 1000);
+		clip += (clip * 128);
 		WorldView playerWorldView = client.getLocalPlayer().getWorldView();
 		WorldPoint playerWorldPoint = client.getLocalPlayer().getWorldLocation();
 		if (playerWorldView == null || playerWorldPoint == null)
@@ -122,15 +122,19 @@ public class WorldLines
 
 				for (int i = 0; i < journey.size() - 1; i++)
 				{
+					if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
+					{
+						continue;
+					}
 					renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip);
 				}
 			}
 		}
 	}
-	private static void renderTaskLinesTracer(Graphics2D g, Client client, CourierTask task, int clip, boolean offset, TracerConfig tracerConfig)
+	private static void renderTaskLinesTracer(Graphics2D g, Client client, CourierTask task, int clip, boolean offset, TracerConfig tracerConfig, int drawDistance)
 	{
 		int heightOffset = offset ? (task.getSlot() * 100) : 0;
-		clip += (clip * 1000);
+		clip += (clip * 128);
 		WorldView playerWorldView = client.getLocalPlayer().getWorldView();
 		WorldPoint playerWorldPoint = client.getLocalPlayer().getWorldLocation();
 		if (playerWorldView == null || playerWorldPoint == null)
@@ -160,6 +164,11 @@ public class WorldLines
 
 				for (int i = 0; i < journey.size() - 1; i++)
 				{
+					if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
+					{
+						continue;
+					}
+
 					renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip, tracerConfig);
 				}
 			}

@@ -3,9 +3,11 @@ package com.nucleon.porttasks.enums;
 import com.nucleon.porttasks.RelativeMove;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import net.runelite.api.coords.WorldPoint;
 
 
+@Getter
 public enum PortPaths
 {
 	DEFAULT(
@@ -2355,22 +2357,14 @@ public enum PortPaths
 	private final PortLocation start;
 	private final PortLocation end;
 	private final List<RelativeMove> pathPoints;
+	private final double distance;
 
 	PortPaths(PortLocation start, PortLocation end, RelativeMove... pathPoints)
 	{
 		this.start = start;
 		this.end = end;
 		this.pathPoints = List.of(pathPoints);
-	}
-
-	public PortLocation getStart()
-	{
-		return start;
-	}
-
-	public PortLocation getEnd()
-	{
-		return end;
+		this.distance = computeDistance();
 	}
 
 	public List<WorldPoint> getFullPath()
@@ -2427,6 +2421,37 @@ public enum PortPaths
 			result.add(new RelativeMove(addX, addY));
 		}
 		return result;
+	}
+
+	private double computeDistance()
+	{
+		double total = 0;
+
+		WorldPoint current = start.getNavigationLocation();
+		for (RelativeMove delta : pathPoints)
+		{
+			WorldPoint next = new WorldPoint(
+				current.getX() + delta.getDx(),
+				current.getY() + delta.getDy(),
+				current.getPlane()
+			);
+
+			total += distanceBetween(current, next);
+			current = next;
+		}
+		WorldPoint endPoint = end.getNavigationLocation();
+		if (!current.equals(endPoint))
+		{
+			total += distanceBetween(current, endPoint);
+		}
+		return total;
+	}
+
+	private static double distanceBetween(WorldPoint a, WorldPoint b)
+	{
+		int dx = b.getX() - a.getX();
+		int dy = b.getY() - a.getY();
+		return Math.hypot(dx, dy);
 	}
 	@Override
 	public String toString()

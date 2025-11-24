@@ -117,16 +117,16 @@ public interface PortTasksConfig extends Config
 		return false;
 	}
 
-	@Range(min = 5, max = 25)
+	@Range(min = 100, max = 250)
 	@ConfigItem(
 			keyName = "pathDrawDistance",
 			name = "Draw Distance",
-			description = "control how much of the route is shown",
+			description = "Path Draw Distance",
 			section = pathSection
 	)
 	default int pathDrawDistance()
 	{
-		return 25;
+		return 150;
 	}
 	@ConfigSection(
 			name = "Tracer Settings",

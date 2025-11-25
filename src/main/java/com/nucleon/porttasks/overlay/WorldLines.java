@@ -181,7 +181,8 @@ public class WorldLines
 		int r = (int)(color.getRed() * factor);
 		int g = (int)(color.getGreen() * factor);
 		int b = (int)(color.getBlue() * factor);
-		return new Color(r, g, b, color.getAlpha());
+		int a = (int)(color.getAlpha() * factor);
+		return new Color(r, g, b, a);
 	}
 
 	private static List<WorldPoint> interpolateLine(WorldPoint start, WorldPoint end)

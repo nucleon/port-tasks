@@ -129,9 +129,9 @@ public class PortTasksPlugin extends Plugin
 	@Getter
 	Set<GameObject> ledgers = new HashSet<>();
 	@Getter
-	private final List<GameObject> helms = new ArrayList<>();
+	private final Set<GameObject> helms = new HashSet<>();
 	@Getter
-	private final List<GameObject> cargoHolds = new ArrayList<>();
+	private final Set<GameObject> cargoHolds = new HashSet<>();
 	@Getter
 	Map<Integer, Widget> offeredTasks = new HashMap<>();
 	@Getter
@@ -362,17 +362,11 @@ public class PortTasksPlugin extends Plugin
 		}
 		else if (isInCargoHoldRange(id))
 		{
-			if (cargoHolds.get(worldViewId) == gameObject)
-			{
-				cargoHolds.remove(worldViewId);
-			}
+			cargoHolds.remove(gameObject);
 		}
 		else if (isInHelmRange(id))
 		{
-			if (helms.get(worldViewId) == gameObject)
-			{
-				helms.remove(worldViewId);
-			}
+			helms.remove(gameObject);
 		}
 	}
 

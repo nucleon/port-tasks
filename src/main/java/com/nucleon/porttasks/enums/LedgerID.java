@@ -26,6 +26,9 @@
  */
 package com.nucleon.porttasks.enums;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import net.runelite.api.gameval.ObjectID;
 
 public enum LedgerID
@@ -65,10 +68,27 @@ public enum LedgerID
 	private final int objectId;
 	private final String name;
 
+	private static final Set<Integer> LEDGER_IDS;
+
 	LedgerID(int objectId, String name)
 	{
 		this.objectId = objectId;
 		this.name = name;
+	}
+
+	static
+	{
+		Set<Integer> ledgers = new HashSet<>();
+		for (LedgerID p : values())
+		{
+			ledgers.add(p.objectId);
+		}
+		LEDGER_IDS = Collections.unmodifiableSet(ledgers);
+	}
+
+	public static boolean isLedger(int objectId)
+	{
+		return LEDGER_IDS.contains(objectId);
 	}
 
 	public static Integer getObjectIdByName(String name)

@@ -14,13 +14,11 @@ import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.GroundObject;
 import net.runelite.api.ObjectComposition;
-import net.runelite.api.Player;
 import net.runelite.api.Point;
 import net.runelite.api.Scene;
 import net.runelite.api.Tile;
 import net.runelite.api.TileObject;
 import net.runelite.api.WorldView;
-import net.runelite.api.gameval.ObjectID;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -109,83 +107,18 @@ public class PortTaskModelRenderer extends Overlay
 
 	public void highlightLocalPlayerBoatHelm(Graphics2D graphics, int cargoMissing, Color color)
 	{
-		Player local = client.getLocalPlayer();
-		WorldView worldview = local.getWorldView();
-		Scene s = worldview.getScene();
-		Tile[][][] sceneTiles = s.getTiles();
-		if (sceneTiles != null)
+		for (GameObject helm : plugin.getHelms())
 		{
-			for (Tile[][] sceneTile : sceneTiles)
-			{
-				for (Tile[] value : sceneTile)
-				{
-					for (Tile tile : value)
-					{
-						if (tile == null)
-						{
-							continue;
-						}
-						for (GameObject gameObject : tile.getGameObjects())
-						{
-							if (gameObject == null)
-							{
-								continue;
-							}
-
-							if (isInHelmRange(gameObject.getId()))
-							{
-								modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
-								drawObjectLabel(graphics, gameObject, cargoMissing);
-							}
-						}
-					}
-				}
-			}
+			modelOutlineRenderer.drawOutline(helm, 2, color, 250);
+			drawObjectLabel(graphics, helm, cargoMissing);
 		}
 	}
 	public void highlightLocalPlayerCargoHold(Graphics2D graphics, Color color)
 	{
-		Player local = client.getLocalPlayer();
-		WorldView worldview = local.getWorldView();
-		Scene s = worldview.getScene();
-		Tile[][][] sceneTiles = s.getTiles();
-
-		if (sceneTiles != null)
+		for (GameObject cargoHold : plugin.getCargoHolds())
 		{
-			for (Tile[][] sceneTile : sceneTiles)
-			{
-				for (Tile[] value : sceneTile)
-				{
-					for (Tile tile : value)
-					{
-						if (tile == null)
-						{
-							continue;
-						}
-						for (GameObject gameObject : tile.getGameObjects())
-						{
-							if (gameObject == null)
-							{
-								continue;
-							}
-
-							if (isInCargoHoldRange(gameObject.getId()))
-							{
-								modelOutlineRenderer.drawOutline(gameObject, 2, color, 250);
-							}
-						}
-					}
-				}
-			}
+			modelOutlineRenderer.drawOutline(cargoHold, 2, color, 250);
 		}
-	}
-	private boolean isInHelmRange(int id)
-	{
-		return id >= ObjectID.SAILING_BOAT_STEERING_KANDARIN_1X3_WOOD && id <= ObjectID.SAILING_INTRO_HELM_NOT_IN_USE;
-	}
-	private boolean isInCargoHoldRange(int id)
-	{
-		return id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE_OPEN;
 	}
 
 	private void drawObjectLabel(Graphics2D g, TileObject obj, int cargoMissing)

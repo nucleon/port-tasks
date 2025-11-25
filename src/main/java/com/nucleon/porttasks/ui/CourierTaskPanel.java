@@ -30,7 +30,6 @@ import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.enums.TaskReward;
 
 import net.runelite.api.ItemComposition;
 import net.runelite.client.callback.ClientThread;
@@ -197,7 +196,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, courierTask, this, plugin));
 
 		hideOverlay.add(hidePortTaskSlotOverlay);
-		taskName.setText(courierTask.getData().taskName);
+		taskName.setText(courierTask.getData().getTaskName());
 		taskName.setHorizontalAlignment(SwingConstants.CENTER);
 
 
@@ -257,7 +256,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		RuneliteColorPicker colorPicker = plugin.getColorPickerManager().create(
 				SwingUtilities.windowForComponent(this),
 				color,
-				courierTask.getData().taskName + " - overlay color",
+				courierTask.getData().getTaskName() + " - overlay color",
 				false);
 		colorPicker.setLocationRelativeTo(this);
 		colorPicker.setOnClose(c -> plugin.saveSlotSettings());
@@ -285,19 +284,19 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		boatLabel.setIcon(BOAT);
 
 		cargoLabel.setText(courierTask.getData().getCargoLocation().getName());
-		destinationLabel.setText(courierTask.getData().getDeliveryLocation().getName());
+		destinationLabel.setText(courierTask.getData().getCargo().getDestination().getName());
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");
 		noticeLabel.setToolTipText("Cargo Item Needed");
 		
-		String xp = TaskReward.getRewardForTask(courierTask.getData().getDbrow());
+		String xp = String.valueOf(courierTask.getData().getReward());
 		xpLabel.setIcon(LIGHTBULB);
 		xpLabel.setText(xp + " XP");
 		xpLabel.setToolTipText("Delivery XP reward");
 		
 		clientThread.invokeLater(() ->
 		{
-			final ItemComposition cargoComposition = itemManager.getItemComposition(courierTask.getData().cargo);
+			final ItemComposition cargoComposition = itemManager.getItemComposition(courierTask.getData().getCargo().getItemId());
 			noticeLabel.setText(courierTask.getData().getCargoAmount() + "x " + cargoComposition.getMembersName());
 		});
 	}

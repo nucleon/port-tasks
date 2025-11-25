@@ -70,7 +70,7 @@ class PortTasksMiniMapOverlay extends Overlay
 		for (CourierTask tasks : plugin.courierTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> navigationPoints = tasks.getData().dockMarkers.getFullPath();
+			List<WorldPoint> navigationPoints = tasks.getData().getDockMarkers().getFullPath();
 			if (tasks.isTracking())
 			{
 				//Getting inside a boat, seems to load a different minimap (?) - nucleon

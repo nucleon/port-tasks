@@ -3,7 +3,6 @@ package com.nucleon.porttasks.overlay;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.CourierTaskData;
-import com.nucleon.porttasks.enums.TaskReward;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -66,7 +65,7 @@ public class NoticeBoardTooltip extends Overlay
 		if (task instanceof CourierTaskData)
 		{
 			CourierTaskData data = (CourierTaskData) task;
-			Color isAtCurLocation = data.getNoticeBoard() == data.getCargoLocation() ? Color.WHITE : Color.RED;
+			Color isAtCurLocation = ! data.isReversePath() ? Color.WHITE : Color.RED;
 			String sourceColorTag = toColTag(isAtCurLocation);
 			String endTag = "</col>";
 			int distance = (int) Math.round(data.getDockMarkers().getDistance());
@@ -79,8 +78,8 @@ public class NoticeBoardTooltip extends Overlay
 				sourceColorTag,
 				data.getCargoLocation(),
 				endTag,
-				data.getDeliveryLocation(),
-				TaskReward.getRewardForTask(data.getDbrow()),
+				data.getCargo().getDestination(),
+				data.getReward(),
 				distance,
 				data.getCargoAmount()
 			);
@@ -93,7 +92,7 @@ public class NoticeBoardTooltip extends Overlay
 				"Experience: %s<br>" +
 				"Items required: %d<br>" +
 				"Item rarity: 1 in %d",
-				TaskReward.getRewardForTask(data.getDbrow()),
+				data.getReward(),
 				data.getItemQuantity(),
 				data.getItemRarity()
 			);

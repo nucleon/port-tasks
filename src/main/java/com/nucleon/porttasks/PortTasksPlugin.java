@@ -411,7 +411,7 @@ public class PortTasksPlugin extends Plugin
 				previousInventory = Arrays.copyOf(current, current.length);
 				for (BountyTask task : bountyTasks)
 				{
-					int itemId = task.getData().itemId;
+					int itemId = task.getData().getItemId();
 					int count = getCount(current, itemId);
 					task.setItemsCollected(Math.max(0, count));
 					pluginPanel.updateBountyPanel(task);
@@ -421,7 +421,7 @@ public class PortTasksPlugin extends Plugin
 
 			for (BountyTask task : bountyTasks)
 			{
-				int itemId = task.getData().itemId;
+				int itemId = task.getData().getItemId();
 				int before = getCount(previousInventory, itemId);
 				int after = getCount(current, itemId);
 				if (after != before)
@@ -498,7 +498,7 @@ public class PortTasksPlugin extends Plugin
 				previousInventory = Arrays.copyOf(current, current.length);
 				for (BountyTask task : bountyTasks)
 				{
-					int itemId = task.getData().itemId;
+					int itemId = task.getData().getItemId();
 					int count = getCount(current, itemId);
 					task.setItemsCollected(Math.max(0, count));
 					pluginPanel.updateBountyPanel(task);
@@ -508,7 +508,7 @@ public class PortTasksPlugin extends Plugin
 
 			for (BountyTask task : bountyTasks)
 			{
-				int itemId = task.getData().itemId;
+				int itemId = task.getData().getItemId();
 				int before = getCount(previousInventory, itemId);
 				int after = getCount(current, itemId);
 				if (after != before)

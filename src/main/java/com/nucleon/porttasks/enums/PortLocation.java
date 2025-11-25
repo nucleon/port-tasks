@@ -120,4 +120,23 @@ public enum PortLocation
 		return name;
 	}
 
+	/**
+	 * Gets the location name as used in task names.
+	 * Some locations use shortened names in tasks compared to their full display names.
+	 */
+	public String getTaskName()
+	{
+		switch (this)
+		{
+			case PANDEMONIUM:
+				return "Pandemonium";  // Instead of "The Pandemonium"
+			case RUINS_OF_UNKAH:
+				return "Ruin of Unkah";  // Instead of "Ruins of Unkah" (singular)
+			case SUMMER_SHORE:
+				return "Summer Shore";  // Instead of "The Summer Shore"
+			default:
+				return name;
+		}
+	}
+
 }

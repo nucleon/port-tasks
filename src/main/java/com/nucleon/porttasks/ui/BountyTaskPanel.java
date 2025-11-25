@@ -30,7 +30,6 @@ import com.nucleon.porttasks.BountyTask;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTasksPlugin;
-import com.nucleon.porttasks.enums.TaskReward;
 
 import net.runelite.api.Client;
 import net.runelite.api.ItemComposition;
@@ -195,7 +194,7 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 	hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, bountyTask, this, plugin));
 
 	hideOverlay.add(hidePortTaskSlotOverlay);
-	taskName.setText(bountyTask.getData().taskName);
+	taskName.setText(bountyTask.getData().getTaskName());
 	taskName.setHorizontalAlignment(SwingConstants.CENTER);
 
 
@@ -255,7 +254,7 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 		RuneliteColorPicker colorPicker = plugin.getColorPickerManager().create(
 				SwingUtilities.windowForComponent(this),
 				color,
-				bountyTask.getData().taskName + " - overlay color",
+				bountyTask.getData().getTaskName() + " - overlay color",
 				false);
 		colorPicker.setLocationRelativeTo(this);
 		colorPicker.setOnClose(c -> plugin.saveSlotSettings());
@@ -285,15 +284,15 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 		destinationLabel.setToolTipText("Bounty Location");
 		noticeLabel.setToolTipText("Bounty Target");
 		
-		String xp = TaskReward.getRewardForTask(bountyTask.getData().getDbrow());
+		String xp = String.valueOf(bountyTask.getData().getReward());
 		xpLabel.setIcon(LIGHTBULB);
 		xpLabel.setText(xp + " XP");
 		xpLabel.setToolTipText("Bounty XP reward");
 		
 		clientThread.invokeLater(() ->
 		{
-			final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().itemId);
-			final NPCComposition npcComposition = client.getNpcDefinition(bountyTask.getData().npcId);
+			final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().getBounty().getItemId());
+			final NPCComposition npcComposition = client.getNpcDefinition(bountyTask.getData().getNpcId());
 			npcLabel.setText(bountyTask.getData().itemQuantity + "x " + itemComposition.getMembersName());
 			noticeLabel.setText(npcComposition.getName());
 		});

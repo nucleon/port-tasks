@@ -73,8 +73,8 @@ class PortTasksMapOverlay extends Overlay
 		for (CourierTask tasks : plugin.courierTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-			if (tasks.getData().reversePath)
+			List<WorldPoint> journey = tasks.getData().getDockMarkers().getFullPath();
+			if (tasks.getData().isReversePath())
 			{
 				Collections.reverse(journey);
 			}

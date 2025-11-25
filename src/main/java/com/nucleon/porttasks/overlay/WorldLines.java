@@ -109,26 +109,26 @@ public class WorldLines
 				boatMainWorldPoint = WorldPoint.fromLocalInstance(client, playerWorldEntity.getLocalLocation());
 			}
 
-			if (boatMainWorldPoint != null)
+		if (boatMainWorldPoint != null)
+		{
+			List<WorldPoint> journey = task.getData().getDockMarkers().getFullPath();
+			Color overlayColor = task.getOverlayColor();
+			LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
+
+			if (task.getData().isReversePath())
 			{
-				List<WorldPoint> journey = task.getData().dockMarkers.getFullPath();
-				Color overlayColor = task.getOverlayColor();
-				LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
-
-				if (task.getData().reversePath)
-				{
-					Collections.reverse(journey);
-				}
-
-				for (int i = 0; i < journey.size() - 1; i++)
-				{
-					if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
-					{
-						continue;
-					}
-					renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip);
-				}
+				Collections.reverse(journey);
 			}
+
+			for (int i = 0; i < journey.size() - 1; i++)
+			{
+				if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
+				{
+					continue;
+				}
+				renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip);
+			}
+		}
 		}
 	}
 	private static void renderTaskLinesTracer(Graphics2D g, Client client, CourierTask task, int clip, boolean offset, TracerConfig tracerConfig, int drawDistance)
@@ -151,27 +151,27 @@ public class WorldLines
 				boatMainWorldPoint = WorldPoint.fromLocalInstance(client, playerWorldEntity.getLocalLocation());
 			}
 
-			if (boatMainWorldPoint != null)
+		if (boatMainWorldPoint != null)
+		{
+			List<WorldPoint> journey = task.getData().getDockMarkers().getFullPath();
+			Color overlayColor = task.getOverlayColor();
+			LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
+
+			if (task.getData().isReversePath())
 			{
-				List<WorldPoint> journey = task.getData().dockMarkers.getFullPath();
-				Color overlayColor = task.getOverlayColor();
-				LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
-
-				if (task.getData().reversePath)
-				{
-					Collections.reverse(journey);
-				}
-
-				for (int i = 0; i < journey.size() - 1; i++)
-				{
-					if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
-					{
-						continue;
-					}
-
-					renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip, tracerConfig);
-				}
+				Collections.reverse(journey);
 			}
+
+			for (int i = 0; i < journey.size() - 1; i++)
+			{
+				if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance)
+				{
+					continue;
+				}
+
+				renderLineWorld(g, client, boatMainWorldPoint, boatMainLocalPoint, journey.get(i), heightOffset, journey.get(i + 1), heightOffset, overlayColor, 2, (float) clip, tracerConfig);
+			}
+		}
 		}
 	}
 

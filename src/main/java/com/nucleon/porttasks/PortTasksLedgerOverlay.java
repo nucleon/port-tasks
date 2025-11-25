@@ -87,7 +87,7 @@ class PortTasksLedgerOverlay extends Overlay
 		for (CourierTask task : plugin.courierTasks)
 		{	// get the port locations and check them against the ledger port locations in our LedgerID enum
 			String cargoPickupLocation = task.getData().getCargoLocation().getName();
-			String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
+			String cargoDeliveryLocation = task.getData().getCargo().getDestination().getName();
 
 			Integer pickupLedgerObjectID = LedgerID.containsName(cargoPickupLocation)
 					? LedgerID.getObjectIdByName(cargoPickupLocation)
@@ -134,7 +134,7 @@ class PortTasksLedgerOverlay extends Overlay
 			for (CourierTask task : tasksAtLedger)
 			{
 				String cargoPickupLocation = task.getData().getCargoLocation().getName();
-				String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
+				String cargoDeliveryLocation = task.getData().getCargo().getDestination().getName();
 				int cargoTakenFromLedger = task.getCargoTaken();
 				int cargoDeliveredToLedger = task.getDelivered();
 				int cargoRequired = task.getData().getCargoAmount();

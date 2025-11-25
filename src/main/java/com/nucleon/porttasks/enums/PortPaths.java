@@ -2,7 +2,9 @@ package com.nucleon.porttasks.enums;
 
 import com.nucleon.porttasks.RelativeMove;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import net.runelite.api.coords.WorldPoint;
 
@@ -2478,6 +2480,50 @@ public enum PortPaths
 		this.end = end;
 		this.pathPoints = List.of(pathPoints);
 		this.distance = computeDistance();
+	}
+
+	// Static lookup map for finding paths by location pair
+	private static final Map<RouteKey, PortPaths> ROUTE_LOOKUP;
+
+	static {
+		ROUTE_LOOKUP = new HashMap<>();
+		for (PortPaths path : values()) {
+			if (path != DEFAULT) {
+				ROUTE_LOOKUP.put(new RouteKey(path.start, path.end), path);
+			}
+		}
+	}
+
+	/**
+	 * Looks up the PortPaths for a given cargo and delivery location pair.
+	 * Returns DEFAULT if no path exists for the given locations.
+	 */
+	public static PortPaths getPath(PortLocation cargo, PortLocation delivery) {
+		return ROUTE_LOOKUP.getOrDefault(new RouteKey(cargo, delivery), DEFAULT);
+	}
+
+	// Helper class for map key
+	private static class RouteKey {
+		private final PortLocation start;
+		private final PortLocation end;
+
+		RouteKey(PortLocation start, PortLocation end) {
+			this.start = start;
+			this.end = end;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			RouteKey routeKey = (RouteKey) o;
+			return start == routeKey.start && end == routeKey.end;
+		}
+
+		@Override
+		public int hashCode() {
+			return 31 * start.hashCode() + end.hashCode();
+		}
 	}
 
 	public List<WorldPoint> getFullPath()

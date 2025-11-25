@@ -76,14 +76,14 @@ class PortTaskCargoOverlay extends WidgetItemOverlay
 	{
 		for (CourierTask task : plugin.courierTasks)
 		{
-			if (task.getData().cargo == itemId)
+			if (task.getData().getCargo().getItemId() == itemId)
 			{
 				return task.getOverlayColor();
 			}
 		}
 		for (BountyTask task : plugin.bountyTasks)
 		{
-			if (task.getData().itemId == itemId)
+			if (task.getData().getBounty().getItemId() == itemId)
 			{
 				return task.getOverlayColor();
 			}

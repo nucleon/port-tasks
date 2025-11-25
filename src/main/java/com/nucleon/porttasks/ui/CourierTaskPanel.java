@@ -30,6 +30,7 @@ import com.nucleon.porttasks.CourierTask;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.enums.TaskReward;
 
 import net.runelite.api.ItemComposition;
 import net.runelite.client.callback.ClientThread;
@@ -72,7 +73,8 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 			BOAT,
 			DESTINATION,
 			NOTICE,
-			PACKAGE;
+			PACKAGE,
+			LIGHTBULB;
 
 	public final JLabel
 			PortTaskOverlayColor = new JLabel(),
@@ -81,6 +83,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 			cargoLabel = new JLabel(),
 			destinationLabel = new JLabel(),
 			noticeLabel = new JLabel(),
+			xpLabel = new JLabel(),
 			anchorLabel = new JLabel(),
 			boatLabel = new JLabel(),
 			taskName = new JLabel();
@@ -118,6 +121,9 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 
 		final BufferedImage cargoImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "package.png");
 		PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
+
+		final BufferedImage lightbulbImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "lightbulb.png");
+		LIGHTBULB = new ImageIcon(ImageUtil.alphaOffset(lightbulbImg, -100));
 	}
 
 	public CourierTaskPanel(PortTasksPlugin plugin, CourierTask courierTask, ClientThread clientThread, ItemManager itemManager, int slot)
@@ -142,6 +148,9 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 
 		JPanel destinationWrapper = new JPanel(new BorderLayout());
 		destinationWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+		JPanel xpWrapper = new JPanel(new BorderLayout());
+		xpWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 		JPanel hideOverlay = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 3));
 		hideOverlay.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -208,10 +217,13 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		cargoWrapper.setBorder(NAME_BOTTOM_BORDER);
 		destinationWrapper.add(destinationLabel, BorderLayout.WEST);
 		destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
+		xpWrapper.add(xpLabel, BorderLayout.WEST);
+		xpWrapper.setBorder(NAME_BOTTOM_BORDER);
 
 		portSlotWrapper.add(noticeWrapper);
 		portSlotWrapper.add(cargoWrapper);
 		portSlotWrapper.add(destinationWrapper);
+		portSlotWrapper.add(xpWrapper);
 
 		PortTaskSlotContainer.setLayout(new BorderLayout());
 		PortTaskSlotContainer.add(PortTaskActionsLeftSide, BorderLayout.WEST);
@@ -277,6 +289,12 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");
 		noticeLabel.setToolTipText("Cargo Item Needed");
+		
+		String xp = TaskReward.getRewardForTask(courierTask.getData().getDbrow());
+		xpLabel.setIcon(LIGHTBULB);
+		xpLabel.setText(xp + " XP");
+		xpLabel.setToolTipText("Delivery XP reward");
+		
 		clientThread.invokeLater(() ->
 		{
 			final ItemComposition cargoComposition = itemManager.getItemComposition(courierTask.getData().cargo);

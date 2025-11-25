@@ -30,6 +30,7 @@ import com.nucleon.porttasks.BountyTask;
 import com.nucleon.porttasks.ui.adapters.HidePortTaskSlotOverlay;
 import com.nucleon.porttasks.ui.adapters.PortTaskSlotOverlayColor;
 import com.nucleon.porttasks.PortTasksPlugin;
+import com.nucleon.porttasks.enums.TaskReward;
 
 import net.runelite.api.Client;
 import net.runelite.api.ItemComposition;
@@ -74,7 +75,8 @@ private static final ImageIcon
 		BOAT,
 		DESTINATION,
 		NOTICE,
-		PACKAGE;
+		PACKAGE,
+		LIGHTBULB;
 
 public final JLabel
 		PortTaskOverlayColor = new JLabel(),
@@ -83,6 +85,7 @@ public final JLabel
 		npcLabel = new JLabel(),
 		destinationLabel = new JLabel(),
 		noticeLabel = new JLabel(),
+		xpLabel = new JLabel(),
 		anchorLabel = new JLabel(),
 		boatLabel = new JLabel(),
 		taskName = new JLabel();
@@ -120,6 +123,9 @@ static
 
 	final BufferedImage cargoImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "package.png");
 	PACKAGE = new ImageIcon(ImageUtil.alphaOffset(cargoImg, -100));
+
+	final BufferedImage lightbulbImg = ImageUtil.loadImageResource(PortTasksPlugin.class, "lightbulb.png");
+	LIGHTBULB = new ImageIcon(ImageUtil.alphaOffset(lightbulbImg, -100));
 }
 
 public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThread clientThread, ItemManager itemManager, Client client, int slot)
@@ -145,6 +151,9 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 
 	JPanel destinationWrapper = new JPanel(new BorderLayout());
 	destinationWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+	JPanel xpWrapper = new JPanel(new BorderLayout());
+	xpWrapper.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
 	JPanel hideOverlay = new JPanel(new FlowLayout(FlowLayout.RIGHT, 3, 3));
 	hideOverlay.setBackground(ColorScheme.DARKER_GRAY_COLOR);
@@ -206,10 +215,13 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 	cargoWrapper.setBorder(NAME_BOTTOM_BORDER);
 	destinationWrapper.add(destinationLabel, BorderLayout.WEST);
 	destinationWrapper.setBorder(NAME_BOTTOM_BORDER);
+	xpWrapper.add(xpLabel, BorderLayout.WEST);
+	xpWrapper.setBorder(NAME_BOTTOM_BORDER);
 
 	portSlotWrapper.add(noticeWrapper);
 	portSlotWrapper.add(cargoWrapper);
 	portSlotWrapper.add(destinationWrapper);
+	portSlotWrapper.add(xpWrapper);
 
 	PortTaskSlotContainer.setLayout(new BorderLayout());
 	PortTaskSlotContainer.add(PortTaskActionsLeftSide, BorderLayout.WEST);
@@ -272,6 +284,12 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 		npcLabel.setToolTipText("Bounty Item");
 		destinationLabel.setToolTipText("Bounty Location");
 		noticeLabel.setToolTipText("Bounty Target");
+		
+		String xp = TaskReward.getRewardForTask(bountyTask.getData().getDbrow());
+		xpLabel.setIcon(LIGHTBULB);
+		xpLabel.setText(xp + " XP");
+		xpLabel.setToolTipText("Bounty XP reward");
+		
 		clientThread.invokeLater(() ->
 		{
 			final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().itemId);

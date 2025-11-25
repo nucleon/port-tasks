@@ -29,6 +29,7 @@ package com.nucleon.porttasks;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.nucleon.porttasks.enums.BountyTaskData;
+import com.nucleon.porttasks.enums.LedgerID;
 import com.nucleon.porttasks.enums.PortLocation;
 import com.nucleon.porttasks.overlay.NoticeBoardTooltip;
 import java.awt.Color;
@@ -59,6 +60,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.WidgetLoaded;
+import net.runelite.api.events.WorldViewUnloaded;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.gameval.InventoryID;
 import net.runelite.api.gameval.ObjectID;
@@ -124,6 +126,12 @@ public class PortTasksPlugin extends Plugin
 	Set<GameObject> gangplanks = new HashSet<>();
 	@Getter
 	Set<GameObject> noticeboards = new HashSet<>();
+	@Getter
+	Set<GameObject> ledgers = new HashSet<>();
+	@Getter
+	private final Set<GameObject> helms = new HashSet<>();
+	@Getter
+	private final Set<GameObject> cargoHolds = new HashSet<>();
 	@Getter
 	Map<Integer, Widget> offeredTasks = new HashMap<>();
 	@Getter
@@ -210,6 +218,9 @@ public class PortTasksPlugin extends Plugin
 		navigationButton = null;
 		gangplanks.clear();
 		noticeboards.clear();
+		ledgers.clear();
+		helms.clear();
+		cargoHolds.clear();
 
 		eventBus.unregister(tracerConfig);
 
@@ -315,6 +326,18 @@ public class PortTasksPlugin extends Plugin
 		{
 			noticeboards.add(gameObject);
 		}
+		else if (LedgerID.isLedger(id))
+		{
+			ledgers.add(gameObject);
+		}
+		else if (isInHelmRange(id))
+		{
+			helms.add(gameObject);
+		}
+		else if (isInCargoHoldRange(id))
+		{
+			cargoHolds.add(gameObject);
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -323,6 +346,7 @@ public class PortTasksPlugin extends Plugin
 	{
 		final GameObject gameObject = event.getGameObject();
 		final int id = gameObject.getId();
+		final int worldViewId = gameObject.getWorldView().getId();
 
 		if (id == ObjectID.SAILING_GANGPLANK_PROXY || PortLocation.isGangplank(id))
 		{
@@ -332,6 +356,26 @@ public class PortTasksPlugin extends Plugin
 		{
 			noticeboards.remove(gameObject);
 		}
+		else if (LedgerID.isLedger(id))
+		{
+			ledgers.remove(gameObject);
+		}
+		else if (isInCargoHoldRange(id))
+		{
+			cargoHolds.remove(gameObject);
+		}
+		else if (isInHelmRange(id))
+		{
+			helms.remove(gameObject);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	public void onWorldViewUnloaded(WorldViewUnloaded event)
+	{
+		helms.removeIf(o -> o.getWorldView() == event.getWorldView());
+		cargoHolds.removeIf(o -> o.getWorldView() == event.getWorldView());
 	}
 
 	@SuppressWarnings("unused")
@@ -345,6 +389,7 @@ public class PortTasksPlugin extends Plugin
 			case LOGGING_IN:
 				gangplanks.clear();
 				noticeboards.clear();
+				ledgers.clear();
 				break;
 		}
 	}
@@ -429,6 +474,16 @@ public class PortTasksPlugin extends Plugin
 			}
 			offeredTasks.put((Integer) ops[3], child);
 		}
+	}
+
+	private boolean isInHelmRange(int id)
+	{
+		return id >= ObjectID.SAILING_BOAT_STEERING_KANDARIN_1X3_WOOD && id <= ObjectID.SAILING_INTRO_HELM_NOT_IN_USE;
+	}
+
+	private boolean isInCargoHoldRange(int id)
+	{
+		return id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE_OPEN;
 	}
 
 	private void checkInventoryForBountyItems()

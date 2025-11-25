@@ -720,15 +720,13 @@ public enum PortPaths
 		PortLocation.RUINS_OF_UNKAH,
 		PortLocation.VOID_KNIGHTS_OUTPOST,
 		// Sailing >= 50, used in 2 tasks
-		new RelativeMove(19, 19),
-		new RelativeMove(70, 0),
-		new RelativeMove(10, -10),
-		new RelativeMove(118, 0),
-		new RelativeMove(118, 118),
-		new RelativeMove(0, 57),
-		new RelativeMove(-12, 12),
-		new RelativeMove(0, 102),
-		new RelativeMove(6, 6)
+		new RelativeMove(-8, -8),
+		new RelativeMove(0, -103),
+		new RelativeMove(17, -17),
+		new RelativeMove(0, -52),
+		new RelativeMove(-48, -48),
+		new RelativeMove(-290, 0),
+		new RelativeMove(-87, 87)
 	),
 	RED_ROCK_VOID_KNIGHTS_OUTPOST(
 		PortLocation.RED_ROCK,

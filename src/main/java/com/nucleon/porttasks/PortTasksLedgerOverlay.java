@@ -44,7 +44,6 @@ import net.runelite.api.GameObject;
 import net.runelite.api.ObjectComposition;
 import net.runelite.api.Perspective;
 import net.runelite.api.Point;
-import net.runelite.api.Tile;
 
 import net.runelite.client.ui.overlay.Overlay;
 
@@ -109,83 +108,62 @@ class PortTasksLedgerOverlay extends Overlay
 			}
 		}
 
-		// loop through the scene, find the ledger object
-		Tile[][][] sceneTiles = client.getTopLevelWorldView().getScene().getTiles();
-		for (Tile[][] sceneTile : sceneTiles)
+		for (GameObject ledger : plugin.getLedgers())
 		{
-			for (Tile[] tiles : sceneTile)
+			int objectId = ledger.getId();
+			List<CourierTask> tasksAtLedger = ledgerUsageMap.get(objectId);
+			if (tasksAtLedger == null || tasksAtLedger.isEmpty())
 			{
-				for (Tile tile : tiles)
+				continue;
+			}
+
+			ObjectComposition comp = client.getObjectDefinition(objectId);
+			int size = comp.getSizeX();
+
+			Polygon poly = Perspective.getCanvasTileAreaPoly(client, ledger.getLocalLocation(), size);
+			if (poly != null)
+			{	// we stored the tasks that are using this ledger,
+				// so we can draw a dynamic tile
+				// TODO: fix this later (pickup ledgers still overlay 1/1)
+				Color[] colors = getOverlayColors(tasksAtLedger);
+				renderMultiColoredSquare(g, poly, colors);
+			}
+			// loop through the tasks at this ledger object, get the cargo information and render a text overlay
+			// for more than one task, store them in a overlayCount map and stack the text
+			int offsetIndex = overlayCount.getOrDefault(objectId, 0);
+			for (CourierTask task : tasksAtLedger)
+			{
+				String cargoPickupLocation = task.getData().getCargoLocation().getName();
+				String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
+				int cargoTakenFromLedger = task.getCargoTaken();
+				int cargoDeliveredToLedger = task.getDelivered();
+				int cargoRequired = task.getData().getCargoAmount();
+
+				Integer pickupId = LedgerID.getObjectIdByName(cargoPickupLocation);
+				Integer deliveryId = LedgerID.getObjectIdByName(cargoDeliveryLocation);
+				boolean isPickup = pickupId != null && objectId == pickupId && cargoTakenFromLedger < cargoRequired;
+				boolean isDelivery = deliveryId != null && objectId == deliveryId && cargoDeliveredToLedger < cargoRequired;
+
+				if (!isPickup && !isDelivery)
 				{
-					if (tile == null)
-					{
-						continue;
-					}
+					continue;
+				}
+				// so we know it's either a pickup or delivery, display the data of either
+				String label = isPickup
+						? String.format("Cargo: %d/%d", cargoTakenFromLedger, cargoRequired)
+						: String.format("Delivered: %d/%d", cargoDeliveredToLedger, cargoRequired);
 
-					for (GameObject object : tile.getGameObjects())
-					{
-						if (object == null)
-						{
-							continue;
-						}
-						// if the ledger in this scene isn't a ledger with a port task, escape
-						int objectId = object.getId();
-						List<CourierTask> tasksAtLedger = ledgerUsageMap.get(objectId);
-						if (tasksAtLedger == null || tasksAtLedger.isEmpty())
-						{
-							continue;
-						}
-
-						ObjectComposition comp = client.getObjectDefinition(objectId);
-						int size = comp.getSizeX();
-
-						Polygon poly = Perspective.getCanvasTileAreaPoly(client, object.getLocalLocation(), size);
-						if (poly != null)
-						{	// we stored the tasks that are using this ledger,
-							// so we can draw a dynamic tile
-							// TODO: fix this later (pickup ledgers still overlay 1/1)
-							Color[] colors = getOverlayColors(tasksAtLedger);
-							renderMultiColoredSquare(g, poly, colors);
-						}
-						// loop through the tasks at this ledger object, get the cargo information and render a text overlay
-						// for more than one task, store them in a overlayCount map and stack the text
-						int offsetIndex = overlayCount.getOrDefault(objectId, 0);
-						for (CourierTask task : tasksAtLedger)
-						{
-							String cargoPickupLocation = task.getData().getCargoLocation().getName();
-							String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
-							int cargoTakenFromLedger = task.getCargoTaken();
-							int cargoDeliveredToLedger = task.getDelivered();
-							int cargoRequired = task.getData().getCargoAmount();
-
-							Integer pickupId = LedgerID.getObjectIdByName(cargoPickupLocation);
-							Integer deliveryId = LedgerID.getObjectIdByName(cargoDeliveryLocation);
-							boolean isPickup = pickupId != null && objectId == pickupId && cargoTakenFromLedger < cargoRequired;
-							boolean isDelivery = deliveryId != null && objectId == deliveryId && cargoDeliveredToLedger < cargoRequired;
-
-							if (!isPickup && !isDelivery)
-							{
-								continue;
-							}
-							// so we know it's either a pickup or delivery, display the data of either
-							String label = isPickup
-									? String.format("Cargo: %d/%d", cargoTakenFromLedger, cargoRequired)
-									: String.format("Delivered: %d/%d", cargoDeliveredToLedger, cargoRequired);
-
-							Point textLocation = Perspective.getCanvasTextLocation(client, g, object.getLocalLocation(), label, 0);
-							if (textLocation != null)
-							{
-								int yOffset = 15 * offsetIndex;
-								Point raisedLocation = new Point(textLocation.getX(), textLocation.getY() - yOffset);
-								OverlayUtil.renderTextLocation(g, raisedLocation, label, Color.WHITE);
-								offsetIndex++;
-							}
-						}
-						// +1 overlay on this ledger object
-						overlayCount.put(objectId, offsetIndex);
-					}
+				Point textLocation = Perspective.getCanvasTextLocation(client, g, ledger.getLocalLocation(), label, 0);
+				if (textLocation != null)
+				{
+					int yOffset = 15 * offsetIndex;
+					Point raisedLocation = new Point(textLocation.getX(), textLocation.getY() - yOffset);
+					OverlayUtil.renderTextLocation(g, raisedLocation, label, Color.WHITE);
+					offsetIndex++;
 				}
 			}
+			// +1 overlay on this ledger object
+			overlayCount.put(objectId, offsetIndex);
 		}
 	}
 

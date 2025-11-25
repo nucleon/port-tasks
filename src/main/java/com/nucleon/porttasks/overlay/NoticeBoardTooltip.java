@@ -49,6 +49,13 @@ public class NoticeBoardTooltip extends Overlay
 			return null;
 		}
 
+		// The world map obscures the notice board. Hide tooltips when world map is open
+		Widget worldMap = client.getWidget(InterfaceID.Worldmap.CONTENT);
+		if (worldMap != null && worldMap.isHidden() == false)
+		{
+			return null;
+		}
+
 		Integer dbrow = getHoveredTask();
 		if (dbrow == null)
 		{

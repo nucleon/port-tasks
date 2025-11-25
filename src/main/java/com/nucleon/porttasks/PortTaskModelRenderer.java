@@ -109,15 +109,21 @@ public class PortTaskModelRenderer extends Overlay
 	{
 		for (GameObject helm : plugin.getHelms())
 		{
-			modelOutlineRenderer.drawOutline(helm, 2, color, 250);
-			drawObjectLabel(graphics, helm, cargoMissing);
+			if (helm.getWorldView().getId() == client.getLocalPlayer().getWorldView().getId())
+			{
+				modelOutlineRenderer.drawOutline(helm, 2, color, 250);
+				drawObjectLabel(graphics, helm, cargoMissing);
+			}
 		}
 	}
 	public void highlightLocalPlayerCargoHold(Graphics2D graphics, Color color)
 	{
 		for (GameObject cargoHold : plugin.getCargoHolds())
 		{
+			if (cargoHold.getWorldView().getId() == client.getLocalPlayer().getWorldView().getId())
+			{
 			modelOutlineRenderer.drawOutline(cargoHold, 2, color, 250);
+			}
 		}
 	}
 

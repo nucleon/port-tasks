@@ -26,6 +26,8 @@
  */
 package com.nucleon.porttasks;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.nucleon.porttasks.enums.BountyTaskData;
@@ -33,18 +35,22 @@ import com.nucleon.porttasks.enums.LedgerID;
 import com.nucleon.porttasks.enums.PortLocation;
 import com.nucleon.porttasks.overlay.NoticeBoardTooltip;
 import java.awt.Color;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.enums.CourierTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
+import com.nucleon.porttasks.overlay.TaskHighlight;
 import com.nucleon.porttasks.overlay.TracerConfig;
 import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
@@ -54,9 +60,14 @@ import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
+import net.runelite.api.KeyCode;
+import net.runelite.api.Menu;
+import net.runelite.api.MenuAction;
+import net.runelite.api.MenuEntry;
 import net.runelite.api.events.GameObjectDespawned;
 import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.WidgetLoaded;
@@ -77,9 +88,12 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.ui.components.colorpicker.ColorPickerManager;
+import net.runelite.client.ui.components.colorpicker.RuneliteColorPicker;
 import net.runelite.client.ui.overlay.OverlayManager;
+import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.ImageUtil;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @PluginDescriptor(
@@ -117,6 +131,8 @@ public class PortTasksPlugin extends Plugin
 	@Inject
 	private PortTaskCargoOverlay portTaskCargoOverlay;
 	@Inject
+	private TaskHighlight taskHighlight;
+	@Inject
 	NoticeBoardTooltip noticeBoardTooltip;
 	@Getter
 	List<CourierTask> courierTasks = new ArrayList<>();
@@ -134,6 +150,8 @@ public class PortTasksPlugin extends Plugin
 	private final Set<GameObject> cargoHolds = new HashSet<>();
 	@Getter
 	Map<Integer, Widget> offeredTasks = new HashMap<>();
+	@Getter
+	private final Set<WidgetTag> widgetTags = new HashSet<>();
 	@Getter
 	private boolean lockedIn = false;
 	@Getter
@@ -173,6 +191,10 @@ public class PortTasksPlugin extends Plugin
 	private static final String ICON_FILE = "icon.png";
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
+	private static final String CONFIG_KEY_TAGS = "task_tags";
+
+	private static final String MARK = "Mark task";
+	private static final String UNMARK = "Unmark task";
 	@Getter
 	@Setter
 	public PortPaths developerPathSelected;
@@ -195,6 +217,9 @@ public class PortTasksPlugin extends Plugin
 		registerOverlays();
 		pluginPanel.rebuild();
 		eventBus.register(tracerConfig);
+
+		loadWidgetTags();
+		overlayManager.add(taskHighlight);
 
 		migrateConfiguration();
 		tracerConfig.loadConfigs(config);
@@ -230,6 +255,7 @@ public class PortTasksPlugin extends Plugin
 		overlayManager.remove(portTaskModelRenderer);
 		overlayManager.remove(portTaskCargoOverlay);
 		overlayManager.remove(noticeBoardTooltip);
+		overlayManager.remove(taskHighlight);
 	}
 
 	@SuppressWarnings("unused")
@@ -448,6 +474,183 @@ public class PortTasksPlugin extends Plugin
 		clientThread.invokeLater(this::scanPortTaskBoard);
 	}
 
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onMenuEntryAdded(final MenuEntryAdded event)
+	{
+		if (event.getType() != MenuAction.CC_OP.getId() || !client.isKeyPressed(KeyCode.KC_SHIFT))
+		{
+			return;
+		}
+		MenuEntry baseEntry = event.getMenuEntry();
+		Widget widget = baseEntry.getWidget();
+		Integer dbrow = getDbrowFromWidget(widget);
+		if (dbrow == null)
+		{
+			return;
+		}
+		WidgetTag existing = getTagForDbrow(dbrow);
+
+		int idx = -1;
+		client.createMenuEntry(idx--)
+			.setOption(existing == null ? MARK : UNMARK)
+			.setTarget(event.getTarget())
+			.setParam0(event.getActionParam0())
+			.setParam1(event.getActionParam1())
+			.setIdentifier(event.getIdentifier())
+			.setType(MenuAction.RUNELITE_WIDGET)
+			.onClick(this::markTask);
+
+		if (existing != null)
+		{
+			createTaskColorMenu(idx, baseEntry.getTarget(), widget, existing);
+		}
+	}
+
+	private void markTask(MenuEntry entry)
+	{
+		Widget taskToTag = entry.getWidget();
+		Integer dbrow = getDbrowFromWidget(taskToTag);
+		if (dbrow == null)
+		{
+			return;
+		}
+
+		WidgetTag existing = getTagForDbrow(dbrow);
+
+		if (existing != null)
+		{
+			widgetTags.remove(existing);
+		}
+		else
+		{
+			WidgetTag tag = new WidgetTag(dbrow, Color.YELLOW);
+			widgetTags.add(tag);
+		}
+		saveWidgetTags();
+	}
+
+	private int createTaskColorMenu(int idx, String target, Widget widget, WidgetTag tag)
+	{
+		List<Color> colors = getUsedTagColors();
+
+		for (Color defaultColor : new Color[]{
+			Color.YELLOW, Color.RED, Color.GREEN, Color.ORANGE, Color.BLUE
+		})
+		{
+			if (colors.size() < 5 && ! colors.contains(defaultColor))
+			{
+				colors.add(defaultColor);
+			}
+		}
+		MenuEntry parent = client.createMenuEntry(idx--)
+			.setOption("Task color")
+			.setTarget(target)
+			.setType(MenuAction.RUNELITE);
+
+		Menu subMenu = parent.createSubMenu();
+
+		for (final Color c : colors)
+		{
+			subMenu.createMenuEntry(0)
+				.setOption(ColorUtil.prependColorTag("Set color", c))
+				.setType(MenuAction.RUNELITE)
+				.onClick(
+					e -> clientThread.invokeLater(() -> updateWidgetTagColor(tag.getDbrow(), c))
+				);
+		}
+
+		subMenu.createMenuEntry(0)
+			.setOption("Pick color")
+			.setType(MenuAction.RUNELITE)
+			.onClick(e -> SwingUtilities.invokeLater(() ->
+			{
+				Color initial = MoreObjects.firstNonNull(tag.getColor(), Color.YELLOW);
+				RuneliteColorPicker colorPicker = colorPickerManager.create(
+					client,
+					initial,
+					"Task tag color",
+					false
+				);
+
+				colorPicker.setOnClose(c ->
+					clientThread.invokeLater(() -> updateWidgetTagColor(tag.getDbrow(), c))
+				);
+
+				colorPicker.setVisible(true);
+			}));
+
+		return idx;
+	}
+
+	private WidgetTag getTagForDbrow(int dbrow)
+	{
+		return widgetTags.stream()
+			.filter(t -> t.getDbrow() == dbrow)
+			.findFirst()
+			.orElse(null);
+	}
+
+	private void updateWidgetTagColor(int dbrow, Color color)
+	{
+		WidgetTag tag = getTagForDbrow(dbrow);
+		if (tag != null)
+		{
+			tag.setColor(color);
+		}
+		else
+		{
+			tag = new WidgetTag(dbrow, color);
+		}
+		saveWidgetTags();
+	}
+
+	private List<Color> getUsedTagColors()
+	{
+		return widgetTags.stream()
+			.map(WidgetTag::getColor)
+			.filter(Objects::nonNull)
+			.distinct()
+			.collect(Collectors.toList());
+	}
+
+	private void saveWidgetTags()
+	{
+		if (widgetTags.isEmpty())
+		{
+			configManager.unsetConfiguration(CONFIG_GROUP, CONFIG_KEY_TAGS);
+		}
+		else
+		{
+			final String json = gson.toJson(widgetTags);
+			configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_TAGS, json);
+		}
+	}
+
+	private void loadWidgetTags()
+	{
+		final String json = configManager.getConfiguration(CONFIG_GROUP, CONFIG_KEY_TAGS);
+		if (json == null || json.isEmpty())
+		{
+			return;
+		}
+
+		Type type = new TypeToken<Set<WidgetTag>>() {}.getType();
+
+		try {
+			Set<WidgetTag> loaded = gson.fromJson(json, type);
+			if (loaded != null)
+			{
+				widgetTags.clear();
+				widgetTags.addAll(loaded);
+			}
+		}
+		catch (Exception e)
+		{
+			log.info("Failed to load widget tags");
+		}
+	}
+
 	private void scanPortTaskBoard()
 	{
 		final Widget widget = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
@@ -463,17 +666,28 @@ public class PortTasksPlugin extends Plugin
 
 		for (Widget child : kids)
 		{
-			if (child == null)
+			Integer dbrow = getDbrowFromWidget(child);
+			if (dbrow == null)
 			{
 				continue;
 			}
-			Object[] ops = child.getOnOpListener();
-			if (ops == null || ops.length < 4)
-			{
-				continue;
-			}
-			offeredTasks.put((Integer) ops[3], child);
+			offeredTasks.put(dbrow, child);
 		}
+	}
+
+	public Integer getDbrowFromWidget(Widget widget)
+	{
+		if (widget == null)
+		{
+			return null;
+		}
+		Object[] ops = widget.getOnOpListener();
+		if (ops == null || ops.length < 4)
+		{
+			return null;
+		}
+		return (Integer) ops[3];
+
 	}
 
 	private boolean isInHelmRange(int id)

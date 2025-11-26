@@ -45,7 +45,7 @@ public class NoticeBoardTooltip extends Overlay
 	public Dimension render(Graphics2D graphics)
 	{
 		Widget widget = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
-		if (widget == null)
+		if (widget == null || widget.isHidden())
 		{
 			return null;
 		}

@@ -40,7 +40,7 @@ public class TaskHighlight extends Overlay {
 	public Dimension render (Graphics2D graphics)
 	{
 		Widget taskBoard = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
-		if (taskBoard == null)
+		if (taskBoard == null  || taskBoard.isHidden())
 		{
 			return null;
 		}

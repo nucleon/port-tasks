@@ -284,12 +284,12 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 		npcLabel.setToolTipText("Bounty Item");
 		destinationLabel.setToolTipText("Bounty Location");
 		noticeLabel.setToolTipText("Bounty Target");
-		
+
 		String xp = TaskReward.getRewardForTask(bountyTask.getData().getDbrow());
 		xpLabel.setIcon(LIGHTBULB);
 		xpLabel.setText(xp + " XP");
 		xpLabel.setToolTipText("Bounty XP reward");
-		
+
 		clientThread.invokeLater(() ->
 		{
 			final ItemComposition itemComposition = itemManager.getItemComposition(bountyTask.getData().itemId);

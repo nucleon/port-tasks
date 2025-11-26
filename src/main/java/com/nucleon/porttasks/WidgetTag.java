@@ -11,7 +11,8 @@ import java.awt.Color;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class WidgetTag {
+public class WidgetTag
+{
 	@EqualsAndHashCode.Include
 	private int dbrow;
 	private Color color;

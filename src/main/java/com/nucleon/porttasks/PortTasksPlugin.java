@@ -685,9 +685,12 @@ public class PortTasksPlugin extends Plugin
 			return;
 		}
 
+		//CHECKSTYLE:OFF
 		Type type = new TypeToken<Set<WidgetTag>>() {}.getType();
+		//CHECKSTYLE:ON
 
-		try {
+		try
+		{
 			Set<WidgetTag> loaded = gson.fromJson(json, type);
 			if (loaded != null)
 			{

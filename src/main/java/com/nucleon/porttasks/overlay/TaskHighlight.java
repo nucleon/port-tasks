@@ -15,13 +15,11 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 
 import javax.inject.Inject;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class TaskHighlight extends Overlay {
+public class TaskHighlight extends Overlay
+{
 	private final Client client;
 	private final PortTasksPlugin plugin;
 

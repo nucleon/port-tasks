@@ -289,12 +289,12 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		cargoLabel.setToolTipText("Cargo Location");
 		destinationLabel.setToolTipText("Delivery Location");
 		noticeLabel.setToolTipText("Cargo Item Needed");
-		
+
 		String xp = TaskReward.getRewardForTask(courierTask.getData().getDbrow());
 		xpLabel.setIcon(LIGHTBULB);
 		xpLabel.setText(xp + " XP");
 		xpLabel.setToolTipText("Delivery XP reward");
-		
+
 		clientThread.invokeLater(() ->
 		{
 			final ItemComposition cargoComposition = itemManager.getItemComposition(courierTask.getData().cargo);

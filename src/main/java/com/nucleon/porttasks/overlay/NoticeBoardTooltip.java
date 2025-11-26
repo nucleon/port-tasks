@@ -1,5 +1,6 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.CourierTaskData;
@@ -116,10 +117,11 @@ public class NoticeBoardTooltip extends Overlay
 	private Integer getHoveredTask()
 	{
 		Point mouse = client.getMouseCanvasPosition();
-		for (Map.Entry<Integer, Widget> entry : plugin.getOfferedTasks().entrySet())
+		for (Map.Entry<Integer, OfferedTaskData> entry : plugin.getOfferedTasks().entrySet())
 		{
 			Integer dbrow = entry.getKey();
-			Widget w = entry.getValue();
+			OfferedTaskData data = entry.getValue();
+			Widget w = data.getTaskWidget();
 
 			Rectangle bounds = w.getBounds();
 			if (bounds != null & bounds.contains(mouse.getX(), mouse.getY()))

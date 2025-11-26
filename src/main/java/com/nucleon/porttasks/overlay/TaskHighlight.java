@@ -1,7 +1,10 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.WidgetTag;
+import com.nucleon.porttasks.enums.BountyTaskData;
+import com.nucleon.porttasks.enums.CourierTaskData;
 import net.runelite.api.Client;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.Widget;
@@ -54,24 +57,8 @@ public class TaskHighlight extends Overlay {
 			return null;
 		}
 
-		List<Widget> children = new ArrayList<>();
-		if (taskBoard.getDynamicChildren() != null)
-		{
-			children.addAll(Arrays.asList(taskBoard.getDynamicChildren()));
-		}
-
-		Map<Integer, Widget> visibleWidgets = new HashMap<>();
-		for (Widget child : children)
-		{
-			Integer dbrow = plugin.getDbrowFromWidget(child);
-			if (dbrow == null)
-			{
-				continue;
-			}
-			visibleWidgets.put(dbrow, child);
-		}
-
-		if (visibleWidgets.isEmpty())
+		Map<Integer, OfferedTaskData> offered = plugin.getOfferedTasks();
+		if (offered.isEmpty())
 		{
 			return null;
 		}
@@ -85,25 +72,72 @@ public class TaskHighlight extends Overlay {
 			}
 		}
 
-		for (Map.Entry<Integer, Widget> entry : visibleWidgets.entrySet())
+
+		for (Map.Entry<Integer, OfferedTaskData> entry : offered.entrySet())
 		{
-			Color color = tagColors.get(entry.getKey());
-			if (color == null)
+			int dbrow = entry.getKey();
+			OfferedTaskData data = entry.getValue();
+			Widget widget = data.getTaskWidget();
+			if (widget == null || widget.isHidden())
 			{
 				continue;
 			}
-			renderWidgetOverlay(graphics, entry.getValue(), color, 2);
+			BountyTaskData bounty = BountyTaskData.getByDbrow(dbrow);
+			boolean isBounty = bounty != null;
+
+			CourierTaskData courier = CourierTaskData.getByDbrow(dbrow);
+			boolean isCourier = courier != null;
+
+			Color tagColor = tagColors.get(dbrow);
+			// Always draw a border if the task is tagged
+			if (tagColor != null)
+			{
+				renderWidgetTag(graphics, widget, tagColor, 2);
+			}
+			// In order to inadvertently make the tint darker than intended
+			// the first time the widget is hidden we should continue to the next widget
+			else if (plugin.isNoticeBoardHideUntagged())
+			{
+				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				continue;
+			}
+			if (plugin.isNoticeBoardHideIncompletable() && plugin.getSailingLevel() < data.getLevelRequired())
+			{
+				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				continue;
+			}
+			if (plugin.isNoticeBoardHideBounty() && isBounty)
+			{
+				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				continue;
+			}
+			if (plugin.isNoticeBoardHideCourier() && isCourier)
+			{
+				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				continue;
+			}
 		}
 
 		return null;
 	}
 
-	private static Rectangle renderWidgetOverlay(Graphics2D graphics, Widget widget, Color color, float borderWidth)
+	private static Rectangle renderWidgetTag(Graphics2D graphics, Widget widget, Color color, float borderWidth)
 	{
 		Rectangle widgetBounds = widget.getBounds();
 		Stroke stroke = new BasicStroke(borderWidth);
 		Color clear = new Color(0, 0, 0, 0);
 		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(widgetBounds), color, clear, stroke);
+		return widgetBounds;
+	}
+
+	private static Rectangle renderWidgetHider(Graphics2D graphics, Widget widget, int opacity)
+	{
+		Rectangle widgetBounds = widget.getBounds();
+		Stroke stroke = new BasicStroke(0);
+		Color color = new Color(0, 0, 0, opacity);
+		// No stroke, just fill
+		Color transparent = new Color(0, 0, 0, 0);
+		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(widgetBounds), transparent, color, stroke);
 		return widgetBounds;
 	}
 

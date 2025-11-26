@@ -26,13 +26,16 @@
  */
 package com.nucleon.porttasks;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import com.nucleon.porttasks.overlay.WorldLines;
 import net.runelite.api.Client;
+import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
@@ -64,6 +67,42 @@ class PortTasksWorldOverlay extends Overlay
 	}
 
 	private void renderOverlayLines(Graphics2D g)
+	{
+		// Check if GPS route mode is enabled and we have an optimized route
+		if (config.gpsRouteMode() && plugin.getCurrentRoute() != null)
+		{
+			renderGpsRoute(g);
+		}
+		else
+		{
+			// Fallback to individual task paths
+			renderIndividualTaskPaths(g);
+		}
+	}
+	
+	/**
+	 * Render the optimized GPS route as a single continuous path on the world.
+	 */
+	private void renderGpsRoute(Graphics2D g)
+	{
+        if (!plugin.isOnShip()) {
+            return;
+        }
+
+		List<WorldPoint> gpsPath = plugin.buildGpsRoutePath();
+		WorldPoint boatPosition = plugin.getActualWorldPosition();
+		
+		if (gpsPath != null && !gpsPath.isEmpty() && boatPosition != null)
+		{
+			Color gpsColor = new Color(0, 200, 200);
+			WorldLines.drawGpsRouteOnWorld(g, client, gpsPath, gpsColor, plugin.tracerConfig, plugin.isTaskHeightOffset(), plugin.getPathDrawDistance(), boatPosition);
+		}
+	}
+	
+	/**
+	 * Render individual task paths (original behavior when GPS mode is disabled).
+	 */
+	private void renderIndividualTaskPaths(Graphics2D g)
 	{
 		for (CourierTask task : plugin.courierTasks)
 		{

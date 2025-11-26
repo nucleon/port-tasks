@@ -70,11 +70,42 @@ class PortTasksMapOverlay extends Overlay
 
 	private void renderOverlayLines(Graphics2D g)
 	{
+		// Check if GPS route mode is enabled and we have an optimized route
+		if (config.gpsRouteMode() && plugin.getCurrentRoute() != null)
+		{
+			renderGpsRoute(g);
+		}
+		else
+		{
+			// Fallback to individual task paths
+			renderIndividualTaskPaths(g);
+		}
+	}
+	
+	/**
+	 * Render the optimized GPS route as a single continuous path A -> B -> C.
+	 */
+	private void renderGpsRoute(Graphics2D g)
+	{
+		List<WorldPoint> gpsPath = plugin.buildGpsRoutePath();
+		if (gpsPath != null && !gpsPath.isEmpty())
+		{
+			// Use a distinct color for GPS route (cyan/teal for navigation feel)
+			Color gpsColor = new Color(0, 200, 200);
+			WorldLines.createWorldMapLines(g, client, gpsPath, gpsColor);
+		}
+	}
+	
+	/**
+	 * Render individual task paths (original behavior when GPS mode is disabled).
+	 */
+	private void renderIndividualTaskPaths(Graphics2D g)
+	{
 		for (CourierTask tasks : plugin.courierTasks)
 		{
 			Color overlayColor = tasks.getOverlayColor();
 			List<WorldPoint> journey = tasks.getData().getDockMarkers().getFullPath();
-			if (tasks.getData().isReversePath())
+			if (tasks.getData().isRoundTripTask())
 			{
 				Collections.reverse(journey);
 			}

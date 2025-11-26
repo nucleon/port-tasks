@@ -41,6 +41,7 @@ import net.runelite.client.util.ImageUtil;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -52,6 +53,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 
 public class CourierTaskPanel extends JPanel implements TaskPanel
@@ -85,7 +87,10 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 			xpLabel = new JLabel(),
 			anchorLabel = new JLabel(),
 			boatLabel = new JLabel(),
-			taskName = new JLabel();
+			taskName = new JLabel(),
+			progressIndicator = new JLabel();
+	
+	private final JCheckBox activeCheckbox = new JCheckBox();
 
 	private final JLabel
 			save   = new JLabel("Save"),
@@ -195,14 +200,39 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		hidePortTaskSlotOverlay.setToolTipText((courierTask.isTracking() ? "Hide" : "Show") + " Courier Task");
 		hidePortTaskSlotOverlay.addMouseListener(new HidePortTaskSlotOverlay(hidePortTaskSlotOverlay, courierTask, this, plugin));
 
+		// Add progress indicator
+		progressIndicator.setToolTipText("Task progress - indicates swap safety");
+		progressIndicator.setText("●");
+
+		hideOverlay.add(progressIndicator);
 		hideOverlay.add(hidePortTaskSlotOverlay);
+
 		taskName.setText(courierTask.getData().getTaskName());
 		taskName.setHorizontalAlignment(SwingConstants.CENTER);
 
+		// Active checkbox - controls whether task is included in route calculations
+		activeCheckbox.setSelected(plugin.getTaskSelectionEngine().isTaskActive(courierTask));
+		activeCheckbox.setToolTipText("Include in route (uncheck to save for later)");
+		activeCheckbox.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		activeCheckbox.addActionListener(e -> {
+			boolean isActive = activeCheckbox.isSelected();
+			plugin.getTaskSelectionEngine().setTaskActive(courierTask, isActive);
+			updateActiveState(isActive);
+			clientThread.invokeLater(() -> {
+                plugin.recalculateRoute();
+                plugin.updateOptimizerUI();
+			    plugin.refreshNoticeboardRecommendations();
+            });
+		});
+		
+		JPanel leftControls = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
+		leftControls.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+		leftControls.add(activeCheckbox);
+		leftControls.add(anchorLabel);
 
 		nameWrapper.add(taskName, BorderLayout.CENTER);
 		nameWrapper.add(hideOverlay, BorderLayout.EAST);
-		nameWrapper.add(anchorLabel, BorderLayout.WEST);
+		nameWrapper.add(leftControls, BorderLayout.WEST);
 
 		JPanel portSlotWrapper = new JPanel();
 		portSlotWrapper.setLayout(new BoxLayout(portSlotWrapper, BoxLayout.Y_AXIS));
@@ -234,6 +264,7 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 		updateVisibility();
 		updateColorIndicators();
 		updateImages(courierTask);
+		updateActiveState(plugin.getTaskSelectionEngine().isTaskActive(courierTask));
 
 	}
 
@@ -273,6 +304,60 @@ public class CourierTaskPanel extends JPanel implements TaskPanel
 	public void updateVisibility()
 	{
 		hidePortTaskSlotOverlay.setIcon(courierTask.isTracking() ? VISIBLE_ICON : INVISIBLE_ICON);
+	}
+	
+	/**
+	 * Update visual state based on active/inactive status.
+	 * Inactive tasks are grayed out to indicate they're saved for later.
+	 */
+	public void updateActiveState(boolean isActive)
+	{
+		Color textColor = isActive ? Color.WHITE : Color.GRAY;
+		Font font = taskName.getFont();
+		Font newFont = isActive ? font.deriveFont(Font.PLAIN) : font.deriveFont(Font.ITALIC);
+		
+		taskName.setForeground(textColor);
+		taskName.setFont(newFont);
+		cargoLabel.setForeground(textColor);
+		destinationLabel.setForeground(textColor);
+		noticeLabel.setForeground(textColor);
+		xpLabel.setForeground(textColor);
+		cargoRemainingText.setForeground(isActive ? cargoRemainingText.getForeground() : Color.GRAY);
+		
+		// Update tooltip
+		String status = isActive ? "Active - included in route" : "Inactive - saved for later";
+		activeCheckbox.setToolTipText(status);
+	}
+	
+	/**
+	 * Refresh the active checkbox state from the engine.
+	 * Called when the engine's state changes externally.
+	 */
+	public void refreshActiveState()
+	{
+		boolean isActive = plugin.getTaskSelectionEngine().isTaskActive(courierTask);
+		activeCheckbox.setSelected(isActive);
+		updateActiveState(isActive);
+	}
+	
+	/**
+	 * Get the courier task this panel represents.
+	 */
+	public CourierTask getCourierTask()
+	{
+		return courierTask;
+	}
+
+	/**
+	 * Update the progress indicator color based on task state.
+	 * Green: Safe to swap (not started or early progress)
+	 * Yellow: Moderate sunk cost (25-75% complete)
+	 * Red: High sunk cost (>75% complete)
+	 */
+	public void updateProgressIndicator(Color indicatorColor, String tooltip)
+	{
+		progressIndicator.setForeground(indicatorColor);
+		progressIndicator.setToolTipText(tooltip);
 	}
 
 	private void updateImages(CourierTask courierTask)

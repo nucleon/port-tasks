@@ -107,6 +107,17 @@ public interface PortTasksConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "gpsRouteMode",
+			name = "GPS Route Mode",
+			description = "Show a connected GPS-style route through all stops instead of individual task paths",
+			section = pathSection
+	)
+	default boolean gpsRouteMode()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 			keyName = "pathOffset",
 			name = "Offset Height Per Task",
 			description = "each path will be drawn at a different height",
@@ -271,6 +282,38 @@ public interface PortTasksConfig extends Config
 	{
 		return true;
 	}
+
+	@ConfigItem(
+		keyName = "highlightNoticeboardSlot",
+		name = "Highlight Noticeboard Slot",
+		description = "Highlight the recommended task slot on the noticeboard",
+		position = 9,
+		section = overlaySection
+	)
+	default boolean highlightNoticeboardSlot()
+	{
+		return true;
+	}
+
+	@ConfigSection(
+		name = "Optimizer Settings",
+		description = "Configure route optimization behavior",
+		position = 3
+	)
+	String optimizerSection = "optimizerSection";
+
+	@ConfigItem(
+		keyName = "enableTeleportOptimization",
+		name = "Teleport Optimization",
+		description = "Enable if you use teleports to skip outbound sailing legs on round-trip (A→B→A) tasks. This doubles the XP/tile value of round-trip tasks.",
+		position = 1,
+		section = optimizerSection
+	)
+	default boolean enableTeleportOptimization()
+	{
+		return false;
+	}
+
 	enum Overlay
 	{
 		NONE,

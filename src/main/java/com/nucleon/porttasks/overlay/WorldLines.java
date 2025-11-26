@@ -41,6 +41,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
+import java.awt.Color;
+
 import javax.annotation.Nonnull;
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -88,6 +90,47 @@ public class WorldLines
 			renderTaskLines(graphics, client, task, clip, offset, drawDistance);
 		}
 	}
+	
+	/**
+	 * Draw a GPS-style route on the world view.
+	 * This draws a continuous path through all stops in the optimized route.
+	 * 
+	 * @param boatWorldPoint The boat's position in main world coordinates (from plugin.getActualWorldPosition())
+	 */
+	public static void drawGpsRouteOnWorld(Graphics2D graphics, Client client, List<WorldPoint> gpsPath, Color color, TracerConfig tracerConfig, boolean offset, int drawDistance, WorldPoint boatWorldPoint)
+	{
+		if (gpsPath == null || gpsPath.isEmpty() || boatWorldPoint == null)
+		{
+			return;
+		}
+		
+		int clip = drawDistance + (drawDistance * 128);
+		
+		LocalPoint boatLocalPoint = WorldPerspective.worldToLocal(client, boatWorldPoint);
+		if (boatLocalPoint == null)
+		{
+			return;
+		}
+		
+		int heightOffset = offset ? 100 : 0;
+
+		for (int i = 0; i < gpsPath.size() - 1; i++)
+		{
+			if (boatWorldPoint.distanceTo(gpsPath.get(i)) > drawDistance)
+			{
+				continue;
+			}
+			
+			if (tracerConfig.isTracerEnabled())
+			{
+				renderLineWorld(graphics, client, boatWorldPoint, boatLocalPoint, gpsPath.get(i), heightOffset, gpsPath.get(i + 1), heightOffset, color, 2, (float) clip, tracerConfig);
+			}
+			else
+			{
+				renderLineWorld(graphics, client, boatWorldPoint, boatLocalPoint, gpsPath.get(i), heightOffset, gpsPath.get(i + 1), heightOffset, color, 2, (float) clip);
+			}
+		}
+	}
 
 	private static void renderTaskLines(Graphics2D g, Client client, CourierTask task, int clip, boolean offset, int drawDistance)
 	{
@@ -115,7 +158,7 @@ public class WorldLines
 			Color overlayColor = task.getOverlayColor();
 			LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
 
-			if (task.getData().isReversePath())
+			if (task.getData().isRoundTripTask())
 			{
 				Collections.reverse(journey);
 			}
@@ -157,7 +200,7 @@ public class WorldLines
 			Color overlayColor = task.getOverlayColor();
 			LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
 
-			if (task.getData().isReversePath())
+			if (task.getData().isRoundTripTask())
 			{
 				Collections.reverse(journey);
 			}

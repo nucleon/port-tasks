@@ -650,6 +650,7 @@ public class PortTasksPlugin extends Plugin
 		else
 		{
 			tag = new WidgetTag(dbrow, color);
+			widgetTags.add(tag);
 		}
 		saveWidgetTags();
 	}

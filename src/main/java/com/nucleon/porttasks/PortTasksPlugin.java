@@ -31,7 +31,6 @@ import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.inject.Provides;
 import com.nucleon.porttasks.enums.BountyTaskData;
-import com.nucleon.porttasks.enums.LedgerID;
 import com.nucleon.porttasks.enums.PortLocation;
 import com.nucleon.porttasks.overlay.NoticeBoardTooltip;
 import java.awt.Color;
@@ -387,7 +386,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			noticeboards.add(gameObject);
 		}
-		else if (LedgerID.isLedger(id))
+		else if (PortLocation.isLedger(id))
 		{
 			ledgers.add(gameObject);
 		}
@@ -417,7 +416,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			noticeboards.remove(gameObject);
 		}
-		else if (LedgerID.isLedger(id))
+		else if (PortLocation.isLedger(id))
 		{
 			ledgers.remove(gameObject);
 		}

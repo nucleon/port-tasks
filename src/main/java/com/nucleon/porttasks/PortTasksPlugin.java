@@ -64,10 +64,12 @@ import net.runelite.api.KeyCode;
 import net.runelite.api.Menu;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
+import net.runelite.api.Skill;
 import net.runelite.api.events.GameObjectDespawned;
 import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.WidgetLoaded;
@@ -149,11 +151,21 @@ public class PortTasksPlugin extends Plugin
 	@Getter
 	private final Set<GameObject> cargoHolds = new HashSet<>();
 	@Getter
-	Map<Integer, Widget> offeredTasks = new HashMap<>();
+	Map<Integer, OfferedTaskData> offeredTasks = new HashMap<>();
 	@Getter
 	private final Set<WidgetTag> widgetTags = new HashSet<>();
 	@Getter
 	private boolean lockedIn = false;
+	@Getter
+	private int sailingLevel;
+	@Getter
+	private boolean noticeBoardHideIncompletable;
+	@Getter
+	private boolean noticeBoardHideBounty;
+	@Getter
+	private boolean noticeBoardHideCourier;
+	@Getter
+	private boolean noticeBoardHideUntagged;
 	@Getter
 	private boolean highlightGangplanks;
 	@Getter
@@ -172,6 +184,8 @@ public class PortTasksPlugin extends Plugin
 	private boolean taskHeightOffset;
 	@Getter
 	private int pathDrawDistance;
+	@Getter
+	private int noticeBoardHideOpactity;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -232,6 +246,11 @@ public class PortTasksPlugin extends Plugin
 		highlightHelmMissingCargo = config.highlightHelmMissingCargo();
 		taskHeightOffset = config.enableHeightOffset();
 		pathDrawDistance = config.pathDrawDistance();
+		noticeBoardHideOpactity = mapOpacity(config.noticeBoardHideOpacity());
+		noticeBoardHideIncompletable = config.noticeBoardHideIncompletable();
+		noticeBoardHideBounty = config.noticeBoardHideBounty();
+		noticeBoardHideCourier = config.noticeBoardHideCourier();
+		noticeBoardHideUntagged = config.noticeBoardHideUntagged();
 	}
 
 	@Override
@@ -317,6 +336,22 @@ public class PortTasksPlugin extends Plugin
 				return;
 			case "pathDrawDistance":
 				pathDrawDistance = config.pathDrawDistance();
+				return;
+			case "noticeBoardHideOpacity":
+				noticeBoardHideOpactity = mapOpacity(config.noticeBoardHideOpacity());
+				return;
+			case "noticeBoardHideIncompletable":
+				noticeBoardHideIncompletable = config.noticeBoardHideIncompletable();
+				return;
+			case "noticeBoardHideBounty":
+				noticeBoardHideBounty = config.noticeBoardHideBounty();
+				return;
+			case "noticeBoardHideCourier":
+				noticeBoardHideCourier = config.noticeBoardHideCourier();
+				return;
+			case "noticeBoardHideUntagged":
+				noticeBoardHideUntagged = config.noticeBoardHideUntagged();
+				return;
 		}
 	}
 
@@ -507,6 +542,21 @@ public class PortTasksPlugin extends Plugin
 		}
 	}
 
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onStatChanged(final StatChanged event)
+	{
+		if (event.getSkill() != Skill.SAILING)
+		{
+			return;
+		}
+		final int sailingLevel = client.getRealSkillLevel(Skill.SAILING);
+		if (sailingLevel != this.sailingLevel)
+		{
+			this.sailingLevel = sailingLevel;
+		}
+	}
+
 	private void markTask(MenuEntry entry)
 	{
 		Widget taskToTag = entry.getWidget();
@@ -658,20 +708,38 @@ public class PortTasksPlugin extends Plugin
 		{
 			return;
 		}
-		List<Widget> kids = new ArrayList<>();
-		if (widget.getDynamicChildren() != null)
+		Widget[] children = widget.getDynamicChildren();
+		if (children == null)
 		{
-			kids.addAll(Arrays.asList(widget.getDynamicChildren()));
+			return;
 		}
 
-		for (Widget child : kids)
+		for (int i = 0; i < children.length; i++)
 		{
+			Widget child = children[i];
 			Integer dbrow = getDbrowFromWidget(child);
 			if (dbrow == null)
 			{
 				continue;
 			}
-			offeredTasks.put(dbrow, child);
+			int levelRequired = -1;
+			if (i + 2 < children.length)
+			{
+				Widget lvlWidget = children[i + 2];
+				String text = lvlWidget.getText();
+				if (text != null && !text.isEmpty())
+				{
+					try
+					{
+						levelRequired = Integer.parseInt(text);
+					}
+					catch (NumberFormatException ex)
+					{
+						log.warn("Port-Tasks: Could not parse level from '{}'", text);
+					}
+				}
+			}
+			offeredTasks.put(dbrow, new OfferedTaskData(child, levelRequired));
 		}
 	}
 
@@ -921,5 +989,10 @@ public class PortTasksPlugin extends Plugin
 					150
 			);
 		}
+	}
+
+	private int mapOpacity(int configValue)
+	{
+		return 0 + (configValue - 0) * (255 - 0) / (100 - 0);
 	}
 }

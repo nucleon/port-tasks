@@ -224,7 +224,7 @@ public enum BountyTaskData
 		this.npcId = npcId;
 		this.deadNpcId = deadNpcId;
 		this.itemQuantity = itemQuantity;
-		this.itemRarity = itemRarity; //
+		this.itemRarity = itemRarity;
 	}
 
 	static

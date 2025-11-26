@@ -38,7 +38,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import com.nucleon.porttasks.enums.LedgerID;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.ObjectComposition;
@@ -85,27 +84,13 @@ class PortTasksLedgerOverlay extends Overlay
 
 		//  looping through all the port tasks currently assigned
 		for (CourierTask task : plugin.courierTasks)
-		{	// get the port locations and check them against the ledger port locations in our LedgerID enum
-			String cargoPickupLocation = task.getData().getCargoLocation().getName();
-			String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
-
-			Integer pickupLedgerObjectID = LedgerID.containsName(cargoPickupLocation)
-					? LedgerID.getObjectIdByName(cargoPickupLocation)
-					: null;
-
-			Integer deliveryLedgerObjectID = LedgerID.containsName(cargoDeliveryLocation)
-					? LedgerID.getObjectIdByName(cargoDeliveryLocation)
-					: null;
+		{	// ledger object from the port data enum
+			int pickupLedgerObjectID = task.getData().getCargoLocation().getLedgerObject();
+			int deliveryLedgerObjectID = task.getData().getDeliveryLocation().getLedgerObject();
 			// store a reference to them in the map, so we can render
 			// multicolored overlays for shared ledgers in port tasks
-			if (pickupLedgerObjectID != null)
-			{
-				ledgerUsageMap.computeIfAbsent(pickupLedgerObjectID, k -> new ArrayList<>()).add(task);
-			}
-			if (deliveryLedgerObjectID != null)
-			{
-				ledgerUsageMap.computeIfAbsent(deliveryLedgerObjectID, k -> new ArrayList<>()).add(task);
-			}
+			ledgerUsageMap.computeIfAbsent(pickupLedgerObjectID, k -> new ArrayList<>()).add(task);
+			ledgerUsageMap.computeIfAbsent(deliveryLedgerObjectID, k -> new ArrayList<>()).add(task);
 		}
 
 		for (GameObject ledger : plugin.getLedgers())
@@ -133,16 +118,14 @@ class PortTasksLedgerOverlay extends Overlay
 			int offsetIndex = overlayCount.getOrDefault(objectId, 0);
 			for (CourierTask task : tasksAtLedger)
 			{
-				String cargoPickupLocation = task.getData().getCargoLocation().getName();
-				String cargoDeliveryLocation = task.getData().getDeliveryLocation().getName();
 				int cargoTakenFromLedger = task.getCargoTaken();
 				int cargoDeliveredToLedger = task.getDelivered();
 				int cargoRequired = task.getData().getCargoAmount();
 
-				Integer pickupId = LedgerID.getObjectIdByName(cargoPickupLocation);
-				Integer deliveryId = LedgerID.getObjectIdByName(cargoDeliveryLocation);
-				boolean isPickup = pickupId != null && objectId == pickupId && cargoTakenFromLedger < cargoRequired;
-				boolean isDelivery = deliveryId != null && objectId == deliveryId && cargoDeliveredToLedger < cargoRequired;
+				int pickupId = task.getData().getCargoLocation().getLedgerObject();
+				int deliveryId = task.getData().getDeliveryLocation().getLedgerObject();
+				boolean isPickup = objectId == pickupId && cargoTakenFromLedger < cargoRequired;
+				boolean isDelivery = objectId == deliveryId && cargoDeliveredToLedger < cargoRequired;
 
 				if (!isPickup && !isDelivery)
 				{

@@ -1,5 +1,6 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.BountyTaskData;
 import com.nucleon.porttasks.enums.CourierTaskData;
@@ -45,7 +46,7 @@ public class NoticeBoardTooltip extends Overlay
 	public Dimension render(Graphics2D graphics)
 	{
 		Widget widget = client.getWidget(InterfaceID.PortTaskBoard.CONTAINER);
-		if (widget == null)
+		if (widget == null || widget.isHidden())
 		{
 			return null;
 		}
@@ -59,7 +60,13 @@ public class NoticeBoardTooltip extends Overlay
 
 		// The world map obscures the notice board. Hide tooltips when world map is open
 		Widget worldMap = client.getWidget(InterfaceID.Worldmap.CONTENT);
-		if (worldMap != null && worldMap.isHidden() == false)
+		if (worldMap != null && !worldMap.isHidden())
+		{
+			return null;
+		}
+
+		Widget taskInfo = client.getWidget(InterfaceID.PortTaskInfo.WINDOW);
+		if (taskInfo != null && !taskInfo.isHidden())
 		{
 			return null;
 		}
@@ -233,10 +240,11 @@ public class NoticeBoardTooltip extends Overlay
 	private Integer getHoveredTask()
 	{
 		Point mouse = client.getMouseCanvasPosition();
-		for (Map.Entry<Integer, Widget> entry : plugin.getOfferedTasks().entrySet())
+		for (Map.Entry<Integer, OfferedTaskData> entry : plugin.getOfferedTasks().entrySet())
 		{
 			Integer dbrow = entry.getKey();
-			Widget w = entry.getValue();
+			OfferedTaskData data = entry.getValue();
+			Widget w = data.getTaskWidget();
 
 			Rectangle bounds = w.getBounds();
 			if (bounds != null & bounds.contains(mouse.getX(), mouse.getY()))

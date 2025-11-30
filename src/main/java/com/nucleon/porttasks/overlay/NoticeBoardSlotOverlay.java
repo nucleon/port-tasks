@@ -1,5 +1,6 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksConfig;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.CourierTaskData;
@@ -139,19 +140,19 @@ public class NoticeBoardSlotOverlay extends Overlay
 	 */
 	private Widget findTaskWidget(CourierTaskData taskData)
 	{
-		Map<Integer, Widget> offeredTasks = plugin.getOfferedTasks();
+		Map<Integer, OfferedTaskData> offeredTasks = plugin.getOfferedTasks();
 		if (offeredTasks == null || offeredTasks.isEmpty())
 		{
 			return null;
 		}
 		
 		// Find the widget for this task by matching the dbrow
-		for (Map.Entry<Integer, Widget> entry : offeredTasks.entrySet())
+		for (Map.Entry<Integer, OfferedTaskData> entry : offeredTasks.entrySet())
 		{
 			CourierTaskData entryTask = CourierTaskData.getByDbrow(entry.getKey());
 			if (entryTask == taskData)
 			{
-				return entry.getValue();
+				return entry.getValue().getTaskWidget();
 			}
 		}
 		

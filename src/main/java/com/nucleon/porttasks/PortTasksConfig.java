@@ -321,4 +321,66 @@ public interface PortTasksConfig extends Config
 		WORLD,
 		BOTH
 	}
+
+	@Range(min = 0, max = 100)
+	@ConfigItem(
+		keyName = "noticeBoardHideOpacity",
+		name = "Notice board hider opacity",
+		description = "Opacity to obscure notice board tasks. 0-100%",
+		position = 9,
+		section = overlaySection
+	)
+	default int noticeBoardHideOpacity()
+	{
+		return 70;
+	}
+
+	@ConfigItem(
+		keyName = "noticeBoardHideIncompletable",
+		name = "Hide incompletable tasks",
+		description = "Hide tasks you do not have the level to complete.",
+		position = 10,
+		section = overlaySection
+	)
+	default boolean noticeBoardHideIncompletable()
+	{
+		return true;
+	}
+
+	@ConfigItem(
+		keyName = "noticeBoardHideBounty",
+		name = "Hide bounty tasks",
+		description = "Hide bounty tasks.",
+		position = 11,
+		section = overlaySection
+	)
+	default boolean noticeBoardHideBounty()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "noticeBoardHideCourier",
+		name = "Hide courier tasks",
+		description = "Hide courier tasks.",
+		position = 12,
+		section = overlaySection
+	)
+	default boolean noticeBoardHideCourier()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "noticeBoardHideUntagged",
+		name = "Hide untagged tasks",
+		description = "Hide tasks you have not tagged. (Shift right-click a task to tag)",
+		position = 13,
+		section = overlaySection
+	)
+	default boolean noticeBoardHideUntagged()
+	{
+		return false;
+	}
+
 }

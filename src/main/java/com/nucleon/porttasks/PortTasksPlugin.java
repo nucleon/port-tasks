@@ -518,6 +518,14 @@ public class PortTasksPlugin extends Plugin
 		}
 		MenuEntry baseEntry = event.getMenuEntry();
 		Widget widget = baseEntry.getWidget();
+		if (widget == null)
+		{
+			return;
+		}
+		if (widget.getId() != InterfaceID.PortTaskBoard.CONTAINER)
+		{
+			return;
+		}
 		Integer dbrow = getDbrowFromWidget(widget);
 		if (dbrow == null)
 		{
@@ -525,8 +533,7 @@ public class PortTasksPlugin extends Plugin
 		}
 		WidgetTag existing = getTagForDbrow(dbrow);
 
-		int idx = -1;
-		client.createMenuEntry(idx--)
+		client.createMenuEntry(-1)
 			.setOption(existing == null ? MARK : UNMARK)
 			.setTarget(event.getTarget())
 			.setParam0(event.getActionParam0())
@@ -537,7 +544,7 @@ public class PortTasksPlugin extends Plugin
 
 		if (existing != null)
 		{
-			createTaskColorMenu(idx, baseEntry.getTarget(), widget, existing);
+			createTaskColorMenu(baseEntry.getTarget(), widget, existing);
 		}
 	}
 
@@ -579,7 +586,7 @@ public class PortTasksPlugin extends Plugin
 		saveWidgetTags();
 	}
 
-	private int createTaskColorMenu(int idx, String target, Widget widget, WidgetTag tag)
+	private void createTaskColorMenu(String target, Widget widget, WidgetTag tag)
 	{
 		List<Color> colors = getUsedTagColors();
 
@@ -592,7 +599,7 @@ public class PortTasksPlugin extends Plugin
 				colors.add(defaultColor);
 			}
 		}
-		MenuEntry parent = client.createMenuEntry(idx--)
+		MenuEntry parent = client.createMenuEntry(-2)
 			.setOption("Task color")
 			.setTarget(target)
 			.setType(MenuAction.RUNELITE);
@@ -628,8 +635,6 @@ public class PortTasksPlugin extends Plugin
 
 				colorPicker.setVisible(true);
 			}));
-
-		return idx;
 	}
 
 	private WidgetTag getTagForDbrow(int dbrow)

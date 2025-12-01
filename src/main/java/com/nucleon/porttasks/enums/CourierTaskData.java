@@ -487,9 +487,12 @@ public enum CourierTaskData
 	public final String taskName;
 	public final int cargo;
 	public final int cargoAmount;
+	private final double xpPerTile;
 
 	private static final Set<Integer> VARBIT_VALUES;
 	private static final Map<Integer, CourierTaskData> BY_DBROW = new HashMap<>();
+
+	private static final double MAX_XP_PER_TILE;
 
 	CourierTaskData(int dbrow, int id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount)
 	{
@@ -503,6 +506,10 @@ public enum CourierTaskData
 		this.taskName = taskName;
 		this.cargo = cargo;
 		this.cargoAmount = cargoAmount;
+
+		int reward = TaskReward.getIntRewardForTask(dbrow);
+		double distance = dockMarkers.getDistance();
+		this.xpPerTile = distance > 0 ? (reward / distance) : 0.0;
 	}
 
 	static
@@ -523,6 +530,19 @@ public enum CourierTaskData
 		}
 	}
 
+	static
+	{
+		double max = 0.0;
+		for (CourierTaskData task : values())
+		{
+			if (task.xpPerTile > max)
+			{
+				max = task.xpPerTile;
+			}
+		}
+		MAX_XP_PER_TILE = max;
+	}
+
 	public static CourierTaskData getByDbrow(int dbrow)
 	{
 		return BY_DBROW.get(dbrow);
@@ -541,6 +561,11 @@ public enum CourierTaskData
 				return task;
 		}
 		return null;
+	}
+
+	public double getXpPerTileRatio()
+	{
+		return MAX_XP_PER_TILE > 0.0 ? (xpPerTile / MAX_XP_PER_TILE) : 0.0;
 	}
 
 }

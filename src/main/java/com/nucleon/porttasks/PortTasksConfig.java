@@ -271,12 +271,29 @@ public interface PortTasksConfig extends Config
 	{
 		return true;
 	}
-	enum Overlay
+
+	@ConfigItem(
+		keyName = "minColor",
+		name = "Tooltip minimum color",
+		description = "Color to use for the minimum range",
+		position = 9,
+		section = overlaySection
+	)
+	default Color minColor()
 	{
-		NONE,
-		MAP,
-		WORLD,
-		BOTH
+		return Color.RED;
+	}
+
+	@ConfigItem(
+		keyName = "maxColor",
+		name = "Tooltip maximum color",
+		description = "Color to use for the maximum range",
+		position = 10,
+		section = overlaySection
+	)
+	default Color maxColor()
+	{
+		return Color.GREEN;
 	}
 
 	@Range(min = 0, max = 100)
@@ -284,7 +301,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideOpacity",
 		name = "Notice board hider opacity",
 		description = "Opacity to obscure notice board tasks. 0-100%",
-		position = 9,
+		position = 11,
 		section = overlaySection
 	)
 	default int noticeBoardHideOpacity()
@@ -296,7 +313,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideIncompletable",
 		name = "Hide incompletable tasks",
 		description = "Hide tasks you do not have the level to complete.",
-		position = 10,
+		position = 12,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideIncompletable()
@@ -308,7 +325,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideBounty",
 		name = "Hide bounty tasks",
 		description = "Hide bounty tasks.",
-		position = 11,
+		position = 13,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideBounty()
@@ -320,7 +337,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideCourier",
 		name = "Hide courier tasks",
 		description = "Hide courier tasks.",
-		position = 12,
+		position = 14,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideCourier()
@@ -332,12 +349,20 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideUntagged",
 		name = "Hide untagged tasks",
 		description = "Hide tasks you have not tagged. (Shift right-click a task to tag)",
-		position = 13,
+		position = 15,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideUntagged()
 	{
 		return false;
+	}
+
+	enum Overlay
+	{
+		NONE,
+		MAP,
+		WORLD,
+		BOTH
 	}
 
 }

@@ -619,6 +619,16 @@ public enum TaskReward
 		this.reward = reward;
 	}
 
+	public static int getIntRewardForTask(int dbrow)
+	{
+		TaskReward tr = BY_DBROW.get(dbrow);
+		if (tr == null || tr.reward < 0)
+		{
+			return 0;
+		}
+		return tr.reward;
+	}
+
 	public static String getRewardForTask(int dbrow)
 	{
 		TaskReward tr = BY_DBROW.get(dbrow);

@@ -185,6 +185,10 @@ public class PortTasksPlugin extends Plugin
 	private int pathDrawDistance;
 	@Getter
 	private int noticeBoardHideOpactity;
+	@Getter
+	private Color minColor;
+	@Getter
+	private Color maxColor;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -250,6 +254,8 @@ public class PortTasksPlugin extends Plugin
 		noticeBoardHideBounty = config.noticeBoardHideBounty();
 		noticeBoardHideCourier = config.noticeBoardHideCourier();
 		noticeBoardHideUntagged = config.noticeBoardHideUntagged();
+		minColor = config.minColor();
+		maxColor = config.maxColor();
 	}
 
 	@Override
@@ -350,6 +356,12 @@ public class PortTasksPlugin extends Plugin
 				return;
 			case "noticeBoardHideUntagged":
 				noticeBoardHideUntagged = config.noticeBoardHideUntagged();
+				return;
+			case "minColor":
+				minColor = config.minColor();
+				return;
+			case "maxColor":
+				maxColor = config.maxColor();
 				return;
 		}
 	}

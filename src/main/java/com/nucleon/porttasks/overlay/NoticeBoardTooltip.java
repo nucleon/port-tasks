@@ -77,11 +77,18 @@ public class NoticeBoardTooltip extends Overlay
 			String sourceColorTag = toColTag(isAtCurLocation);
 			String endTag = "</col>";
 			int distance = (int) Math.round(data.getDockMarkers().getDistance());
+
+			double xpPerTileRatio = data.getXpPerTileRatio();
+			int xpPerTilePercent = (int) Math.round(xpPerTileRatio * 100.0);
+			Color xpColor = interpolateColor(plugin.getMinColor(), plugin.getMaxColor(), xpPerTileRatio);
+			String xpColorTag = toColTag(xpColor);
+
 			String tooltip = String.format(
 				"Source: %s%s%s<br>" +
 				"Destination: %s<br>" +
 				"Experience: %s xp<br>" +
 				"Distance: %d tiles<br>" +
+				"XP/Tile: %s%d%%%s<br>" +
 				"Amount of cargo: %d",
 				sourceColorTag,
 				data.getCargoLocation(),
@@ -89,6 +96,9 @@ public class NoticeBoardTooltip extends Overlay
 				data.getDeliveryLocation(),
 				TaskReward.getRewardForTask(data.getDbrow()),
 				distance,
+				xpColorTag,
+				xpPerTilePercent,
+				endTag,
 				data.getCargoAmount()
 			);
 			tooltipManager.add(new Tooltip(tooltip));
@@ -146,5 +156,16 @@ public class NoticeBoardTooltip extends Overlay
 			return bounty;
 		}
 		return null;
+	}
+
+	private Color interpolateColor (Color min, Color max, double t)
+	{
+		t = Math.max(0.0, Math.min(1.0, t));
+
+		int r = (int) Math.round(min.getRed()   + (max.getRed()   - min.getRed())   * t);
+		int g = (int) Math.round(min.getGreen() + (max.getGreen() - min.getGreen()) * t);
+		int b = (int) Math.round(min.getBlue()  + (max.getBlue()  - min.getBlue())  * t);
+
+		return new Color(r, g, b);
 	}
 }

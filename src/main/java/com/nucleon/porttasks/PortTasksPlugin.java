@@ -47,7 +47,6 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import com.nucleon.porttasks.enums.PortPaths;
-import com.nucleon.porttasks.enums.CourierTaskData;
 import com.nucleon.porttasks.enums.PortTaskTrigger;
 import com.nucleon.porttasks.overlay.TaskHighlight;
 import com.nucleon.porttasks.overlay.TracerConfig;
@@ -220,6 +219,7 @@ public class PortTasksPlugin extends Plugin
 	protected void startUp()
 	{
 		log.info("Starting plugin Port Tasks");
+		clientThread.invoke(() -> CourierTaskData.loadFromCache(client));
 		pluginPanel = new PortTasksPluginPanel(this, clientThread, itemManager, client, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);

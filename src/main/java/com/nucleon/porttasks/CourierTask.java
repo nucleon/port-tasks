@@ -26,7 +26,6 @@
  */
 package com.nucleon.porttasks;
 
-import com.nucleon.porttasks.enums.CourierTaskData;
 
 import lombok.Getter;
 import lombok.Setter;

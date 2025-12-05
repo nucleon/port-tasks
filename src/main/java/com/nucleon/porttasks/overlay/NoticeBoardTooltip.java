@@ -1,9 +1,9 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.CourierTaskData;
 import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.enums.BountyTaskData;
-import com.nucleon.porttasks.enums.CourierTaskData;
 import com.nucleon.porttasks.enums.TaskReward;
 import java.awt.Color;
 import java.awt.Dimension;

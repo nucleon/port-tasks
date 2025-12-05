@@ -1,13 +1,16 @@
 package com.nucleon.porttasks.enums;
 
+import com.nucleon.porttasks.PortPathMatch;
 import com.nucleon.porttasks.RelativeMove;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.coords.WorldPoint;
 
 
 @Getter
+@Slf4j
 public enum PortPaths
 {
 	DEFAULT(
@@ -2465,6 +2468,28 @@ public enum PortPaths
 		new RelativeMove(167, 0),
 		new RelativeMove(39, 39)
 	),
+	RELLEKKA_VOID_KNIGHTS_OUTPOST(
+		PortLocation.RELLEKKA,
+		PortLocation.VOID_KNIGHTS_OUTPOST,
+		new RelativeMove(-118, 0),
+		new RelativeMove(-47, 47),
+		new RelativeMove(-220, 0),
+		new RelativeMove(-28, -28),
+		new RelativeMove(0, -85),
+		new RelativeMove(-37, -37),
+		new RelativeMove(-81, 0),
+		new RelativeMove(-37, -37),
+		new RelativeMove(0, -51),
+		new RelativeMove(-108, -108),
+		new RelativeMove(0, -262),
+		new RelativeMove(61, -61),
+		new RelativeMove(0, -162),
+		new RelativeMove(-32, -32),
+		new RelativeMove(0, -88),
+		new RelativeMove(46, -46),
+		new RelativeMove(67, 0),
+		new RelativeMove(76, -76)
+	)
 	;
 
 	private final PortLocation start;
@@ -2478,6 +2503,22 @@ public enum PortPaths
 		this.end = end;
 		this.pathPoints = List.of(pathPoints);
 		this.distance = computeDistance();
+	}
+	public static PortPathMatch findPath(PortLocation a, PortLocation b)
+	{
+		for (PortPaths p : values())
+		{
+			if (p.start == a && p.end == b)
+			{
+				return new PortPathMatch(p, false);
+			}
+			if (p.start == b && p.end == a)
+			{
+				return new PortPathMatch(p, true);
+			}
+		}
+		log.info("Failed to find route between {} and {}", a, b);
+		return new PortPathMatch(DEFAULT, false);
 	}
 
 	public List<WorldPoint> getFullPath()

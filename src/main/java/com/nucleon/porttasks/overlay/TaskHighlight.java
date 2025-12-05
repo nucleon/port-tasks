@@ -1,10 +1,10 @@
 package com.nucleon.porttasks.overlay;
 
+import com.nucleon.porttasks.CourierTaskData;
 import com.nucleon.porttasks.OfferedTaskData;
 import com.nucleon.porttasks.PortTasksPlugin;
 import com.nucleon.porttasks.WidgetTag;
 import com.nucleon.porttasks.enums.BountyTaskData;
-import com.nucleon.porttasks.enums.CourierTaskData;
 import net.runelite.api.Client;
 import net.runelite.api.gameval.InterfaceID;
 import net.runelite.api.widgets.Widget;

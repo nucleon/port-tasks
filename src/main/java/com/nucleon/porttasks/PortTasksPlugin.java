@@ -35,6 +35,9 @@ import com.nucleon.porttasks.enums.PortLocation;
 import com.nucleon.porttasks.overlay.NoticeBoardTooltip;
 import java.awt.Color;
 import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,6 +57,7 @@ import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
 import net.runelite.api.Item;
@@ -63,6 +67,7 @@ import net.runelite.api.Menu;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
 import net.runelite.api.Skill;
+import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameObjectDespawned;
 import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
@@ -78,6 +83,9 @@ import net.runelite.api.gameval.ObjectID;
 import net.runelite.api.gameval.VarbitID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.callback.ClientThread;
+import net.runelite.client.chat.ChatMessageBuilder;
+import net.runelite.client.chat.ChatMessageManager;
+import net.runelite.client.chat.QueuedMessage;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
@@ -118,6 +126,8 @@ public class PortTasksPlugin extends Plugin
 	@Getter
 	@Inject
 	private ColorPickerManager colorPickerManager;
+	@Inject
+	ChatMessageManager chatMessageManager;
 	@Inject
 	private PortTasksMapOverlay sailingHelperMapOverlay;
 	@Inject
@@ -208,6 +218,8 @@ public class PortTasksPlugin extends Plugin
 	public static final String CONFIG_GROUP = "porttasks";
 	private static final String CONFIG_KEY = "porttaskslots";
 	private static final String CONFIG_KEY_TAGS = "task_tags";
+	private static final String CONFIG_KEY_TASKS_COMPLETED = "tasks_completed";
+	private static final String CONFIG_KEY_LAST_TASK_COMPLETED = "last_task_completed";
 
 	private static final String MARK = "Mark task";
 	private static final String UNMARK = "Unmark task";
@@ -362,6 +374,10 @@ public class PortTasksPlugin extends Plugin
 				return;
 			case "maxColor":
 				maxColor = config.maxColor();
+				return;
+			case "noticeBoardState":
+				configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_TASKS_COMPLETED, config.noticeBoardState());
+				configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_LAST_TASK_COMPLETED, Instant.now().getEpochSecond());
 				return;
 		}
 	}
@@ -573,6 +589,71 @@ public class PortTasksPlugin extends Plugin
 		{
 			this.sailingLevel = sailingLevel;
 		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onChatMessage(final ChatMessage event)
+	{
+		if (event.getType() != ChatMessageType.SPAM && event.getType() != ChatMessageType.GAMEMESSAGE)
+		{
+			return;
+		}
+
+		if (event.getMessage().contains("You have finished the "))
+		{
+			handleTaskCompleted();
+			return;
+		}
+	}
+
+	private void handleTaskCompleted()
+	{
+		String lastStr = configManager.getConfiguration(CONFIG_GROUP, CONFIG_KEY_LAST_TASK_COMPLETED);
+		String countStr = configManager.getConfiguration(CONFIG_GROUP, CONFIG_KEY_TASKS_COMPLETED);
+
+		long lastTaskCompleted = lastStr != null ? Long.parseLong(lastStr) : 0L;
+		int tasksCompleted = countStr != null ? Integer.parseInt(countStr) : 0;
+
+		long now = Instant.now().getEpochSecond();
+		long midnightTodayUtc = LocalDate.now(ZoneOffset.UTC).atStartOfDay().toEpochSecond(ZoneOffset.UTC);
+		if (lastTaskCompleted < midnightTodayUtc)
+		{
+			tasksCompleted = 1;
+		}
+		else
+		{
+			tasksCompleted = (tasksCompleted + 1) % 8;
+		}
+		configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_TASKS_COMPLETED, tasksCompleted);
+		configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_LAST_TASK_COMPLETED, now);
+		if (config.noticeBoardResetTracker())
+		{
+			final String message;
+			if (tasksCompleted == 0)
+			{
+				message = "Notice boards have reset.";
+			}
+			else
+			{
+				message = String.format(
+					"You have completed %d tasUk%s with %d more task%s until board reset.",
+					tasksCompleted,
+					tasksCompleted == 1 ? "" : "s",
+					8 - tasksCompleted,
+					(8 - tasksCompleted) == 1 ? "" : "s"
+				);
+			}
+			sendMessage(message);
+		}
+	}
+
+	private void sendMessage(String message)
+	{
+		chatMessageManager.queue(QueuedMessage.builder()
+			.type(ChatMessageType.GAMEMESSAGE)
+				.runeLiteFormattedMessage(new ChatMessageBuilder().append(message).build())
+			.build());
 	}
 
 	private void markTask(MenuEntry entry)

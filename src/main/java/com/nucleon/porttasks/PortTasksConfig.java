@@ -357,6 +357,38 @@ public interface PortTasksConfig extends Config
 		return false;
 	}
 
+	@ConfigSection(
+		name = "Notice Board Tracker",
+		description = "Configuration for notice board reset tracking",
+		position = 3
+	)
+	String noticeBoardTracker = "noticeBoardTrackerSection";
+
+	@ConfigItem(
+		keyName = "noticeBoardResetTracker",
+		name = "Board reset tracker",
+		description = "(Experimental) Adds a chat message indicating how soon until the notice board resets",
+		position = 1,
+		section = noticeBoardTracker
+	)
+	default boolean noticeBoardResetTracker()
+	{
+		return false;
+	}
+
+	@Range(min = 0, max = 7)
+	@ConfigItem(
+		keyName = "noticeBoardState",
+		name = "Tasks since reset",
+		description = "Number of tasks completed since board reset (0-7)",
+		position = 1,
+		section = noticeBoardTracker
+	)
+	default int noticeBoardState()
+	{
+		return 0;
+	}
+
 	enum Overlay
 	{
 		NONE,

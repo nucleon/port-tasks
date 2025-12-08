@@ -32,6 +32,7 @@ import com.nucleon.porttasks.enums.TaskReward;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import lombok.Getter;
 import net.runelite.api.Client;
@@ -100,21 +101,36 @@ public final class CourierTaskData
 		}
 	}
 
-	private static CourierTaskData fromRow(Client client, int rowId)
+	private static CourierTaskData fromRow(Client client, int dbrow)
 	{
-		int dbrow = rowId;
-		int id = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_TASK_ID, 0)[0];
+		Integer id = getIntField(client, dbrow, DBTableID.PortTask.COL_TASK_ID, 0);
+		if (id == null)
+		{
+			return null;
+		}
 
-		int noticeBoardDbRow = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_STARTING_PORT, 0)[0];
+		Integer noticeBoardDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_STARTING_PORT, 0);
+		if (noticeBoardDbRow == null)
+		{
+			return null;
+		}
 		PortLocation noticeBoard = PortLocation.fromDbRow(noticeBoardDbRow);
 
-		int cargoLocationDbRow = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_CARGO_PORT, 0)[0];
+		Integer cargoLocationDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO_PORT, 0);
+		if (cargoLocationDbRow == null)
+		{
+			return null;
+		}
 		PortLocation cargoLocation = PortLocation.fromDbRow(cargoLocationDbRow);
 
-		int deliveryLocationDbRow = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_ENDING_PORT, 0)[0];
+		Integer deliveryLocationDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_ENDING_PORT, 0);
+		if (deliveryLocationDbRow == null)
+		{
+			return null;
+		}
 		PortLocation deliveryLocation = PortLocation.fromDbRow(deliveryLocationDbRow);
 
-		if (cargoLocationDbRow == deliveryLocationDbRow)
+		if (cargoLocationDbRow.equals(deliveryLocationDbRow))
 		{
 			// This is a bounty task
 			return null;
@@ -130,16 +146,32 @@ public final class CourierTaskData
 		PortPaths dockMarkers = match.getPath();
 		boolean reversePath = match.isReversed();
 
-		String taskName = (String) client.getDBTableField(rowId, DBTableID.PortTask.COL_NAME, 0)[0];
+		String taskName = (String) client.getDBTableField(dbrow, DBTableID.PortTask.COL_NAME, 0)[0];
 
-		int cargo = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_CARGO, 0)[0];
-		int cargoAmount = (int) client.getDBTableField(rowId, DBTableID.PortTask.COL_CARGO, 1)[0];
+
+		Integer cargo = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO, 0);
+		Integer cargoAmount = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO, 1);
 
 		int reward = TaskReward.getIntRewardForTask(dbrow);
 		double distance = dockMarkers.getDistance();
 		double xpPerTile = distance > 0 ? ( reward / distance) : 0.0;
 
 		return new CourierTaskData(dbrow, id, noticeBoard, cargoLocation, deliveryLocation, dockMarkers, reversePath, taskName, cargo, cargoAmount, xpPerTile);
+	}
+
+	private static Integer getIntField(Client client, int rowId, int col, int tupleIndex, int objectIndex)
+	{
+		Object[] field = client.getDBTableField(rowId, col, tupleIndex);
+		if (field == null || field.length == 0)
+		{
+			return null;
+		}
+		return (int) field[objectIndex];
+	}
+
+	private static Integer getIntField(Client client, int rowId, int col, int tupleIndex)
+	{
+		return getIntField(client, rowId, col, tupleIndex, 0);
 	}
 
 	public static CourierTaskData getByDbrow(int dbrow)

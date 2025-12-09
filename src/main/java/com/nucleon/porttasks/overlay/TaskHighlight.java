@@ -86,6 +86,10 @@ public class TaskHighlight extends Overlay
 			CourierTaskData courier = CourierTaskData.getByDbrow(dbrow);
 			boolean isCourier = courier != null;
 
+			// You are prevented from taking two courier tasks of the same cargo
+			boolean conflicts = isCourier ? plugin.getCourierTasks().stream()
+				.anyMatch(task -> task.getData().getCargo() == courier.getCargo()) : false;
+
 			Color tagColor = tagColors.get(dbrow);
 			// Always draw a border if the task is tagged
 			if (tagColor != null)
@@ -96,22 +100,27 @@ public class TaskHighlight extends Overlay
 			// the first time the widget is hidden we should continue to the next widget
 			else if (plugin.isNoticeBoardHideUntagged())
 			{
-				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				renderWidgetHider(graphics, widget, Color.BLACK, plugin.getNoticeBoardHideOpactity());
 				continue;
 			}
 			if (plugin.isNoticeBoardHideIncompletable() && plugin.getSailingLevel() < data.getLevelRequired())
 			{
-				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				renderWidgetHider(graphics, widget, Color.BLACK, plugin.getNoticeBoardHideOpactity());
 				continue;
 			}
 			if (plugin.isNoticeBoardHideBounty() && isBounty)
 			{
-				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				renderWidgetHider(graphics, widget, Color.BLACK, plugin.getNoticeBoardHideOpactity());
 				continue;
 			}
 			if (plugin.isNoticeBoardHideCourier() && isCourier)
 			{
-				renderWidgetHider(graphics, widget, plugin.getNoticeBoardHideOpactity());
+				renderWidgetHider(graphics, widget, Color.BLACK, plugin.getNoticeBoardHideOpactity());
+				continue;
+			}
+			if (plugin.isHighlightTaskConflicts() && conflicts)
+			{
+				renderWidgetHider(graphics, widget, plugin.getTaskConflictColor(), plugin.getNoticeBoardHideOpactity());
 				continue;
 			}
 		}
@@ -128,14 +137,14 @@ public class TaskHighlight extends Overlay
 		return widgetBounds;
 	}
 
-	private static Rectangle renderWidgetHider(Graphics2D graphics, Widget widget, int opacity)
+	private static Rectangle renderWidgetHider(Graphics2D graphics, Widget widget, Color color, int opacity)
 	{
 		Rectangle widgetBounds = widget.getBounds();
 		Stroke stroke = new BasicStroke(0);
-		Color color = new Color(0, 0, 0, opacity);
+		Color overlay = new Color(color.getRed(), color.getGreen(), color.getBlue(), opacity);
 		// No stroke, just fill
 		Color transparent = new Color(0, 0, 0, 0);
-		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(widgetBounds), transparent, color, stroke);
+		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(widgetBounds), transparent, overlay, stroke);
 		return widgetBounds;
 	}
 

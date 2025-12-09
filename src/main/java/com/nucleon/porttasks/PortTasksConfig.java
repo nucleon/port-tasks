@@ -357,9 +357,33 @@ public interface PortTasksConfig extends Config
 		return false;
 	}
 
+	@ConfigItem(
+		keyName = "highlightTaskConflicts",
+		name = "Highlight conflicting tasks",
+		description = "Highlight tasks you are prevented from taking due to conflicting cargo.",
+		position = 16,
+		section = overlaySection
+	)
+	default boolean highlightTaskConflicts()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+		keyName = "taskConflictColor",
+		name = "Task conflict color",
+		description = "Color to highlight conflicting tasks.",
+		position = 17,
+		section = overlaySection
+	)
+	default Color taskConflictColor()
+	{
+		return Color.RED;
+	}
+
 	@ConfigSection(
 		name = "Notice Board Tracker",
-		description = "Configuration for notice board reset tracking",
+		description = "Configuration for notice board reset tracking.",
 		position = 3
 	)
 	String noticeBoardTracker = "noticeBoardTrackerSection";
@@ -367,7 +391,7 @@ public interface PortTasksConfig extends Config
 	@ConfigItem(
 		keyName = "noticeBoardResetTracker",
 		name = "Board reset tracker",
-		description = "(Experimental) Adds a chat message indicating how soon until the notice board resets",
+		description = "(Experimental) Adds a chat message indicating how soon until the notice board resets.",
 		position = 1,
 		section = noticeBoardTracker
 	)

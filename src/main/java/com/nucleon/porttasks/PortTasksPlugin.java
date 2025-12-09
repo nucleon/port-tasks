@@ -198,6 +198,10 @@ public class PortTasksPlugin extends Plugin
 	private Color minColor;
 	@Getter
 	private Color maxColor;
+	@Getter
+	private boolean highlightTaskConflicts;
+	@Getter
+	private Color taskConflictColor;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -268,6 +272,8 @@ public class PortTasksPlugin extends Plugin
 		noticeBoardHideUntagged = config.noticeBoardHideUntagged();
 		minColor = config.minColor();
 		maxColor = config.maxColor();
+		highlightTaskConflicts = config.highlightTaskConflicts();
+		taskConflictColor = config.taskConflictColor();
 	}
 
 	@Override
@@ -374,6 +380,12 @@ public class PortTasksPlugin extends Plugin
 				return;
 			case "maxColor":
 				maxColor = config.maxColor();
+				return;
+			case "highlightTaskConflicts":
+				highlightTaskConflicts = config.highlightTaskConflicts();
+				return;
+			case "taskConflictColor":
+				taskConflictColor = config.taskConflictColor();
 				return;
 			case "noticeBoardState":
 				configManager.setConfiguration(CONFIG_GROUP, CONFIG_KEY_TASKS_COMPLETED, config.noticeBoardState());

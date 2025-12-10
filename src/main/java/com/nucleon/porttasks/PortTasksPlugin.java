@@ -649,7 +649,7 @@ public class PortTasksPlugin extends Plugin
 			else
 			{
 				message = String.format(
-					"You have completed %d tasUk%s with %d more task%s until board reset.",
+					"You have completed %d task%s with %d more task%s until board reset.",
 					tasksCompleted,
 					tasksCompleted == 1 ? "" : "s",
 					8 - tasksCompleted,

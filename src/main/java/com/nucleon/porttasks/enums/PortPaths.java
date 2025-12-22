@@ -1145,7 +1145,7 @@ public enum PortPaths
 		PortLocation.PORT_ROBERTS,
 		PortLocation.RELLEKKA,
 		// Sailing >= 62, used in 2 tasks
-		new RelativeMove(0, 19),
+		new RelativeMove(-4, 19),
 		new RelativeMove(193, 193),
 		new RelativeMove(0, 24),
 		new RelativeMove(64, 64),

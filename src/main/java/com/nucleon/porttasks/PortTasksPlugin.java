@@ -60,6 +60,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
 import net.runelite.api.GameObject;
+import net.runelite.api.GameState;
 import net.runelite.api.Item;
 import net.runelite.api.ItemContainer;
 import net.runelite.api.KeyCode;
@@ -235,7 +236,18 @@ public class PortTasksPlugin extends Plugin
 	protected void startUp()
 	{
 		log.info("Starting plugin Port Tasks");
-		clientThread.invoke(() -> CourierTaskData.loadFromCache(client));
+
+		clientThread.invokeLater(() ->
+		{
+			if (client.getGameState().getState() < GameState.LOGIN_SCREEN.getState())
+			{
+				return false;
+			}
+
+			CourierTaskData.loadFromCache(client);
+			return true;
+		});
+
 		pluginPanel = new PortTasksPluginPanel(this, clientThread, itemManager, client, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);

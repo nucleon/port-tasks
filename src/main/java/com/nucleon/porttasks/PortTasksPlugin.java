@@ -890,7 +890,10 @@ public class PortTasksPlugin extends Plugin
 
 	private boolean isInCargoHoldRange(int id)
 	{
-		return id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE_OPEN;
+		// TODO: Refactor to a set since this contains some removed Christmas 2025 event objects
+		return (id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE) ||
+			(id >= ObjectID.SAILING_BOAT_CARGO_HOLD_TEAK_2X5_CARGO && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_ROSEWOOD_LARGE_CARGO) ||
+			(id >= ObjectID.SAILING_BOAT_CARGO_HOLD_REGULAR_RAFT_NO_CARGO && id <= ObjectID.SAILING_BOAT_CARGO_HOLD_TEAK_2X5_NO_CARGO);
 	}
 
 	private void checkInventoryForBountyItems()

@@ -2193,16 +2193,15 @@ public enum PortPaths
 	SUNSET_COAST_PRIFDDINAS(
 		PortLocation.SUNSET_COAST,
 		PortLocation.PRIFDDINAS,
-		new RelativeMove(17, 0),
-		new RelativeMove(97, -97),
-		new RelativeMove(173, 0),
-		new RelativeMove(38, 38),
-		new RelativeMove(221, 0),
-		new RelativeMove(127, 127),
-		new RelativeMove(0, 86),
-		new RelativeMove(26, 26),
-		new RelativeMove(0, 139),
-		new RelativeMove(5, 5)
+		new RelativeMove(43, -31),
+		new RelativeMove(26, -10),
+		new RelativeMove(27, -56),
+		new RelativeMove(145, 0),
+		new RelativeMove(41, 38),
+		new RelativeMove(212, 0),
+		new RelativeMove(139, 126),
+		new RelativeMove(0, 102),
+		new RelativeMove(12, 13)
 	),
 	ALDARIN_DEEPFIN_POINT(
 		PortLocation.ALDARIN,
@@ -2504,9 +2503,13 @@ public enum PortPaths
 		new RelativeMove(67, 0),
 		new RelativeMove(76, -76)
 	),
-	RELLEKKA_LUNAR_ISLE(
+	LUNAR_ISLE_RELLEKKA(
+		PortLocation.LUNAR_ISLE,
 		PortLocation.RELLEKKA,
-		PortLocation.LUNAR_ISLE
+		new RelativeMove(14, -12),
+		new RelativeMove(77, -33),
+		new RelativeMove(119, -118),
+		new RelativeMove(149, -10)
 	)
 	;
 

@@ -77,6 +77,29 @@ public class WorldLines
 		DirectionArrow.drawLine(graphics, line, color, WorldPerspective.getWorldMapClipArea(client));
 	}
 
+	public static void drawWorldLines(Graphics2D graphics, Client client, List<WorldPoint> journey, Color color, int clip, int drawDistance)
+	{
+		clip += (clip * 128);
+		WorldView playerWorldView = client.getLocalPlayer().getWorldView();
+		if (playerWorldView == null || client.getLocalPlayer().getWorldLocation() == null) return;
+
+		if (!playerWorldView.isTopLevel() && playerWorldView.getId() != -1)
+		{
+			WorldEntity playerWorldEntity = client.getTopLevelWorldView().worldEntities().byIndex(playerWorldView.getId());
+			if (playerWorldEntity == null) return;
+			WorldPoint boatMainWorldPoint = WorldPoint.fromLocalInstance(client, playerWorldEntity.getLocalLocation());
+			if (boatMainWorldPoint == null) return;
+			LocalPoint boatMainLocalPoint = WorldPerspective.worldToLocal(client, boatMainWorldPoint);
+
+			for (int i = 0; i < journey.size() - 1; i++)
+			{
+				if (boatMainWorldPoint.distanceTo(journey.get(i)) > drawDistance) continue;
+				renderLineWorld(graphics, client, boatMainWorldPoint, boatMainLocalPoint,
+					journey.get(i), 0, journey.get(i + 1), 0, color, 2, (float) clip);
+			}
+		}
+	}
+
 	public static void drawPortTaskLinesOnWorld(Graphics2D graphics, Client client, CourierTask task, TracerConfig tracerConfig, boolean offset, int clip, int drawDistance)
 	{
 		if (tracerConfig.isTracerEnabled())

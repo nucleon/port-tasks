@@ -78,9 +78,12 @@ class PortTasksMapOverlay extends Overlay
 
 	private void renderOverlayLines(Graphics2D g)
 	{
-		if (plugin.developerMode) {
+		if (plugin.developerMode)
+		{
 			renderOverlayLinesSmartRouting(g);
-		} else {
+		}
+		else
+		{
 			for (CourierTask tasks : plugin.courierTasks)
 			{
 				Color overlayColor = tasks.getOverlayColor();
@@ -95,37 +98,44 @@ class PortTasksMapOverlay extends Overlay
 				}
 			}
 		}
-
 	}
 
-	private void renderOverlayLinesSmartRouting(Graphics2D g) {
+	private void renderOverlayLinesSmartRouting(Graphics2D g)
+	{
 		// idk what isTracking is
 		List<PortLocation> rawPortLocations = plugin.courierTasks.stream().filter(CourierTask::isTracking).flatMap(ct -> Stream.of(ct.getData().getCargoLocation(), ct.getData().getDeliveryLocation())).collect(Collectors.toList());
 		List<PortLocation> orderedPortLocations = rawPortLocations.stream().sorted(Comparator.comparingInt(PortLocation::getLocationOrdering)).collect(Collectors.toList());
 		List<List<WorldPoint>> journeys = new ArrayList<>();
-		for (int i = 0; i < orderedPortLocations.size() - 1; i++) {
+		for (int i = 0; i < orderedPortLocations.size() - 1; i++)
+		{
 			PortLocation start = orderedPortLocations.get(i);
 			PortLocation end = orderedPortLocations.get(i + 1);
-			if(start == end) {
+			if (start == end)
+			{
 				continue;
 			}
 			PortPathMatch portPathMatch = PortPaths.findPath(start, end);
 
-			if(portPathMatch.getPath() == PortPaths.DEFAULT) {
+			if (portPathMatch.getPath() == PortPaths.DEFAULT)
+			{
 				log.info("Because we failed to find valid path between points, we will not attempt to do smart rendering");
 				return;
 			}
 
 			List<WorldPoint> journey = portPathMatch.getPath().getFullPath();
-			if(portPathMatch.isReversed()) {
+			if (portPathMatch.isReversed())
+			{
 				Collections.reverse(journey);
 			}
 
 			journeys.add(journey);
 		}
 
-		for(List<WorldPoint> journey : journeys) {
-			WorldLines.createWorldMapLines(g, client, journey, Color.WHITE);
+		Color[] colors = {Color.RED, Color.BLUE};
+		int colorIndex = 0;
+		for (List<WorldPoint> journey : journeys)
+		{
+			WorldLines.createWorldMapLines(g, client, journey, colors[colorIndex++ % 2]);
 		}
 	}
 

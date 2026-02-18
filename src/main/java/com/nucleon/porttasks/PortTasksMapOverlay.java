@@ -29,12 +29,19 @@ package com.nucleon.porttasks;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
+import com.nucleon.porttasks.enums.PortLocation;
+import com.nucleon.porttasks.enums.PortPaths;
 import com.nucleon.porttasks.overlay.WorldLines;
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.ui.overlay.Overlay;
@@ -42,6 +49,7 @@ import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
 
+@Slf4j
 class PortTasksMapOverlay extends Overlay
 {
 	private final Client client;
@@ -70,18 +78,54 @@ class PortTasksMapOverlay extends Overlay
 
 	private void renderOverlayLines(Graphics2D g)
 	{
-		for (CourierTask tasks : plugin.courierTasks)
-		{
-			Color overlayColor = tasks.getOverlayColor();
-			List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
-			if (tasks.getData().reversePath)
+		if (plugin.developerMode) {
+			renderOverlayLinesSmartRouting(g);
+		} else {
+			for (CourierTask tasks : plugin.courierTasks)
 			{
+				Color overlayColor = tasks.getOverlayColor();
+				List<WorldPoint> journey = tasks.getData().dockMarkers.getFullPath();
+				if (tasks.getData().reversePath)
+				{
+					Collections.reverse(journey);
+				}
+				if (tasks.isTracking())
+				{
+					WorldLines.createWorldMapLines(g, client, journey, overlayColor);
+				}
+			}
+		}
+
+	}
+
+	private void renderOverlayLinesSmartRouting(Graphics2D g) {
+		// idk what isTracking is
+		List<PortLocation> rawPortLocations = plugin.courierTasks.stream().filter(CourierTask::isTracking).flatMap(ct -> Stream.of(ct.getData().getCargoLocation(), ct.getData().getDeliveryLocation())).collect(Collectors.toList());
+		List<PortLocation> orderedPortLocations = rawPortLocations.stream().sorted(Comparator.comparingInt(PortLocation::getLocationOrdering)).collect(Collectors.toList());
+		List<List<WorldPoint>> journeys = new ArrayList<>();
+		for (int i = 0; i < orderedPortLocations.size() - 1; i++) {
+			PortLocation start = orderedPortLocations.get(i);
+			PortLocation end = orderedPortLocations.get(i + 1);
+			if(start == end) {
+				continue;
+			}
+			PortPathMatch portPathMatch = PortPaths.findPath(start, end);
+
+			if(portPathMatch.getPath() == PortPaths.DEFAULT) {
+				log.info("Because we failed to find valid path between points, we will not attempt to do smart rendering");
+				return;
+			}
+
+			List<WorldPoint> journey = portPathMatch.getPath().getFullPath();
+			if(portPathMatch.isReversed()) {
 				Collections.reverse(journey);
 			}
-			if (tasks.isTracking())
-			{
-				WorldLines.createWorldMapLines(g, client, journey, overlayColor);
-			}
+
+			journeys.add(journey);
+		}
+
+		for(List<WorldPoint> journey : journeys) {
+			WorldLines.createWorldMapLines(g, client, journey, Color.WHITE);
 		}
 	}
 

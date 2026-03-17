@@ -101,7 +101,7 @@ public class WorldLines
 		}
 
 		WorldPoint boatMainWorldPoint = null;
-		if (!playerWorldView.isTopLevel() && playerWorldView.getId() != -1)
+		if (!playerWorldView.isTopLevel() && playerWorldView.getId() != WorldView.TOPLEVEL)
 		{
 			WorldEntity playerWorldEntity = client.getTopLevelWorldView().worldEntities().byIndex(playerWorldView.getId());
 			if (playerWorldEntity != null)
@@ -143,7 +143,7 @@ public class WorldLines
 		}
 
 		WorldPoint boatMainWorldPoint = null;
-		if (!playerWorldView.isTopLevel() && playerWorldView.getId() != -1)
+		if (!playerWorldView.isTopLevel() && playerWorldView.getId() != WorldView.TOPLEVEL)
 		{
 			WorldEntity playerWorldEntity = client.getTopLevelWorldView().worldEntities().byIndex(playerWorldView.getId());
 			if (playerWorldEntity != null)

@@ -210,8 +210,8 @@ public class WorldLines
 	private static void renderLineWorld(final Graphics2D graphics, Client client, final WorldPoint refWp, final LocalPoint refLp, final WorldPoint startWp, int startHeight, final WorldPoint endWp, int endHeight, final Color c, final float lineWidth, final float distanceClip)
 	{
 		// Now convert the start and end into local points based on an offset
-		LocalPoint startLp = new LocalPoint(refLp.getX() + (startWp.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE, refLp.getY() + (startWp.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE, -1);
-		LocalPoint endLp   = new LocalPoint(refLp.getX() + (  endWp.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE, refLp.getY() + (  endWp.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE, -1);
+		LocalPoint startLp = new LocalPoint(refLp.getX() + (startWp.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE, refLp.getY() + (startWp.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE, WorldView.TOPLEVEL);
+		LocalPoint endLp   = new LocalPoint(refLp.getX() + (  endWp.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE, refLp.getY() + (  endWp.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE, WorldView.TOPLEVEL);
 
 		renderLineLocal(graphics, client, startLp, startHeight, endLp, endHeight, c, lineWidth, distanceClip);
 	}
@@ -258,13 +258,13 @@ private static void renderLineWorld(Graphics2D graphics, Client client, WorldPoi
 		LocalPoint lp1 = new LocalPoint(
 				refLp.getX() + (wp1.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE,
 				refLp.getY() + (wp1.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE,
-				-1
+				WorldView.TOPLEVEL
 		);
 
 		LocalPoint lp2 = new LocalPoint(
 				refLp.getX() + (wp2.getX() - refWp.getX()) * Perspective.LOCAL_TILE_SIZE,
 				refLp.getY() + (wp2.getY() - refWp.getY()) * Perspective.LOCAL_TILE_SIZE,
-				-1
+				WorldView.TOPLEVEL
 		);
 
 		Color col = isPulse

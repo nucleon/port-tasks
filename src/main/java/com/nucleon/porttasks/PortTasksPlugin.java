@@ -480,7 +480,7 @@ public class PortTasksPlugin extends Plugin
 		if (PortTaskTrigger.contains(varbitId))
 		{
 			PortTaskTrigger varbit = PortTaskTrigger.fromId(event.getVarbitId());
-			int value = client.getVarbitValue(varbit.getId());
+			int value = event.getValue();
 			handlePortTaskTrigger(varbit, value);
 		}
 		else if (varbitId == VarbitID.SAILING_BOAT_FACILITY_LOCKEDIN)

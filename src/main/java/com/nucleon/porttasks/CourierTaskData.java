@@ -108,21 +108,21 @@ public final class CourierTaskData
 			return null;
 		}
 
-		Integer noticeBoardDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_STARTING_PORT, 0);
+		Integer noticeBoardDbRow = getIntField(client, dbrow, 4, 0);
 		if (noticeBoardDbRow == null)
 		{
 			return null;
 		}
 		PortLocation noticeBoard = PortLocation.fromDbRow(noticeBoardDbRow);
 
-		Integer cargoLocationDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO_PORT, 0);
+		Integer cargoLocationDbRow = getIntField(client, dbrow, 5, 0);
 		if (cargoLocationDbRow == null)
 		{
 			return null;
 		}
 		PortLocation cargoLocation = PortLocation.fromDbRow(cargoLocationDbRow);
 
-		Integer deliveryLocationDbRow = getIntField(client, dbrow, DBTableID.PortTask.COL_ENDING_PORT, 0);
+		Integer deliveryLocationDbRow = getIntField(client, dbrow, 6, 0);
 		if (deliveryLocationDbRow == null)
 		{
 			return null;
@@ -148,8 +148,8 @@ public final class CourierTaskData
 		String taskName = (String) client.getDBTableField(dbrow, DBTableID.PortTask.COL_NAME, 0)[0];
 
 
-		Integer cargo = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO, 0);
-		Integer cargoAmount = getIntField(client, dbrow, DBTableID.PortTask.COL_CARGO, 1);
+		Integer cargo = getIntField(client, dbrow, 16, 0);
+		Integer cargoAmount = getIntField(client, dbrow, 16, 1);
 
 		int reward = TaskReward.getIntRewardForTask(dbrow);
 		double distance = dockMarkers.getDistance();

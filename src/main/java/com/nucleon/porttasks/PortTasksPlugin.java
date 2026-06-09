@@ -38,7 +38,6 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -75,7 +74,6 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.MenuEntryAdded;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
-import net.runelite.api.events.ItemContainerChanged;
 import net.runelite.api.events.WidgetLoaded;
 import net.runelite.api.events.WorldViewUnloaded;
 import net.runelite.api.gameval.InterfaceID;
@@ -310,7 +308,23 @@ public class PortTasksPlugin extends Plugin
 				return false;
 			}
 
-			CourierTaskData.loadFromCache(client);
+			try
+			{
+				CourierTaskData.loadFromCache(client);
+			}
+			catch (Exception e)
+			{
+				log.warn("Failed to load courier task data", e);
+			}
+
+			try
+			{
+				BountyTaskData.loadFromCache(client);
+			}
+			catch (Exception e)
+			{
+				log.warn("Failed to load bounty task data", e);
+			}
 			return true;
 		});
 
@@ -569,48 +583,6 @@ public class PortTasksPlugin extends Plugin
 				noticeboards.clear();
 				ledgers.clear();
 				break;
-		}
-	}
-	@Subscribe
-	@SuppressWarnings("unused")
-	public void onItemContainerChanged(ItemContainerChanged event)
-	{
-		if (bountyTasks.size() > 0)
-		{
-			if (event.getContainerId() != InventoryID.INV)
-			{
-				return;
-			}
-
-			ItemContainer inv = event.getItemContainer();
-			Item[] current = inv.getItems();
-			if (previousInventory == null)
-			{
-				previousInventory = Arrays.copyOf(current, current.length);
-				for (BountyTask task : bountyTasks)
-				{
-					int itemId = task.getData().itemId;
-					int count = getCount(current, itemId);
-					task.setItemsCollected(Math.max(0, count));
-					pluginPanel.updateBountyPanel(task);
-				}
-				return;
-			}
-
-			for (BountyTask task : bountyTasks)
-			{
-				int itemId = task.getData().itemId;
-				int before = getCount(previousInventory, itemId);
-				int after = getCount(current, itemId);
-				if (after != before)
-				{
-					int newValue = Math.max(0, task.getItemsCollected() + (after - before));
-					task.setItemsCollected(newValue);
-					pluginPanel.updateBountyPanel(task);
-				}
-			}
-
-			previousInventory = Arrays.copyOf(current, current.length);
 		}
 	}
 
@@ -913,23 +885,8 @@ public class PortTasksPlugin extends Plugin
 			{
 				continue;
 			}
-			int levelRequired = -1;
-			if (i + 2 < children.length)
-			{
-				Widget lvlWidget = children[i + 2];
-				String text = lvlWidget.getText();
-				if (text != null && !text.isEmpty())
-				{
-					try
-					{
-						levelRequired = Integer.parseInt(text);
-					}
-					catch (NumberFormatException ex)
-					{
-						log.warn("Port-Tasks: Could not parse level from '{}'", text);
-					}
-				}
-			}
+			int levelRequired = getLevelByDbrow(dbrow);
+
 			offeredTasks.put(dbrow, new OfferedTaskData(child, levelRequired));
 		}
 	}
@@ -959,47 +916,6 @@ public class PortTasksPlugin extends Plugin
 		return SAILING_BOAT_CARGO_HOLDS.contains(id);
 	}
 
-	private void checkInventoryForBountyItems()
-	{
-		if (bountyTasks.size() > 0)
-		{
-			ItemContainer inv = client.getItemContainer(InventoryID.INV);
-			assert inv != null;
-			Item[] current = inv.getItems();
-			if (previousInventory == null)
-			{
-				previousInventory = Arrays.copyOf(current, current.length);
-				for (BountyTask task : bountyTasks)
-				{
-					int itemId = task.getData().itemId;
-					int count = getCount(current, itemId);
-					task.setItemsCollected(Math.max(0, count));
-					pluginPanel.updateBountyPanel(task);
-				}
-				return;
-			}
-
-			for (BountyTask task : bountyTasks)
-			{
-				int itemId = task.getData().itemId;
-				int before = getCount(previousInventory, itemId);
-				int after = getCount(current, itemId);
-				if (after != before)
-				{
-					int newValue = Math.max(0, task.getItemsCollected() + (after - before));
-					task.setItemsCollected(newValue);
-					pluginPanel.updateBountyPanel(task);
-				}
-				else // satisfies reloading data
-				{
-					task.setItemsCollected(before);
-					pluginPanel.updateBountyPanel(task);
-				}
-			}
-			previousInventory = Arrays.copyOf(current, current.length);
-		}
-	}
-
 	@SuppressWarnings("unused")
 	@Provides
 	PortTasksConfig provideConfig(ConfigManager configManager)
@@ -1009,67 +925,72 @@ public class PortTasksPlugin extends Plugin
 
 	private void handlePortTaskTrigger(PortTaskTrigger trigger, int value)
 	{
-		if (!BountyTaskData.isBountyTask(value))
+		int slot = trigger.getSlot();
+		switch (trigger.getType())
 		{
-			if (trigger.getType() == PortTaskTrigger.TaskType.ID)
-			{
+			case ID:
 				log.debug("Changed: {} (value {})", trigger, value);
-				CourierTaskData data = CourierTaskData.fromId(value);
-				if (data != null && value != 0)
+				if (value == 0)
 				{
-					courierTasks.add(new CourierTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+					removeTasksForSlot(slot);
+					pluginPanel.rebuild();
+					return;
+				}
+				CourierTaskData courrierData = CourierTaskData.fromId(value);
+				if (courrierData != null)
+				{
+					courierTasks.add(new CourierTask(courrierData, slot, false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
+					pluginPanel.rebuild();
+					return;
+				}
+
+				BountyTaskData bountyData = BountyTaskData.fromId(value);
+				if (bountyData != null)
+				{
+					bountyTasks.add(new BountyTask(bountyData, slot, false, 0, true, true, getNavColorForSlot(slot), 0));
 					pluginPanel.rebuild();
 				}
-			}
+				return;
 
-			if (trigger.getType() == PortTaskTrigger.TaskType.TAKEN)
-			{
-				int slot = trigger.getSlot();
-
+			case TAKEN:
 				for (CourierTask task : courierTasks)
 				{
 					if (task.getSlot() == slot)
 					{
 						task.setCargoTaken(value);
 						pluginPanel.rebuild();
-						break;
+						return;
 					}
 				}
-			}
+				return;
 
-			if (trigger.getType() == PortTaskTrigger.TaskType.DELIVERED)
-			{
-				int slot = trigger.getSlot();
-
+			case DELIVERED:
 				for (CourierTask task : courierTasks)
 				{
 					if (task.getSlot() == slot)
 					{
 						task.setDelivered(value);
 						pluginPanel.rebuild();
-						break;
+						return;
 					}
 				}
-			}
-		}
-		else
-		{
-			if (trigger.getType() == PortTaskTrigger.TaskType.ID)
-			{
-				log.debug("Changed: {} (value {})", trigger, value);
-				BountyTaskData data = BountyTaskData.fromId(value);
-				if (data != null && value != 0)
-				{
-					bountyTasks.add(new BountyTask(data, trigger.getSlot(), false, 0, true, true, getNavColorForSlot(trigger.getSlot()), 0));
-					pluginPanel.rebuild();
-				}
-			}
-		}
+				return;
 
-		if (trigger.getType() == PortTaskTrigger.TaskType.ID && value == 0)
-		{
-			removeTasksForSlot(trigger.getSlot());
-			pluginPanel.rebuild();
+			case COUNT:
+				for (BountyTask task : bountyTasks)
+				{
+					if (task.getSlot() == slot)
+					{
+						int required = task.getData().itemQuantity;
+						int remaining = value;
+						int collected = Math.max(0, Math.min(required, required - remaining));
+
+						task.setItemsCollected(collected);
+						pluginPanel.updateBountyPanel(task);
+						return;
+					}
+				}
+				return;
 		}
 	}
 
@@ -1078,6 +999,7 @@ public class PortTasksPlugin extends Plugin
 		courierTasks.removeIf(t -> t.getSlot() == slot);
 		bountyTasks.removeIf(t -> t.getSlot() == slot);
 	}
+
 	public void readPortDataFromClientVarps()
 	{
 		assert client.getVarps() != null : "client.getVarps() is null";
@@ -1088,13 +1010,14 @@ public class PortTasksPlugin extends Plugin
 			int value = client.getVarbitValue(varPlayers, varbit.getId());
 			handlePortTaskTrigger(varbit, value);
 		}
-		checkInventoryForBountyItems();
 	}
+
 	private void clearTasksForReload()
 	{
 		courierTasks.clear();
 		bountyTasks.clear();
 	}
+
 	private void registerOverlays()
 	{
 		if (config.getDrawOverlay() == PortTasksConfig.Overlay.BOTH || config.getDrawOverlay() == PortTasksConfig.Overlay.MAP)
@@ -1138,6 +1061,7 @@ public class PortTasksPlugin extends Plugin
 			default: return Color.GREEN;
 		}
 	}
+
 	int getInventoryItemCount(int itemId)
 	{
 		ItemContainer inv = client.getItemContainer(InventoryID.INV);
@@ -1169,7 +1093,6 @@ public class PortTasksPlugin extends Plugin
 		return amt;
 	}
 
-
 	private void migrateConfiguration()
 	{	// min 5 max 25 <- version 1.4.0 -> min 100 max 250
 		if (config.pathDrawDistance() < 100)
@@ -1180,6 +1103,23 @@ public class PortTasksPlugin extends Plugin
 					150
 			);
 		}
+	}
+
+	public static int getLevelByDbrow(int dbrow)
+	{
+		CourierTaskData courier = CourierTaskData.getByDbrow(dbrow);
+		if (courier != null)
+		{
+			return courier.getLevelRequired();
+		}
+
+		BountyTaskData bounty = BountyTaskData.getByDbrow(dbrow);
+		if (bounty != null)
+		{
+			return bounty.getLevelRequired();
+		}
+
+		return -1;
 	}
 
 	private int mapOpacity(int configValue)

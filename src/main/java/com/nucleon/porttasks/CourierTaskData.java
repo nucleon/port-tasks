@@ -42,6 +42,7 @@ public final class CourierTaskData
 {
 	private final int dbrow;
 	private final int id;
+	private final int levelRequired;
 	private final PortLocation noticeBoard;
 	private final PortLocation cargoLocation;
 	private final PortLocation deliveryLocation;
@@ -58,10 +59,11 @@ public final class CourierTaskData
 
 	private static double MAX_XP_PER_TILE;
 
-	private CourierTaskData(int dbrow, int id, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount, double xpPerTile)
+	private CourierTaskData(int dbrow, int id, int levelRequired, PortLocation noticeBoard, PortLocation cargoLocation, PortLocation deliveryLocation, PortPaths dockMarkers, boolean reversePath, String taskName, int cargo, int cargoAmount, double xpPerTile)
 	{
 		this.dbrow = dbrow;
 		this.id = id;
+		this.levelRequired = levelRequired;
 		this.noticeBoard = noticeBoard;
 		this.cargoLocation = cargoLocation;
 		this.deliveryLocation = deliveryLocation;
@@ -141,6 +143,12 @@ public final class CourierTaskData
 			return null;
 		}
 
+		Integer level = getIntField(client, dbrow, DBTableID.PortTask.COL_LEVEL_REQUIRED, 0);
+		if (level == null)
+		{
+			return null;
+		}
+
 		PortPathMatch match = PortPaths.findPath(cargoLocation, deliveryLocation);
 		PortPaths dockMarkers = match.getPath();
 		boolean reversePath = match.isReversed();
@@ -155,7 +163,7 @@ public final class CourierTaskData
 		double distance = dockMarkers.getDistance();
 		double xpPerTile = distance > 0 ? ( reward / distance) : 0.0;
 
-		return new CourierTaskData(dbrow, id, noticeBoard, cargoLocation, deliveryLocation, dockMarkers, reversePath, taskName, cargo, cargoAmount, xpPerTile);
+		return new CourierTaskData(dbrow, id, level, noticeBoard, cargoLocation, deliveryLocation, dockMarkers, reversePath, taskName, cargo, cargoAmount, xpPerTile);
 	}
 
 	private static Integer getIntField(Client client, int rowId, int col, int tupleIndex, int objectIndex)

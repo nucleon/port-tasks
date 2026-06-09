@@ -360,7 +360,7 @@ public interface PortTasksConfig extends Config
 	@ConfigItem(
 		keyName = "noticeBoardHideUntagged",
 		name = "Hide untagged tasks",
-		description = "Hide tasks without a tag.",
+		description = "Hide tasks without a tag. (Shift right-click a task to tag)",
 		position = 16,
 		section = overlaySection
 	)

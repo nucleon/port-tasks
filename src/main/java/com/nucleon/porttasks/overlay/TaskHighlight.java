@@ -87,8 +87,8 @@ public class TaskHighlight extends Overlay
 			boolean isCourier = courier != null;
 
 			// You are prevented from taking two courier tasks of the same cargo
-			boolean conflicts = isCourier ? plugin.getCourierTasks().stream()
-				.anyMatch(task -> task.getData().getCargo() == courier.getCargo()) : false;
+			boolean conflicts = isBounty ? plugin.getBountyTasks().stream()
+				.anyMatch(task -> task.getData().getItemId() == bounty.getItemId()) : false;
 
 			Color tagColor = tagColors.get(dbrow);
 			// Always draw a border if the task is tagged

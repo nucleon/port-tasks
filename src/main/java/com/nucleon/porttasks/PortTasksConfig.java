@@ -249,10 +249,22 @@ public interface PortTasksConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "highlightTaskItems",
+			name = "Highlight Task Items",
+			description = "Outline bounty and courier items in your inventory",
+			position = 7,
+			section = overlaySection
+	)
+	default boolean highlightTaskItems()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 			keyName = "highlightHelmMissingCargo",
 			name = "Highlight Helm Missing Cargo",
 			description = "Outline helm on your boat",
-			position = 7,
+			position = 8,
 			section = overlaySection
 	)
 	default boolean highlightHelmMissingCargo()
@@ -264,7 +276,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardTooltip",
 		name = "Noticeboard tooltip",
 		description = "Task information in a tooltip",
-		position = 8,
+		position = 9,
 		section = overlaySection
 	)
 	default boolean noticeBoardTooltip()
@@ -276,7 +288,7 @@ public interface PortTasksConfig extends Config
 		keyName = "minColor",
 		name = "Tooltip minimum color",
 		description = "Color to use for the minimum range",
-		position = 9,
+		position = 10,
 		section = overlaySection
 	)
 	default Color minColor()
@@ -288,7 +300,7 @@ public interface PortTasksConfig extends Config
 		keyName = "maxColor",
 		name = "Tooltip maximum color",
 		description = "Color to use for the maximum range",
-		position = 10,
+		position = 11,
 		section = overlaySection
 	)
 	default Color maxColor()
@@ -301,7 +313,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideOpacity",
 		name = "Notice board hider opacity",
 		description = "Opacity to obscure notice board tasks. 0-100%",
-		position = 11,
+		position = 12,
 		section = overlaySection
 	)
 	default int noticeBoardHideOpacity()
@@ -313,7 +325,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideIncompletable",
 		name = "Hide incompletable tasks",
 		description = "Hide tasks you do not have the level to complete.",
-		position = 12,
+		position = 13,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideIncompletable()
@@ -325,7 +337,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideBounty",
 		name = "Hide bounty tasks",
 		description = "Hide bounty tasks.",
-		position = 13,
+		position = 14,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideBounty()
@@ -337,7 +349,7 @@ public interface PortTasksConfig extends Config
 		keyName = "noticeBoardHideCourier",
 		name = "Hide courier tasks",
 		description = "Hide courier tasks.",
-		position = 14,
+		position = 15,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideCourier()
@@ -348,8 +360,8 @@ public interface PortTasksConfig extends Config
 	@ConfigItem(
 		keyName = "noticeBoardHideUntagged",
 		name = "Hide untagged tasks",
-		description = "Hide tasks you have not tagged. (Shift right-click a task to tag)",
-		position = 15,
+		description = "Hide tasks without a tag. (Shift right-click a task to tag)",
+		position = 16,
 		section = overlaySection
 	)
 	default boolean noticeBoardHideUntagged()
@@ -361,7 +373,7 @@ public interface PortTasksConfig extends Config
 		keyName = "highlightTaskConflicts",
 		name = "Highlight conflicting tasks",
 		description = "Highlight tasks you are prevented from taking due to conflicting cargo.",
-		position = 16,
+		position = 17,
 		section = overlaySection
 	)
 	default boolean highlightTaskConflicts()
@@ -373,7 +385,7 @@ public interface PortTasksConfig extends Config
 		keyName = "taskConflictColor",
 		name = "Task conflict color",
 		description = "Color to highlight conflicting tasks.",
-		position = 17,
+		position = 18,
 		section = overlaySection
 	)
 	default Color taskConflictColor()

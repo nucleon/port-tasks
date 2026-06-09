@@ -1,8 +1,8 @@
 # Port Tasks
 
-Tired of getting lost between ports? With support for ALL courier tasks in the Sailing Release & support for bounty tasks coming soon, fufilling your duties as a pirate in the high seas of Old School RuneScape has never been easier.
+Tired of getting lost between ports? With support for ALL courier tasks in the Sailing Release & support for bounty tasks, fufilling your duties as a pirate in the high seas of Old School RuneScape has never been easier.
 
-This plugin automatically tracks your current Port Tasks!
+This plugin automatically tracks your current Port Tasks and tags Bounty Task NPCs!
 
 ![Sidebar Panel](docs/plugin_panel.png)
 
@@ -19,4 +19,3 @@ They are also displayed in world.
 ![World Navigation](docs/world_tracking.png)
  
 Join our discord: https://discord.gg/UMUQ68Fgw4
- 

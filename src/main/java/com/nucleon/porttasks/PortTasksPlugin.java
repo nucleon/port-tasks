@@ -56,8 +56,10 @@ import com.nucleon.porttasks.ui.PortTasksPluginPanel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.Actor;
 import net.runelite.api.ChatMessageType;
 import net.runelite.api.Client;
+import net.runelite.api.Constants;
 import net.runelite.api.GameObject;
 import net.runelite.api.GameState;
 import net.runelite.api.Item;
@@ -71,7 +73,10 @@ import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameObjectDespawned;
 import net.runelite.api.events.GameObjectSpawned;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.events.GameTick;
 import net.runelite.api.events.MenuEntryAdded;
+import net.runelite.api.events.NpcDespawned;
+import net.runelite.api.events.NpcSpawned;
 import net.runelite.api.events.StatChanged;
 import net.runelite.api.events.VarbitChanged;
 import net.runelite.api.events.WidgetLoaded;
@@ -142,6 +147,8 @@ public class PortTasksPlugin extends Plugin
 	@Inject
 	private TaskHighlight taskHighlight;
 	@Inject
+	private DespawnTimerOverlay despawnTimerOverlay;
+	@Inject
 	NoticeBoardTooltip noticeBoardTooltip;
 	@Getter
 	List<CourierTask> courierTasks = new ArrayList<>();
@@ -153,6 +160,8 @@ public class PortTasksPlugin extends Plugin
 	Set<GameObject> noticeboards = new HashSet<>();
 	@Getter
 	Set<GameObject> ledgers = new HashSet<>();
+	@Getter
+	Set<BountyCorpse> bountyCorpses = new HashSet<>();
 	@Getter
 	private final Set<GameObject> helms = new HashSet<>();
 	@Getter
@@ -201,6 +210,8 @@ public class PortTasksPlugin extends Plugin
 	private boolean highlightTaskConflicts;
 	@Getter
 	private Color taskConflictColor;
+	@Getter
+	private boolean despawnTimer;
 	@Inject
 	private ClientThread clientThread;
 	@Inject
@@ -366,6 +377,7 @@ public class PortTasksPlugin extends Plugin
 		maxColor = config.maxColor();
 		highlightTaskConflicts = config.highlightTaskConflicts();
 		taskConflictColor = config.taskConflictColor();
+		despawnTimer = config.despawnTimer();
 	}
 
 	@Override
@@ -380,6 +392,7 @@ public class PortTasksPlugin extends Plugin
 		ledgers.clear();
 		helms.clear();
 		cargoHolds.clear();
+		bountyCorpses.clear();
 
 		eventBus.unregister(tracerConfig);
 
@@ -390,6 +403,7 @@ public class PortTasksPlugin extends Plugin
 		overlayManager.remove(portTaskCargoOverlay);
 		overlayManager.remove(noticeBoardTooltip);
 		overlayManager.remove(taskHighlight);
+		overlayManager.remove(despawnTimerOverlay);
 	}
 
 	@SuppressWarnings("unused")
@@ -416,6 +430,15 @@ public class PortTasksPlugin extends Plugin
 					overlayManager.remove(noticeBoardTooltip);
 				}
 				return;
+			case "despawnTimer":
+				if (event.getNewValue().contains("true"))
+				{
+					overlayManager.add(despawnTimerOverlay);
+				}
+				if (event.getNewValue().contains("false"))
+				{
+					overlayManager.remove(despawnTimerOverlay);
+				}
 			case "highlightGangplanks":
 				highlightGangplanks = config.highlightGangplanks();
 				return;
@@ -582,6 +605,7 @@ public class PortTasksPlugin extends Plugin
 				gangplanks.clear();
 				noticeboards.clear();
 				ledgers.clear();
+				bountyCorpses.clear();
 				break;
 		}
 	}
@@ -667,6 +691,42 @@ public class PortTasksPlugin extends Plugin
 			handleTaskCompleted();
 			return;
 		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onGameTick(GameTick event)
+	{
+		// prune tracked objects that have passed their timer
+		bountyCorpses.removeIf(corpse -> Instant.now().toEpochMilli() > corpse.getStartTime().toEpochMilli() + corpse.getDespawnTime());
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onNpcSpawned(NpcSpawned event)
+	{
+		for (BountyTask bountyTask : bountyTasks)
+		{
+			// only track bounty task corpses. If you want it for all, just extract it out of the loop
+			// or create a new list of all sailing corpse IDs to iterate instead
+			int corpseId = bountyTask.getData().getDeadNpcId();
+			if (corpseId != event.getNpc().getId()) {
+				continue;
+			}
+
+			Actor corpseNpc = event.getNpc();
+			int size = event.getNpc().getTransformedComposition().getSize();
+			BountyCorpse corpse = new BountyCorpse(corpseNpc, size-1, size-1, Instant.now(), 300 * Constants.GAME_TICK_LENGTH);
+			bountyCorpses.add(corpse);
+
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Subscribe
+	private void onNpcDespawned(NpcDespawned event)
+	{
+		bountyCorpses.removeIf(corpse -> corpse.getNpc().equals(event.getNpc()));
 	}
 
 	private void handleTaskCompleted()
@@ -1032,6 +1092,10 @@ public class PortTasksPlugin extends Plugin
 		if (config.noticeBoardTooltip())
 		{
 			overlayManager.add(noticeBoardTooltip);
+		}
+		if (config.despawnTimer())
+		{
+			overlayManager.add(despawnTimerOverlay);
 		}
 		overlayManager.add(portTasksLedgerOverlay);
 		overlayManager.add(portTaskModelRenderer);

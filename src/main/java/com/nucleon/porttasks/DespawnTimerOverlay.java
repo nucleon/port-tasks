@@ -50,10 +50,9 @@ public class DespawnTimerOverlay extends Overlay
 			}
 
 			float percent = ((float)tracker.getDespawnTime() - (now.toEpochMilli() - tracker.getStartTime().toEpochMilli())) / ((float)tracker.getDespawnTime());
-			Rectangle bounds = tracker.getNpc().getCanvasTilePoly().getBounds();
-			Point pointTest = new Point((int)bounds.getCenterX(), (int)bounds.getCenterY());
+			Point point = tracker.getNpc().getCanvasTextLocation(graphics, "",0);
 
-			if (percent > 1.0f) {
+			if (point == null || percent > 1.0f) {
 				continue;
 			}
 
@@ -61,7 +60,7 @@ public class DespawnTimerOverlay extends Overlay
 			ProgressPieComponent ppc = new ProgressPieComponent();
 			ppc.setBorderColor(lerpedColor.darker());
 			ppc.setFill(lerpedColor);
-			ppc.setPosition(pointTest);
+			ppc.setPosition(point);
 			ppc.setProgress(percent);
 			ppc.render(graphics);
 		}

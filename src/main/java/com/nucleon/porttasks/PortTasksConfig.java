@@ -393,6 +393,18 @@ public interface PortTasksConfig extends Config
 		return Color.RED;
 	}
 
+	@ConfigItem(
+		keyName = "despawnTimer",
+		name = "Despawn Timer",
+		description = "Render a pie timer overlay on bounty task corpses.",
+		position = 19,
+		section = overlaySection
+	)
+	default boolean despawnTimer()
+	{
+		return true;
+	}
+
 	@ConfigSection(
 		name = "Notice Board Tracker",
 		description = "Configuration for notice board reset tracking.",

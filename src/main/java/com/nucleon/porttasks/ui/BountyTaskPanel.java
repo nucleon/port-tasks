@@ -181,9 +181,9 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 
 	cargoRemainingText.setForeground(itemsLooted < lootRequirement ? Color.RED : Color.GREEN);
 
-	if (itemsLooted == lootRequirement)
+	else
 	{
-		cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
+		cargoRemainingText.setForeground(Color.GREEN);
 	}
 
 	PortTaskInformationCenter.add(cargoRemainingText);
@@ -306,9 +306,9 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 
 		cargoRemainingText.setForeground(itemsLooted < lootRequirement ? Color.RED : Color.GREEN);
 
-		if (itemsLooted == lootRequirement)
+		else
 		{
-			cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
+			cargoRemainingText.setForeground(Color.GREEN);
 		}
 		revalidate();
 		repaint();

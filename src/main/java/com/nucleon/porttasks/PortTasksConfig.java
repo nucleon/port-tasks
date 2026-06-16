@@ -393,18 +393,6 @@ public interface PortTasksConfig extends Config
 		return Color.RED;
 	}
 
-	@ConfigItem(
-		keyName = "despawnTimer",
-		name = "Despawn Timer",
-		description = "Render a pie timer overlay on bounty task corpses.",
-		position = 19,
-		section = overlaySection
-	)
-	default boolean despawnTimer()
-	{
-		return true;
-	}
-
 	@ConfigSection(
 		name = "Notice Board Tracker",
 		description = "Configuration for notice board reset tracking.",
@@ -437,12 +425,54 @@ public interface PortTasksConfig extends Config
 		return 0;
 	}
 
+	@ConfigSection(
+		name = "Bounty Tasks",
+		description = "Configuration for bounty tasks.",
+		position = 4
+	)
+	String bountyTasks = "bountyTasksSection";
+
+	@ConfigItem(
+		keyName = "corpseOverlay",
+		name = "Corpse Despawn Timer",
+		description = "Draw an overlay for when the corpse despawns",
+		section = bountyTasks
+	)
+	default Despawn corpseOverlay()
+	{
+		return Despawn.PIE;
+	}
+
+	@ConfigItem(
+		keyName = "corpseOverlayNpcs",
+		name = "Corpse NPC Overlay",
+		description = "Draw an overlay for all sailing NPCs or on-task only",
+		section = bountyTasks
+	)
+	default Npcs corpseOverlayNpcs()
+	{
+		return Npcs.TASK;
+	}
+
 	enum Overlay
 	{
 		NONE,
 		MAP,
 		WORLD,
 		BOTH
+	}
+
+	enum Despawn
+	{
+		NONE,
+		PIE,
+		TICKS,
+	}
+
+	enum Npcs
+	{
+		TASK,
+		ALL,
 	}
 
 }

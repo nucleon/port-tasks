@@ -179,7 +179,7 @@ public BountyTaskPanel(PortTasksPlugin plugin, BountyTask bountyTask, ClientThre
 	cargoRemainingText.setText("Items: " + itemsLooted + "/" + lootRequirement);
 	cargoRemainingText.setToolTipText("Remaining items");
 
-	cargoRemainingText.setForeground(itemsLooted < lootRequirement ? Color.RED: Color.GREEN);
+	cargoRemainingText.setForeground(itemsLooted < lootRequirement ? Color.RED : Color.GREEN);
 
 	if (itemsLooted == lootRequirement)
 	{

@@ -53,6 +53,7 @@ public final class BountyTaskData
 
 	private static final Map<Integer, BountyTaskData> BY_DBROW = new HashMap<>();
 	private static final Map<Integer, BountyTaskData> BY_ID = new HashMap<>();
+	private static final Set<Integer> BOUNTY_NPCS = new HashSet<>();
 
 	private BountyTaskData(int dbrow, int id, int levelRequired, PortLocation bountyLocation, String taskName, int itemId, int npcId, int deadNpcId, int itemQuantity, int itemRarity)
 	{
@@ -86,6 +87,7 @@ public final class BountyTaskData
 			BY_DBROW.put(data.dbrow, data);
 			BY_ID.put(data.id, data);
 			VARBIT_VALUES.add(data.id);
+			BOUNTY_NPCS.add(data.deadNpcId);
 		}
 	}
 
@@ -181,5 +183,10 @@ public final class BountyTaskData
 	public static boolean isBountyTask(int id)
 	{
 		return VARBIT_VALUES.contains(id);
+	}
+
+	public static boolean isBountyNpc(int id)
+	{
+		return BOUNTY_NPCS.contains(id);
 	}
 }

@@ -3,7 +3,6 @@ package com.nucleon.porttasks;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.time.Instant;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +11,7 @@ import net.runelite.api.Point;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.ui.overlay.OverlayUtil;
 import net.runelite.client.ui.overlay.components.ProgressPieComponent;
 
 @Slf4j
@@ -39,9 +39,16 @@ public class DespawnTimerOverlay extends Overlay
 		return null;
 	}
 
+	private boolean isOnTask(int id)
+	{
+		return plugin.getBountyTasks().stream()
+			.anyMatch(task -> task.getData().getDeadNpcId() == id);
+	}
+
 	private void renderDeadNpcTimer(Graphics2D graphics)
 	{
 		Instant now = Instant.now();
+		final int tickCount = client.getTickCount();
 		for (BountyCorpse tracker : plugin.bountyCorpses)
 		{
 			if (tracker.getNpc() == null)
@@ -49,20 +56,46 @@ public class DespawnTimerOverlay extends Overlay
 				continue;
 			}
 
-			float percent = ((float)tracker.getDespawnTime() - (now.toEpochMilli() - tracker.getStartTime().toEpochMilli())) / ((float)tracker.getDespawnTime());
-			Point point = tracker.getNpc().getCanvasTextLocation(graphics, "",0);
-
-			if (point == null || percent > 1.0f) {
+			if (config.corpseOverlayNpcs() == PortTasksConfig.Npcs.TASK && !isOnTask(tracker.getNpc().getId()))
+			{
 				continue;
 			}
 
-			Color lerpedColor = lerpColor(Color.RED, Color.YELLOW, percent);
-			ProgressPieComponent ppc = new ProgressPieComponent();
-			ppc.setBorderColor(lerpedColor.darker());
-			ppc.setFill(lerpedColor);
-			ppc.setPosition(point);
-			ppc.setProgress(percent);
-			ppc.render(graphics);
+			if (config.corpseOverlay() == PortTasksConfig.Despawn.PIE)
+			{
+				float percent = ((float)tracker.getDespawnTime() - (now.toEpochMilli() - tracker.getStartTime().toEpochMilli())) / ((float)tracker.getDespawnTime());
+				Point point = tracker.getNpc().getCanvasTextLocation(graphics, "", 0);
+
+				if (point == null || percent > 1.0f)
+				{
+					continue;
+				}
+
+				Color lerpedColor = lerpColor(Color.RED, Color.YELLOW, percent);
+				ProgressPieComponent ppc = new ProgressPieComponent();
+				ppc.setBorderColor(lerpedColor.darker());
+				ppc.setFill(lerpedColor);
+				ppc.setPosition(point);
+				ppc.setProgress(percent);
+				ppc.render(graphics);
+			}
+			else if (config.corpseOverlay() == PortTasksConfig.Despawn.TICKS)
+			{
+				int ticksRemaining = 300 - (tickCount - tracker.getTickCount());
+				if (ticksRemaining < 0 || ticksRemaining > 300)
+				{
+					continue;
+				}
+
+				Point point = tracker.getNpc().getCanvasTextLocation(graphics, String.valueOf(ticksRemaining), 0);
+
+				if (point == null)
+				{
+					continue;
+				}
+
+				OverlayUtil.renderTextLocation(graphics, point, String.valueOf(ticksRemaining), ticksRemaining > 30 ? Color.WHITE : Color.RED);
+			}
 		}
 	}
 

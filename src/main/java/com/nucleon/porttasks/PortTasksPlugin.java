@@ -68,6 +68,7 @@ import net.runelite.api.KeyCode;
 import net.runelite.api.Menu;
 import net.runelite.api.MenuAction;
 import net.runelite.api.MenuEntry;
+import net.runelite.api.NPC;
 import net.runelite.api.Skill;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameObjectDespawned;
@@ -377,7 +378,6 @@ public class PortTasksPlugin extends Plugin
 		maxColor = config.maxColor();
 		highlightTaskConflicts = config.highlightTaskConflicts();
 		taskConflictColor = config.taskConflictColor();
-		despawnTimer = config.despawnTimer();
 	}
 
 	@Override
@@ -430,14 +430,14 @@ public class PortTasksPlugin extends Plugin
 					overlayManager.remove(noticeBoardTooltip);
 				}
 				return;
-			case "despawnTimer":
-				if (event.getNewValue().contains("true"))
-				{
-					overlayManager.add(despawnTimerOverlay);
-				}
-				if (event.getNewValue().contains("false"))
+			case "corpseOverlay":
+				if (event.getNewValue().contains("NONE"))
 				{
 					overlayManager.remove(despawnTimerOverlay);
+				}
+				else
+				{
+					overlayManager.add(despawnTimerOverlay);
 				}
 			case "highlightGangplanks":
 				highlightGangplanks = config.highlightGangplanks();
@@ -705,21 +705,15 @@ public class PortTasksPlugin extends Plugin
 	@Subscribe
 	private void onNpcSpawned(NpcSpawned event)
 	{
-		for (BountyTask bountyTask : bountyTasks)
+		final int npcId = event.getNpc().getId();
+		if (!BountyTaskData.isBountyNpc(npcId))
 		{
-			// only track bounty task corpses. If you want it for all, just extract it out of the loop
-			// or create a new list of all sailing corpse IDs to iterate instead
-			int corpseId = bountyTask.getData().getDeadNpcId();
-			if (corpseId != event.getNpc().getId()) {
-				continue;
-			}
-
-			Actor corpseNpc = event.getNpc();
-			int size = event.getNpc().getTransformedComposition().getSize();
-			BountyCorpse corpse = new BountyCorpse(corpseNpc, size-1, size-1, Instant.now(), 300 * Constants.GAME_TICK_LENGTH);
-			bountyCorpses.add(corpse);
-
+			return;
 		}
+
+		NPC corpseNpc = (NPC) event.getNpc();
+		BountyCorpse corpse = new BountyCorpse(corpseNpc, Instant.now(), client.getTickCount(), 300 * Constants.GAME_TICK_LENGTH);
+		bountyCorpses.add(corpse);
 	}
 
 	@SuppressWarnings("unused")
@@ -1093,7 +1087,7 @@ public class PortTasksPlugin extends Plugin
 		{
 			overlayManager.add(noticeBoardTooltip);
 		}
-		if (config.despawnTimer())
+		if (config.corpseOverlay() != PortTasksConfig.Despawn.NONE)
 		{
 			overlayManager.add(despawnTimerOverlay);
 		}
